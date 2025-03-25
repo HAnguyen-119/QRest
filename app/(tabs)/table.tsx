@@ -2,14 +2,16 @@ import {ActivityIndicator, StyleSheet, Text, View} from "react-native";
 import TableView from "../../components/Table";
 import { useEffect, useState } from "react";
 
+type TableStatus = 'reserved' | 'occupied' | 'available' | 'unknown'
+
 export default function Table() {
-    const [layout, setLayout] = useState<string[][]>([])
+    const [layout, setLayout] = useState<TableStatus[][]>([])
     const [loading, setLoading] = useState(true)
-    useEffect(() =>{
+    useEffect(() => {
         const fetchData = async () => {
             //get api data
 
-            const data = [
+            const data: TableStatus[][] = [
                 ['available', 'reserved', 'available'],
                 ['occupied', 'reserved', 'occupied'],
                 ['available', 'available', 'available']
