@@ -1,10 +1,10 @@
-import validateLogin from "@/utils/ValidateLogin";
+import { validateLogin } from "@/utils/ValidateLogin";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import React, {useState} from "react";
 import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
 
-type role = 'admin' | 'staff' | 'cashier' | 'chef'
+import { role } from "@/constrants/types";
 
 export default function Login() {
     const [username, setUsername] = useState<string>("")
@@ -12,12 +12,12 @@ export default function Login() {
 
     const router = useRouter()
     const handleLogin = async () => {
-        const user = validateLogin(username, password)
+        const user = validateLogin({username, password})
         if (user) {
             const role = user.role as role
             await AsyncStorage.setItem('user', JSON.stringify(user))
             Alert.alert('Login Successfull', `Welcome, ${role}`)
-            router.push(`/${role}/home`)
+            router.push(`/${role}/dashboard`)
         } else {
             Alert.alert('Login Failed', 'Invalid username or password')
         }

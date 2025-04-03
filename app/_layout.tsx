@@ -20,13 +20,13 @@ export default function RootLayout() {
     checkLogin()
   }, [])
 
-  // if (loading) {
-  //   return (
-  //     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-  //       <ActivityIndicator size="large" />
-  //     </View>
-  //   );
-  // }
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
-  return <Stack />
+  return <Stack screenOptions={{ headerShown: false }}/>
 }
