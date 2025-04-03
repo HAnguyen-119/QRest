@@ -1,14 +1,25 @@
 import { View, Platform, StyleSheet, TouchableOpacity } from 'react-native';
 import { useLinkBuilder, useTheme } from '@react-navigation/native';
 import { Text, PlatformPressable } from '@react-navigation/elements';
-import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-
-export default function BottomNav({ state, descriptors, navigation }: BottomTabBarProps) {
+import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated'
+//@ts-ignore
+export default function BottomNav({ state, descriptors, navigation }) {
   const { colors } = useTheme();
+  const width = useSharedValue(20)
+  //@ts-ignore
+  const stretch = (focus) => {
+    let value = !focus ? 20 : 70
+    width.value = withTiming(value, { duration: 1000 })
+  }
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    width: width.value
+  }))
 
   return (
     <View style={styles.container}>
-      {state.routes.map((route, index) => {
+      {//@ts-ignore
+      state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label =
           options.tabBarLabel !== undefined
@@ -20,6 +31,7 @@ export default function BottomNav({ state, descriptors, navigation }: BottomTabB
         const isFocused = state.index === index;
 
         const onPress = () => {
+          stretch(isFocused)
           const event = navigation.emit({
             type: 'tabPress',
             target: route.key,
@@ -41,12 +53,14 @@ export default function BottomNav({ state, descriptors, navigation }: BottomTabB
         const iconComponent = options.tabBarIcon ? options.tabBarIcon({ color: isFocused ? colors.primary : colors.text, size: 20}) : null
 
         return (
-          <View style={styles.bottomNav}>
+          <Animated.View 
+          key={route.key}
+          style={[styles.bottomNav, isFocused ? styles.bottomFocus : styles.bottom]}>
             <TouchableOpacity
               key={route.key}
               onPress={onPress}
               onLongPress={onLongPress}
-              style={ styles.buttonCover }
+              style={ [!isFocused ? styles.buttonCover : styles.buttonFocus, animatedStyle] }
             >
               {iconComponent}
               { isFocused && 
@@ -55,7 +69,7 @@ export default function BottomNav({ state, descriptors, navigation }: BottomTabB
                 </Text>
               }
             </TouchableOpacity>
-          </View>
+          </Animated.View>
         );
       })}
     </View>
@@ -74,15 +88,29 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginRight: 20,
         borderRadius: 30,
+        width: '90%'
     },
     bottomNav: {
-        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 50,
         color: 'red'
     },
+    bottomFocus:{
+      width: '33%'
+    },
+    bottom: {
+      width: '17%'
+    },
     buttonFocus: {
+      flexDirection: 'row',
+      backgroundColor: 'red',
+      paddingLeft: 15,
+      paddingRight: 15,
+      paddingTop: 10,
+      paddingBottom: 10,
+      borderRadius: 30,
+      
 
     },
     buttonCover: {

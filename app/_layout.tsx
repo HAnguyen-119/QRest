@@ -1,32 +1,32 @@
-import { Stack } from "expo-router";
-import {View, Text, StyleSheet, Image} from "react-native";
-
-const logoImage = require('../assets/images/logo.png')
+import { Stack, useRouter } from 'expo-router';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { View, ActivityIndicator } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function RootLayout() {
-  return (
-      <View style={styles.container}>
-        <View style={styles.logoContainer}>
-          <Image
-            source={logoImage}
-            style={styles.logo}
-            resizeMode="contain"
-          />
-        </View>
-        <Stack screenOptions={{ headerShown: false }} />
-      </View>
-  );
-}
+  const router = useRouter()
+  const [loading, setLoading] = useState(true)
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  logoContainer: {
-    height: 100,
-    justifyContent: 'center'
-  },
-  logo: {
-    width: 100
-  }
-})
+  useEffect(() => {
+    const checkLogin = async () => {
+      const user = await AsyncStorage.getItem('user')
+      if (!user) {
+        router.replace('/(auth)/login')
+      }
+      setLoading(false)
+    };
+
+    checkLogin()
+  }, [])
+
+  // if (loading) {
+  //   return (
+  //     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+  //       <ActivityIndicator size="large" />
+  //     </View>
+  //   );
+  // }
+
+  return <Stack />
+}

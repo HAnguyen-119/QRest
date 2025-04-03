@@ -11,6 +11,7 @@ export default function Table() {
         const fetchData = async () => {
             //get api data
 
+
             const data: TableStatus[][] = [
                 ['available', 'reserved', 'available'],
                 ['occupied', 'reserved', 'occupied'],

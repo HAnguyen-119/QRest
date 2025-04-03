@@ -2,26 +2,27 @@ import {Tabs} from "expo-router";
 import {Ionicons} from '@expo/vector-icons'
 import BottomNav from "@/components/BottomNav";
 
-export default function TabLayout() {
-    const tabs = [
-        {name: 'index', title: 'Home', icon: 'home'},
-        {name: 'menu', title: 'Menu', icon: 'restaurant'},
-        {name: 'staff', title: 'Staff', icon: 'people'},
-        {name: 'table', title: 'Table', icon: 'grid'},
-        {name: 'Rooms', title: 'Rooms', icon: 'business'},
-    ]
-    return (
+interface Route {
+    name: string;
+    title: string;
+    icon: keyof typeof Ionicons.glyphMap;
+}
 
-            <Tabs tabBar={(props) => <BottomNav {...props}/>}>
-                {tabs.map((tab, index) => (
-                    <Tabs.Screen key={index} name={tab.name} options={{
-                        title: tab.title,
-                        headerShown: false,
-                        tabBarIcon: ({ color, size }) => (
-                            <Ionicons name={tab.icon} color={color} size={size}/>
-                        )
-                    }}/>
-                ))}
-            </Tabs>
+export default function TabLayout({routes}: {routes: Route[]}) {
+    return (
+        <Tabs tabBar={(props) => <BottomNav {...props}/>}>
+            {routes && routes.map((route, index) => (
+                <Tabs.Screen 
+                key={index} 
+                name={route.name} 
+                options={{
+                    title: route.title,
+                    headerShown: false,
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name={route.icon} color={color} size={size}/>
+                    )
+                }}/>
+            ))}
+        </Tabs>
     );
 }
