@@ -3,7 +3,7 @@ import { Link, Stack, useRouter } from 'expo-router';
 import { useEffect } from 'react';
 import { View, StyleSheet, Button } from 'react-native';
 
-import { getUserPage } from '../utils/GetUserPage'
+import { getUserPage } from '../utils/GetDashboardRoute'
 
 export default function NotFound() {
     const router = useRouter()

@@ -4,5 +4,9 @@ export const ROUTES = {
     staff_menu: '/staff/menu',
     staff_order: '/staff/order',
     staff_rooms: '/staff/rooms',
-    staff_status: '/staff/status'
+    staff_status: '/staff/status',
+    admin_dashboard: '/admin/dashboard',
+    chef_dashboard: '/chef/dashboard',
+    cashier_dashboard: '/cashier/dashboard',
+
 } as const
