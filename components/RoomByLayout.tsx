@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { styles } from '../assets/styles/RoomByLayout.styles'
 import { useFetch } from "@/hooks/useFetch";
-import { TableStatus } from "@/constrants/types";
+import { TableStatus } from "@/constants/types";
 
 export default function RoomByLayout() {
     const [layout, setLayout] = useState<TableStatus[][]>([])

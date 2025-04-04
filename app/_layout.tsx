@@ -1,9 +1,5 @@
-import { Stack, useRouter } from 'expo-router';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { Stack } from 'expo-router';
 import { View, ActivityIndicator } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ROUTES } from '@/constrants/routes';
 import { useAuth } from '@/hooks/useAuth';
 
 export default function RootLayout() {

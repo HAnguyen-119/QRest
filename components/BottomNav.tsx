@@ -1,6 +1,6 @@
-import { View, Platform, StyleSheet, TouchableOpacity } from 'react-native';
-import { useLinkBuilder, useTheme } from '@react-navigation/native';
-import { Text, PlatformPressable } from '@react-navigation/elements';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { useTheme } from '@react-navigation/native';
+import { Text } from '@react-navigation/elements';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated'
 //@ts-ignore
 export default function BottomNav({ state, descriptors, navigation }) {

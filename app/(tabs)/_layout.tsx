@@ -1,7 +1,7 @@
 import {Tabs} from "expo-router";
 import {Ionicons} from '@expo/vector-icons'
 import BottomNav from "@/components/BottomNav";
-import { Route } from "@/constrants/types";
+import { Route } from "@/constants/types";
 
 export default function TabLayout({routes}: {routes: Route[]}) {
     return (
