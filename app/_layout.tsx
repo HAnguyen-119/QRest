@@ -2,34 +2,18 @@ import { Stack } from 'expo-router';
 import { View, ActivityIndicator } from 'react-native';
 import { useAuth } from '@/hooks/useAuth';
 
-import {useFonts} from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
-import {useEffect} from "react";
-import { useRootNavigationState } from 'expo-router';
-
-SplashScreen.preventAutoHideAsync();
+import { useFonts } from 'expo-font'
 
 export default function RootLayout() {
-  const rootNavigationState = useRootNavigationState();
-
-  if (!rootNavigationState?.key) return null;
   const loading = useAuth()
 
-  const [loaded, error] = useFonts({
-    'Josefin-Sans': require('../assets/fonts/JosefinSans-Regular.ttf'),
-  });
+  const [loaded] = useFonts({
+    'JosefinSans-Regular': require('../assets/fonts/Josefin_Sans/static/JosefinSans-Regular.ttf')
+  })
 
-  useEffect(() => {
-    if (loaded || error) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded, error]);
-
-  if (!loaded && !error) {
-    return null;
-  }
-
-  if (loading) {
+  console.log(loaded)
+  //test: checkout /staff/dashboard
+  if (loading && !loaded) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator size="large" />
