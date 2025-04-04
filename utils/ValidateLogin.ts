@@ -7,4 +7,4 @@ export const validateLogin = ({username, password}: Login) => {
     return user || null
 }
 
-console.log(validateLogin({ username: 'admin', password: 'admin123' }))
+// console.log(validateLogin({ username: 'admin', password: 'admin123' }))

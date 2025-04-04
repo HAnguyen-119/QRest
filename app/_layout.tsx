@@ -3,22 +3,11 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ROUTES } from '@/constrants/routes';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function RootLayout() {
-  const router = useRouter()
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const checkLogin = async () => {
-      const user = await AsyncStorage.getItem('user')
-      if (!user) {
-        router.replace('/(auth)/login')
-      }
-      setLoading(false)
-    };
-
-    checkLogin()
-  }, [])
+  const loading = useAuth()
 
   if (loading) {
     return (

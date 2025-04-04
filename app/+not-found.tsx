@@ -11,13 +11,14 @@ export default function NotFound() {
         event.preventDefault()
         const user = await AsyncStorage.getItem('user')
         //@ts-ignore
-        router.replace(getUserPage(user))
+        // router.replace(getUserPage(user))
+        router.replace('(auth)/login')
     }
     return (
         <>
             <Stack.Screen options={{ title: "Oops! This screen doesn't exist." }} />
             <View style={styles.container}>
-                <Button title='Return to Dashboard' onPress={handleReturn}/>
+                <Button title='Log out' onPress={handleReturn}/>
             </View>
         </>
     );
