@@ -1,13 +1,17 @@
-import { Stack } from "expo-router";
-import {View, Text} from "react-native";
+import { Stack } from 'expo-router';
+import { View, ActivityIndicator } from 'react-native';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function RootLayout() {
-  return (
-      <View style={{ flex: 1 }}>
-        <View style={{height: 50}}>
-          <Text>QRest</Text>
-        </View>
-        <Stack screenOptions={{ headerShown: false }} />
+  const loading = useAuth()
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" />
       </View>
-  );
+    );
+  }
+
+  return <Stack screenOptions={{ headerShown: false }}/>
 }
