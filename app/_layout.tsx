@@ -5,10 +5,14 @@ import { useAuth } from '@/hooks/useAuth';
 import {useFonts} from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import {useEffect} from "react";
+import { useRootNavigationState } from 'expo-router';
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  const rootNavigationState = useRootNavigationState();
+
+  if (!rootNavigationState?.key) return null;
   const loading = useAuth()
 
   const [loaded, error] = useFonts({
