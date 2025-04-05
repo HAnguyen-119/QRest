@@ -2,6 +2,7 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { Text } from '@react-navigation/elements';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated'
+import {COLORS} from "@/constants/colors";
 //@ts-ignore
 export default function BottomNav({ state, descriptors, navigation }) {
   const { colors } = useTheme();
@@ -50,7 +51,7 @@ export default function BottomNav({ state, descriptors, navigation }) {
           });
         };
 
-        const iconComponent = options.tabBarIcon ? options.tabBarIcon({ color: isFocused ? colors.primary : colors.text, size: 20}) : null
+        const iconComponent = options.tabBarIcon ? options.tabBarIcon({ color: isFocused ? COLORS.dark : COLORS.light, size: 20}) : null
 
         return (
           <Animated.View 
@@ -64,7 +65,7 @@ export default function BottomNav({ state, descriptors, navigation }) {
             >
               {iconComponent}
               { isFocused && 
-                <Text style={{ color: isFocused ? colors.primary : colors.text, borderRadius: 5 }}>
+                <Text style={{ color: isFocused ? COLORS.dark : COLORS.light, borderRadius: 5, fontFamily: "Josefin-Sans", marginLeft: 5 }}>
                   {label}
                 </Text>
               }
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'white',
+        backgroundColor: COLORS.primary,
         padding: 15,
         marginLeft: 20,
         marginRight: 20,
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 50,
-        color: 'red'
+        color: COLORS.primaryActive
     },
     bottomFocus:{
       width: '33%'
@@ -104,7 +105,7 @@ const styles = StyleSheet.create({
     },
     buttonFocus: {
       flexDirection: 'row',
-      backgroundColor: 'red',
+      backgroundColor: COLORS.primaryActive,
       paddingLeft: 15,
       paddingRight: 15,
       paddingTop: 10,
