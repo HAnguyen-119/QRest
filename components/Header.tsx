@@ -5,8 +5,13 @@ import {View, Text, TouchableOpacity} from "react-native";
 import {StyleSheet} from "react-native";
 import {COLORS} from "@/constants/colors";
 import Logo from "@/components/Logo";
+import ToggleButton from "./Button/ToggleButton";
+import { useThemeContext } from "@/contexts/ThemeContext";
+import { createRootStyles } from "@/assets/styles/Root";
 
 export default function Header() {
+    const { isDark } = useThemeContext()
+    const textStyles = createRootStyles(isDark).text
     const router = useRouter()
     const handleLogout = async (event: { preventDefault: () => void; }) => {
             event.preventDefault()
@@ -16,8 +21,9 @@ export default function Header() {
     return (
         <View style={styles.container}>
             <Logo/>
+            <ToggleButton/>
             <TouchableOpacity onPress={handleLogout} style={styles.button}>
-                <Text style={styles.text}>Logout</Text>
+                <Text style={[styles.text, textStyles]}>Logout</Text>
             </TouchableOpacity>
         </View>
     )

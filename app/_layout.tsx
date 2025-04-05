@@ -1,18 +1,19 @@
-import { Stack } from 'expo-router';
+import { Stack, useSegments } from 'expo-router';
 import { View, ActivityIndicator } from 'react-native';
 import { useAuth } from '@/hooks/useAuth';
 
 import { useFonts } from 'expo-font'
+import { COLORS } from '@/constants/colors';
+import { ThemeProvider, useThemeContext } from '@/contexts/ThemeContext';
 
 export default function RootLayout() {
+  console.log(useSegments()[useSegments().length - 1])
   const loading = useAuth()
 
   const [loaded] = useFonts({
     'JosefinSans-Regular': require('../assets/fonts/Josefin_Sans/static/JosefinSans-Regular.ttf')
   })
 
-  console.log(loaded)
-  //test: checkout /staff/dashboard
   if (loading && !loaded) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -21,5 +22,9 @@ export default function RootLayout() {
     );
   }
 
-  return <Stack screenOptions={{ headerShown: false }}/>
+  return (
+    <ThemeProvider>
+      <Stack screenOptions={{ headerShown: false }} />
+    </ThemeProvider>
+  )
 }
