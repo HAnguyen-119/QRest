@@ -3,13 +3,10 @@ import {Ionicons} from '@expo/vector-icons'
 import BottomNav from "@/components/Button/BottomNav";
 import { Route } from "@/constants/types";
 import Header from "@/components/Header";
-import { View } from "react-native";
-import { createRootStyles } from "@/assets/styles/Root";
-import { useThemeContext } from "@/contexts/ThemeContext";
 
 export default function TabLayout({routes}: {routes: Route[]}) {
     return (
-        <View style={{flex: 1, backgroundColor: 'red'}}>
+        <>
             <Header/>
             <Tabs tabBar={(props) => <BottomNav {...props}/>}>
                 {routes && routes.map((route, index) => (
@@ -25,6 +22,6 @@ export default function TabLayout({routes}: {routes: Route[]}) {
                     }}/>
                 ))}
             </Tabs>
-        </View>
+        </>
     );
 }

@@ -8,7 +8,7 @@ export default function Dashboard() {
     const rootStyles = createRootStyles(isDark)
     return (
         <View style={rootStyles.container}>
-            <Text style={styles.text}>test font</Text>
+            <Text style={[styles.text, rootStyles.text]}>test font</Text>
         </View>
     )
 }
