@@ -16,7 +16,7 @@ export default function Login() {
         if (user) {
             const role = user.role as role
             await AsyncStorage.setItem('user', JSON.stringify(user))
-            Alert.alert('Login Successfull', `Welcome, ${role}`)
+            Alert.alert('Login Successful', `Welcome, ${role}`)
             router.push(`/${role}/dashboard`)
         } else {
             Alert.alert('Login Failed', 'Invalid username or password')
