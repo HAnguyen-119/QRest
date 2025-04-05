@@ -6,23 +6,19 @@ import { styles } from '../assets/styles/RoomByLayout.styles'
 import { useFetch } from "@/hooks/useFetch";
 import { TableStatus } from "@/constants/types";
 
+import { table1Data } from "@/constants/tablebyroom";
+
 export default function RoomByLayout() {
     const [layout, setLayout] = useState<TableStatus[][]>([])
     // const [loading, setLoading] = useState(true)
     const {data, loading, error} = useFetch(1, '/api/') //do smth
-
-    let d: TableStatus[][] = [
-        ['available', 'reserved', 'available'],
-        ['occupied', 'reserved', 'occupied'],
-        ['available', 'available', 'available']
-    ]
     useEffect(() => {
-        setLayout(d)
+        setLayout(table1Data)
     }, [])
 
-    if (loading) {
-        return <ActivityIndicator size='large' color='#0000ff' style={styles.loading}/>
-    }
+    // if (loading) {
+    //     return <ActivityIndicator size='large' color='#0000ff' style={styles.loading}/>
+    // }
     return (
         <View style={styles.container}>
             {layout.map((row, rowIndex) => (
