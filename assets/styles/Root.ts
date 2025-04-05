@@ -5,7 +5,7 @@ export const createRootStyles = (isDark : boolean) =>
     StyleSheet.create({
         container: {
             flex: 1,
-            backgroundColor: isDark ? COLORS.light : COLORS.dark
+            backgroundColor: isDark ? COLORS.dark : COLORS.light
         },
         text: {
             color: isDark ? COLORS.light : COLORS.dark

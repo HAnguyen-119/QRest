@@ -18,4 +18,9 @@ export const COLORS = {
     cardtextdark: '#70d7ff',
     bookinglight: '#ffdab9',
     bookingdark: '#24304d',
+    shadow: '#000000',
+    trackLight: '#9ee3fb',
+    thumbLight: '#68c3e1',
+    trackDark: '#3c4145',
+    thumbDark: '#cccccc'
 }

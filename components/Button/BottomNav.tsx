@@ -1,7 +1,7 @@
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import ButtonBottom from './ButtonBottom';
-import { styles } from '@/assets/styles/BottomNav.styles';
+import { styles } from '@/assets/styles/button/BottomNav.styles';
 import { useThemeContext } from '@/contexts/ThemeContext';
 import { createRootStyles } from '@/assets/styles/Root';
 import { COLORS } from '@/constants/colors';
@@ -39,7 +39,7 @@ export default function BottomNav({ state, descriptors, navigation }: BottomTabB
         };
 
         const iconComponent: JSX.Element = options.tabBarIcon ? options.tabBarIcon({
-          color: isFocused ? 'blue' : isDark ? COLORS.light : COLORS.dark, size: 24,
+          color: COLORS.dark, size: 24,
           focused: false
         }) as JSX.Element : <View />;
         

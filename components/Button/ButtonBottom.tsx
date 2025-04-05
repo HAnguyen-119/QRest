@@ -1,43 +1,36 @@
 import { ButtonNav } from "@/constants/types";
-import { Animated, Pressable, Text } from "react-native";
-import { styles } from '@/assets/styles/BottomNav.styles';
-import { interpolate, useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
+import { Pressable, Text, TouchableOpacity, View } from "react-native";
+import { styles } from '@/assets/styles/button/BottomNav.styles';
+import Animated, { FadeIn, FadeOut, interpolate, LinearTransition, useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { useEffect } from "react";
 import { useThemeContext } from "@/contexts/ThemeContext";
 import { createRootStyles } from "@/assets/styles/Root";
+import { COLORS } from "@/constants/colors";
 
-export default function ButtonBottom({ onPress, onLongPress, isFocused, label, icon } : ButtonNav) {
-    const scale = useSharedValue(0)
+const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity)
+
+export default function ButtonBottom({ onPress, onLongPress, isFocused, label, icon } : ButtonNav) {    
     const { isDark } = useThemeContext()
-    const textStyles = createRootStyles(isDark).text
-    useEffect(() => {
-        scale.value = withSpring(isFocused ? 1 : 0, {
-            damping: 10,
-            stiffness: 100
-        })
-    }, [isFocused])
-
-    const animatedIconStyle = useAnimatedStyle(() => {
-        const scaleValue = interpolate(scale.value, [0, 1], [1, 1.2])
-        return { transform: [{scale: scaleValue}]}
-    })
-
-    const animatedTextStyle = useAnimatedStyle(() => {
-        const opacity = interpolate(scale.value, [0, 1], [1, 0])
-        return { opacity }
-    })
     return (
-        <Pressable
+        <AnimatedTouchableOpacity
             onPress={onPress}
             onLongPress={onLongPress}
-            // style={styles.item}
+            style={[styles.tabItem, { backgroundColor: isFocused ? COLORS.light : 'transparent'} ]}
+            layout={LinearTransition.springify().mass(0.5)}
+            activeOpacity={1}
         >
-            <Animated.View style={animatedIconStyle}>
+            <View>
                 {icon}
-            </Animated.View>
-            <Animated.Text style={[{ color: isFocused ? 'blue' : 'black' }, animatedTextStyle, textStyles]}>
-                {label}
-            </Animated.Text>
-        </Pressable>
+            </View>
+            { isFocused &&
+                <Animated.Text 
+                    entering={FadeIn}
+                    exiting={FadeOut}
+                    style={[{color: isFocused ? COLORS.dark : isDark ? COLORS.light : COLORS.dark}, styles.text]}
+                >
+                    {label}
+                </Animated.Text>
+            }   
+        </AnimatedTouchableOpacity>
     )
 }
