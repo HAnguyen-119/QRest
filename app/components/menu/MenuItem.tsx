@@ -1,9 +1,17 @@
 import {View, Text, Image, TouchableOpacity} from "react-native";
 import { StyleSheet } from "react-native"
 import {COLORS} from "@/constants/colors";
+import {useRouter} from "expo-router";
 
 // @ts-ignore
-export default function MenuItem({imageUrl, name, price, description, ingredients}) {
+export default function MenuItem({id, imageUrl, name, price, category, description, ingredients}) {
+    const router = useRouter();
+
+    const handleDetails = (itemId: string) => {
+        // @ts-ignore
+        router.push(`/admin/menu-item/${itemId}`)
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.imageContainer}>
@@ -13,7 +21,7 @@ export default function MenuItem({imageUrl, name, price, description, ingredient
             <Text style={styles.price}>{price}</Text>
             {/*<Text style={styles.text}>{description}</Text>*/}
             {/*<Text style={styles.text}>{ingredients}</Text>*/}
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={() => handleDetails(id)}>
                 <Text style={styles.buttonText}>Details</Text>
             </TouchableOpacity>
         </View>
