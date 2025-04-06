@@ -26,6 +26,7 @@ export const styles = StyleSheet.create({
     },
     text: {
         marginLeft: 8,
+        fontFamily: "Josefin-Sans",
     }
     
 })

@@ -11,7 +11,7 @@ export default function RootLayout() {
   const loading = useAuth()
 
   const [loaded] = useFonts({
-    'JosefinSans-Regular': require('../assets/fonts/Josefin_Sans/static/JosefinSans-Regular.ttf')
+    'Josefin-Sans': require('../assets/fonts/Josefin_Sans/static/JosefinSans-Regular.ttf')
   })
 
   if (loading && !loaded) {
