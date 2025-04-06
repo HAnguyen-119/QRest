@@ -1,10 +1,14 @@
 import {TextInput, View} from "react-native";
 import {styles} from "@/assets/styles/admin/Admin.styles";
 
-export default function MenuSearcher() {
+// @ts-ignore
+export default function MenuSearcher({onSearch}) {
     return (
         <View style={styles.menuSearcher}>
-            <TextInput style={styles.text} placeholder="Seacrh..."></TextInput>
+            <TextInput style={styles.text}
+                       placeholder="Search..."
+                       onChangeText={(value) => onSearch(value)}
+            ></TextInput>
         </View>
     )
 }

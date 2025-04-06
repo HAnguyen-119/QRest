@@ -7,8 +7,11 @@ import {useState} from "react";
 
 export default function Menu() {
     const [category, setCategory] = useState<string>("All");
+    const [search, setSearch] = useState<string>("");
 
-    const items = data.filter(item => category === 'All' || item.category === category);
+    const items = data.filter(item =>
+        (category === 'All' || item.category === category)
+        && item.name.toLowerCase().includes(search.toLowerCase()));
     // @ts-ignore
     const renderItem = ({item}) => { return (
         <MenuItem id={item.id}
@@ -25,9 +28,13 @@ export default function Menu() {
         setCategory(cat);
     }
 
+    const handleSearch = (search: string) => {
+        setSearch(search);
+    }
+
     return (
         <View style={styles.menuContainer}>
-            <MenuSearcher/>
+            <MenuSearcher onSearch={handleSearch} />
             <MenuCategories handleCategory={handleCategory} />
             <FlatList
                 style={styles.menuItemsContainer}
