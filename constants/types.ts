@@ -23,9 +23,9 @@ export interface Authentication {
     role: string
 }
 
-export type role = 'admin' | 'staff' | 'cashier' | 'chef'
+export type role = 'admin' | 'waiter' | 'cashier' | 'chef'
 
-export type UserDashboard = '/admin/dashboard' | '/cashier/dashboard' | '/chef/dashboard' | '/staff/dashboard'
+export type UserDashboard = '/admin/dashboard' | '/cashier/dashboard' | '/chef/dashboard' | '/waiter/dashboard'
 
 export interface ButtonNav {
     onPress: (event: GestureResponderEvent) => void;
