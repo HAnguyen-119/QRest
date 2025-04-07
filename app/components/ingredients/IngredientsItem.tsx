@@ -12,8 +12,12 @@ export default function IngredientsItem({ name, quantity }) {
         >
             <View style={styles.container}>
                 <Text style={styles.text}>
-                    {name} {quantity}
+                    {name}
                 </Text>
+                <Text style={{
+                    fontFamily: 'monospace',
+                    fontSize: 14,
+                }}>Amount left: {quantity}</Text>
             </View>
         </LinearGradient>
     );
@@ -28,7 +32,7 @@ export const styles = StyleSheet.create({
         borderRadius: 12,
         margin: 8,
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
+        shadowOffset: {width: 0, height: 4},
         shadowOpacity: 0.3,
         shadowRadius: 4.65,
         elevation: 8, // For Android shadow
@@ -39,5 +43,5 @@ export const styles = StyleSheet.create({
         fontSize: 22,
         fontWeight: '600',
         textTransform: 'capitalize',
-    }
-}
+    },
+})
