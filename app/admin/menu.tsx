@@ -2,7 +2,7 @@ import {FlatList, View} from "react-native";
 import {styles} from "@/assets/styles/admin/Admin.styles"
 import MenuItem from "@/app/components/menu/MenuItem";
 import MenuCategories from "@/app/components/menu/MenuCategories";
-import MenuSearcher from "@/app/components/menu/MenuSearcher";
+import Searcher from "@/app/components/menu/Searcher";
 import {useState} from "react";
 
 export default function Menu() {
@@ -34,7 +34,7 @@ export default function Menu() {
 
     return (
         <View style={styles.menuContainer}>
-            <MenuSearcher onSearch={handleSearch} />
+            <Searcher onSearch={handleSearch} />
             <MenuCategories handleCategory={handleCategory} />
             <FlatList
                 style={styles.menuItemsContainer}
