@@ -1,7 +1,7 @@
-import { View, Text, StyleSheet } from "react-native";
+import {View, Text, StyleSheet, TouchableOpacity} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import {COLORS} from "@/constants/colors"; // You'll need to install expo-linear-gradient
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 export default function IngredientsItem({ name, quantity }) {
     return (
         <LinearGradient
@@ -10,14 +10,24 @@ export default function IngredientsItem({ name, quantity }) {
             end={{ x: 1, y: 1 }}
             style={styles.gradientContainer}
         >
-            <View style={styles.container}>
-                <Text style={styles.text}>
-                    {name}
-                </Text>
-                <Text style={{
-                    fontFamily: 'monospace',
-                    fontSize: 14,
-                }}>Amount left: {quantity}</Text>
+            <View style={styles.innerContainer}>
+                <View style={styles.container}>
+                    <Text style={styles.text}>
+                        {name}
+                    </Text>
+
+                    <Text style={{
+                        fontFamily: 'monospace',
+                        fontSize: 14,
+                    }}>Amount left: {quantity}</Text>
+                </View>
+                <View>
+                    <TouchableOpacity>
+                        <View style={{marginRight: 15}}>
+                            <Icon name="plus" size={25} color="#000" />
+                        </View>
+                    </TouchableOpacity>
+                </View>
             </View>
         </LinearGradient>
     );
@@ -44,4 +54,10 @@ export const styles = StyleSheet.create({
         fontWeight: '600',
         textTransform: 'capitalize',
     },
+    innerContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    }
 })
