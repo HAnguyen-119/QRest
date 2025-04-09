@@ -5,6 +5,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useFonts } from 'expo-font'
 import { COLORS } from '@/constants/colors';
 import { ThemeProvider, useThemeContext } from '@/contexts/ThemeContext';
+import { ScrollProvider } from '@/contexts/ScrollContext';
 
 export default function RootLayout() {
   const loading = useAuth()
@@ -23,7 +24,7 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider>
-      <Stack screenOptions={{ headerShown: false }} />
+        <Stack screenOptions={{ headerShown: false }} />
     </ThemeProvider>
   )
 }

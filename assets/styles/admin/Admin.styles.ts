@@ -23,6 +23,7 @@ export const adminStyles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         alignSelf: "center",
+        paddingBottom: 10,
     },
 
     menuCategory: {
