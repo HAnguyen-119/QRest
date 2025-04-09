@@ -46,3 +46,21 @@ export interface ThemeContextProps {
     isDark: boolean,
     toggle: () => void
 }
+
+//category props
+
+export interface CategoryProps {
+    description: string,
+    id: number,
+    name: string
+}
+
+export interface MenuItemProps {
+    category: CategoryProps,
+    description: string,
+    id: number,
+    imageUrl: string,
+    name: string,
+    price: number,
+    quantity: number
+}

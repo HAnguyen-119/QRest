@@ -4,14 +4,14 @@ import {data} from "@/app/admin/menu";
 import {StyleSheet} from "react-native";
 import {COLORS} from "@/constants/colors";
 
-export default function MenuItemDetail() {
+export default function MenuItemDetail({id, setId}) {
     const router = useRouter();
-    const { id } = useLocalSearchParams<{ id: string }>();
+    // const { id } = useLocalSearchParams<{ id: string }>();
     const item = data.find(item => item.id === id);
 
     return (
         <View>
-            <TouchableOpacity style={styles.button} onPress={() => {router.push('/admin/menu')}}>
+            <TouchableOpacity style={styles.button} onPress={() => setId(null)}>
                 <Text style={styles.text}>Back</Text>
             </TouchableOpacity>
             <View style={styles.imageContainer}>

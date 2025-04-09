@@ -7,7 +7,6 @@ import { COLORS } from '@/constants/colors';
 import { ThemeProvider, useThemeContext } from '@/contexts/ThemeContext';
 
 export default function RootLayout() {
-  console.log(useSegments()[useSegments().length - 1])
   const loading = useAuth()
 
   const [loaded] = useFonts({

@@ -1,11 +1,9 @@
 import { StyleSheet } from "react-native"
 import {COLORS} from "@/constants/colors";
 
-export const styles = StyleSheet.create({
+export const adminStyles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
     },
 
     menuContainer: {
@@ -16,20 +14,19 @@ export const styles = StyleSheet.create({
     },
 
     menuItemsContainer: {
+        marginTop: 0,
+        height: '100%',
         backgroundColor: COLORS.light,
-
     },
 
     menuCategories: {
         display: "flex",
         flexDirection: "row",
-        marginBottom: 10,
-        marginTop: 10,
         alignSelf: "center",
     },
 
     menuCategory: {
-        width: 70,
+        width: 80,
         height: 30,
         alignItems: "center",
         justifyContent: "center",
