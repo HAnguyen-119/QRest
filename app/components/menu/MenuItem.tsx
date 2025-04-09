@@ -4,7 +4,7 @@ import {COLORS} from "@/constants/colors";
 import {useRouter} from "expo-router";
 
 // @ts-ignore
-export default function MenuItem({id, imageUrl, name, price, category, description, ingredients}) {
+export default function MenuItem({id, imageUrl, name, price, category, description}) {
     const router = useRouter();
 
     const handleDetails = (itemId: string) => {

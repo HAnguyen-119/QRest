@@ -1,28 +1,17 @@
-import {FlatList, View} from "react-native";
+import {FlatList, View, Text} from "react-native";
 import {styles} from "@/assets/styles/admin/Admin.styles"
 import MenuItem from "@/app/components/menu/MenuItem";
 import MenuCategories from "@/app/components/menu/MenuCategories";
 import Searcher from "@/app/components/menu/Searcher";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import { fetchAPI } from "@/services/fetchAPI";
+import { MenuItemProps } from "@/constants/types";
 
 export default function Menu() {
     const [category, setCategory] = useState<string>("All");
     const [search, setSearch] = useState<string>("");
-
-    const items = data.filter(item =>
-        (category === 'All' || item.category === category)
-        && item.name.toLowerCase().includes(search.toLowerCase()));
-    // @ts-ignore
-    const renderItem = ({item}) => { return (
-        <MenuItem id={item.id}
-            imageUrl={item.imageUrl}
-                  name={item.name}
-                  category={item.category}
-                  price={item.price}
-                  description={item.description}
-                  ingredients={item.ingredients}>
-        </MenuItem>)
-    }
+    const [menuData, setMenuData] = useState<any>(null)
+    const [categoryData, setCategoryData] = useState<any>(null)
 
     const handleCategory = (cat: string) => {
         setCategory(cat);
@@ -32,14 +21,53 @@ export default function Menu() {
         setSearch(search);
     }
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const foodResponse = await fetchAPI.getFood()
+                const categoryResponse = await fetchAPI.getCategories()
+                setMenuData(foodResponse)
+                setCategoryData(categoryResponse)
+            } catch (error) {
+                console.log({ message: `Error while fetching data: ${error}`})
+            }
+        }
+        fetchData()
+    }, [])
+
+    if (!menuData || !categoryData) {
+        return null
+    }
+
+    const items = Object.values(menuData).filter(item =>
+            //@ts-ignore
+        (category === 'All' || item.category.name === category)
+            //@ts-ignore
+        && item.name.toLowerCase().includes(search.toLowerCase()));
+    
+    // const menuItems = Object.values(menuData).filter
+    //@ts-ignore
+    const renderItem = ({item}) => { return (
+        <MenuItem id={item.id}
+            imageUrl={item.imageUrl}
+                  name={item.name}
+                  category={item.category.name}
+                  price={item.price}
+                  description={item.description}
+                //   ingredients={item.ingredients}
+        >
+        </MenuItem>)
+    }
+
     return (
         <View style={styles.menuContainer}>
             <Searcher onSearch={handleSearch} />
-            <MenuCategories handleCategory={handleCategory} />
+            <MenuCategories data={categoryData} handleCategory={handleCategory} />
             <FlatList
                 style={styles.menuItemsContainer}
                 data={items}
                 renderItem={renderItem}
+                //@ts-ignore
                 keyExtractor={(item) => item.id}
                 numColumns={2}
             ></FlatList>
