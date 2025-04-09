@@ -4,13 +4,8 @@ import {COLORS} from "@/constants/colors";
 import {useRouter} from "expo-router";
 
 // @ts-ignore
-export default function MenuItem({id, imageUrl, name, price, category, description}) {
+export default function MenuItem({id, imageUrl, name, price, category, description, handleDetails}) {
     const router = useRouter();
-
-    const handleDetails = (itemId: string) => {
-        // @ts-ignore
-        router.push(`/admin/menu-item/${itemId}`)
-    }
 
     return (
         <View style={styles.container}>

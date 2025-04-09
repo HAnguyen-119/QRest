@@ -1,6 +1,6 @@
 import {FlatList, Text, View} from "react-native";
 import {useState} from "react";
-import {styles} from "@/assets/styles/admin/Admin.styles";
+import {adminStyles} from "@/assets/styles/admin/Admin.styles";
 import Searcher from "@/app/components/menu/Searcher";
 import StaffInfo from "@/app/components/staff/StaffInfo";
 import StaffPositions from "@/app/components/staff/StaffPositions";
@@ -36,11 +36,11 @@ export default function Staff() {
     }
 
     return (
-        <View style={styles.staffContainer}>
+        <View style={adminStyles.staffContainer}>
             <Searcher onSearch={handleSearch} />
             <StaffPositions handlePosition={handlePosition} />
             <FlatList
-                style={styles.staffInfoContainer}
+                style={adminStyles.staffInfoContainer}
                 data={items}
                 renderItem={renderItem}
                 keyExtractor={(item) => item.id}
