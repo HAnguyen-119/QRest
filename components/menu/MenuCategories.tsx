@@ -1,6 +1,6 @@
 import {TouchableOpacity, View, Text, ScrollView} from "react-native";
 import {adminStyles} from "@/assets/styles/admin/Admin.styles";
-import MenuCategory from "@/app/components/menu/MenuCategory";
+import MenuCategory from "@/components/menu/MenuCategory";
 
 // @ts-ignore
 export default function MenuCategories({ data, handleCategory }) {

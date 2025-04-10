@@ -1,6 +1,6 @@
 import {TouchableOpacity, View, Text} from "react-native";
 import {adminStyles} from "@/assets/styles/admin/Admin.styles";
-import StaffPosition from "@/app/components/staff/StaffPosition";
+import StaffPosition from "@/components/staff/StaffPosition";
 
 
 // @ts-ignore

@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 export const useAuth = () => {
     const router = useRouter()
-    const [loading, setLoading] = useState(true)
+    const [loadUser, setLoadUser] = useState(true)
     const [isAuthenticated, setIsAuthenticated] = useState(false)
     const [user, setUser] = useState<Authentication | null>(null)
   
@@ -22,7 +22,7 @@ export const useAuth = () => {
             } catch (error) {
                 console.error({message: `error why fetching user: ${error}`})
             } finally {
-                setLoading(false)
+                setLoadUser(false)
             }
         };
         checkLogin()
@@ -33,10 +33,10 @@ export const useAuth = () => {
             const route = getUserPage(user) as UserDashboard
             router.replace(route)
         }
-        if (!loading && !isAuthenticated) {
+        if (!loadUser && !isAuthenticated) {
             router.replace(ROUTES.login)
         }
-    }, [loading, isAuthenticated])
+    }, [loadUser, isAuthenticated])
 
-    return loading 
+    return loadUser 
 }

@@ -1,9 +1,9 @@
 import {FlatList, Text, View} from "react-native";
 import {useState} from "react";
 import {adminStyles} from "@/assets/styles/admin/Admin.styles";
-import Searcher from "@/app/components/menu/Searcher";
-import StaffInfo from "@/app/components/staff/StaffInfo";
-import StaffPositions from "@/app/components/staff/StaffPositions";
+import Searcher from "@/components/menu/Searcher";
+import StaffInfo from "@/components/staff/StaffInfo";
+import StaffPositions from "@/components/staff/StaffPositions";
 import { useScrollAnimated } from '@/contexts/ScrollContext'
 import Animated from 'react-native-reanimated'
 

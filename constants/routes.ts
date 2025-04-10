@@ -8,5 +8,4 @@ export const ROUTES = {
     admin_dashboard: '/admin/dashboard',
     chef_dashboard: '/chef/dashboard',
     cashier_dashboard: '/cashier/dashboard',
-
 } as const

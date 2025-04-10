@@ -4,6 +4,8 @@ import { Animated, GestureResponderEvent, ImageSourcePropType } from "react-nati
 import { InterpolateConfig } from "react-native-reanimated";
 
 export type TableStatus = 'reserved' | 'occupied' | 'available' | 'unknown'
+export type CustomerTitle = 'MR' | 'MRS'
+export type GetData = 'orders' | 'foods' | 'categories'
 
 export interface Route {
     name: string;
@@ -19,7 +21,7 @@ export interface Login {
 export interface Authentication {
     username: string,
     password: string,
-    role: string
+    role: role
 }
 
 export type role = 'admin' | 'waiter' | 'cashier' | 'chef'
@@ -68,3 +70,54 @@ export interface ScrollContextType {
     scrollY: Animated.Value
     translateY: Animated.AnimatedInterpolation<string | number>;
 }
+
+// export interface AnimationProps {
+//     src: string | AnimationObject | undefined,
+// }
+
+export interface OrderItemProps {
+    id: number,
+    quantity: number,
+}
+
+export interface TableProps {
+    id: number, 
+    name: string,
+    capacity: number,
+    available: boolean
+}
+
+export interface CustomerOrderProps {
+    id: number,
+    customerTitle: CustomerTitle,
+    firstname: string,
+    lastname: string,
+    phone: string,
+}
+
+export interface RestaurantTableProps {
+    id: number, 
+    name: string,
+    capacity: number,
+    available: boolean
+}
+
+export interface ReservationProps {
+    id: number,
+    bookingTime: Date,
+    arrivalTime: Date,
+    numberOfGuests: number,
+    deposit: number, 
+    customer: CustomerOrderProps,
+    restaurantTable: RestaurantTableProps,
+    confirmed: boolean,
+}
+
+export interface OrderProps {
+    note: string,
+    foodOrderItems: OrderItemProps[],
+    comboOrderItems: OrderItemProps[],
+    restaurantTable: RestaurantTableProps,
+    reservation: ReservationProps,
+}
+

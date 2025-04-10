@@ -1,12 +1,12 @@
 import { FlatList, View } from "react-native";
 import { adminStyles } from "@/assets/styles/admin/Admin.styles";
 import { menuStyles } from "@/assets/styles/menu/Menu.styles";
-import MenuItem from "@/app/components/menu/MenuItem";
-import MenuCategories from "@/app/components/menu/MenuCategories";
-import Searcher from "@/app/components/menu/Searcher";
+import MenuItem from "@/components/menu/MenuItem";
+import MenuCategories from "@/components/menu/MenuCategories";
+import Searcher from "@/components/menu/Searcher";
 import { useEffect, useState } from "react";
 import { fetchAPI } from "@/services/fetchAPI";
-import MenuItemDetails from "@/app/components/menu/MenuItemDetails";
+import MenuItemDetails from "@/components/menu/MenuItemDetails";
 import Animated, { useAnimatedScrollHandler, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { useScrollAnimated } from "@/contexts/ScrollContext";
 

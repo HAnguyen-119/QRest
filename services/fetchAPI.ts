@@ -1,3 +1,4 @@
+import { OrderProps } from "@/constants/types";
 import axiosClient from "./axiosClient";
 
 export const fetchAPI = {
@@ -9,5 +10,8 @@ export const fetchAPI = {
     },
     getCategories: () => {
         return axiosClient.get('categories')
+    },
+    postOrder: (data: OrderProps) => {
+        return axiosClient.post('orders', data)
     }
 }
