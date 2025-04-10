@@ -4,7 +4,7 @@ import Searcher from '@/components/menu/Searcher'
 import { useScrollAnimated } from '@/contexts/ScrollContext'
 import Animated from 'react-native-reanimated'
 import TableInfo from "@/components/table/TableInfo";
-import {tableStyles} from "@/assets/styles/table/Table.styles";
+import {createAdminTableStyles} from "@/assets/styles/table/Table.styles";
 import {createAdminStyles} from "@/assets/styles/admin/Admin.styles";
 import TableCategory from "@/components/table/TableCategory";
 import { useThemeContext } from "@/contexts/ThemeContext";
@@ -17,6 +17,7 @@ export default function Table() {
 
     const { isDark } = useThemeContext()
     const adminStyles = createAdminStyles(isDark)
+    const tableStyles = createAdminTableStyles(isDark)
 
     const { scrollHandler } = useScrollAnimated()
 
