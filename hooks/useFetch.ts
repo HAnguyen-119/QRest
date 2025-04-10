@@ -1,24 +1,32 @@
+import { GetData } from "@/constants/types"
+import { fetchAPI } from "@/services/fetchAPI"
 import { useEffect, useState } from "react"
 
-//@ts-ignore
-export const useFetch = (id, url) => {
-    const [data, setData] = useState(null)
-    const [loading, setLoading] = useState<boolean>(true)
-    const [error, setError] = useState<string | null>(null)
-
+export const useFetch = (type: GetData) => {
+    const [data, setData] = useState<any>(null)
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = 'april fool'// do smth, like  = await getUser(id, url), import from services/get...api
-                //@ts-ignore
+                let response = null
+                switch(type) {
+                    case 'orders':
+                        response = await fetchAPI.getOrders()
+                        break
+                    case 'foods': 
+                        response = await fetchAPI.getFood()
+                        break
+                    case 'categories':
+                        response = await fetchAPI.getCategories()
+                        break
+                    default:
+                        console.error(`Error, type not found, add '${type}' to constants/types.ts and try again`)
+                }
                 setData(response)
             } catch (error) {
-                setError(error instanceof Error ? error.message : String(error))
+                console.log('Error while fetching data: ', error)
             } 
-            setLoading(false)
-
         }
-    }, [id, url])
-
-    return { data, loading, error }
+        fetchData()
+    }, [type])
+    return { data }
 }

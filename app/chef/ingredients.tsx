@@ -1,6 +1,6 @@
 import {Modal, View, Text, ScrollView, TouchableOpacity, StyleSheet} from "react-native";
-import IngredientsItem from "@/app/components/ingredients/IngredientsItem";
-import OrderItem from "@/app/components/order/OrderItem";
+import IngredientsItem from "@/components/ingredients/IngredientsItem";
+import OrderItem from "@/components/order/OrderItem";
 import React, {useState} from "react";
 import {COLORS} from "@/constants/colors";
 import Icon from 'react-native-vector-icons/FontAwesome';

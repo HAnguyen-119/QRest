@@ -3,18 +3,25 @@ import { View, ActivityIndicator } from 'react-native';
 import { useAuth } from '@/hooks/useAuth';
 
 import { useFonts } from 'expo-font'
-import { COLORS } from '@/constants/colors';
 import { ThemeProvider, useThemeContext } from '@/contexts/ThemeContext';
-import { ScrollProvider } from '@/contexts/ScrollContext';
+import { useEffect, useState } from 'react';
 
 export default function RootLayout() {
-  const loading = useAuth()
+  const loadUser  = useAuth()
+  const [loadStartup, setLoadStartup] = useState(true)
+
 
   const [loaded] = useFonts({
     'Josefin-Sans': require('../assets/fonts/Josefin_Sans/static/JosefinSans-Regular.ttf')
   })
 
-  if (loading && !loaded) {
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoadStartup(false), 3000)
+    return () => clearTimeout(timer)
+  }, [])
+
+  if (loadUser && !loaded) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator size="large" />
@@ -24,7 +31,9 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider>
-        <Stack screenOptions={{ headerShown: false }} />
+        <Stack screenOptions={{ headerShown: false }} >
+          <Stack.Screen name='(auth)'/>
+        </Stack>
     </ThemeProvider>
   )
 }

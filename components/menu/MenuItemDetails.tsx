@@ -1,12 +1,15 @@
 import {View, Text, TouchableOpacity, Image} from "react-native";
-import {menuStyles} from "@/assets/styles/menu/Menu.styles";
+import {createMenuStyles} from "@/assets/styles/menu/Menu.styles";
 import Animated from "react-native-reanimated";
+import { useThemeContext } from "@/contexts/ThemeContext";
 
 // @ts-ignore
 export default function MenuItemDetails({data, id, handleBack, containerStyle}) {
 
     const item = data.find((item: { id: string; }) => item.id === id);
 
+    const { isDark } = useThemeContext()
+    const menuStyles = createMenuStyles(isDark)
     return (
         <Animated.View style={containerStyle}>
             <TouchableOpacity style={menuStyles.backButton} onPress={handleBack}>

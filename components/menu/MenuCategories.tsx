@@ -1,12 +1,16 @@
 import {TouchableOpacity, View, Text, ScrollView} from "react-native";
-import {adminStyles} from "@/assets/styles/admin/Admin.styles";
-import MenuCategory from "@/app/components/menu/MenuCategory";
+import {createAdminStyles} from "@/assets/styles/admin/Admin.styles";
+import MenuCategory from "@/components/menu/MenuCategory";
+import { useThemeContext } from "@/contexts/ThemeContext";
 
 // @ts-ignore
 export default function MenuCategories({ data, handleCategory }) {
     if (!data) {
         return null;
     }
+
+    const { isDark } = useThemeContext()
+    const adminStyles = createAdminStyles(isDark)
 
     const transferData = Array.isArray(data) ? data : Object.values(data); 
 

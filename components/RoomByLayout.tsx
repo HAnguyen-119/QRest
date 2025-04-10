@@ -11,7 +11,7 @@ import { table1Data } from "@/constants/tablebyroom";
 export default function RoomByLayout() {
     const [layout, setLayout] = useState<TableStatus[][]>([])
     // const [loading, setLoading] = useState(true)
-    const {data, loading, error} = useFetch(1, '/api/') //do smth
+    // const {data, loading, error} = useFetch(1, '/api/') //do smth
     useEffect(() => {
         setLayout(table1Data)
     }, [])

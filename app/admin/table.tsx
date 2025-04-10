@@ -1,19 +1,22 @@
 import {FlatList, Text, View} from "react-native";
 import {useState} from "react";
-import Searcher from "@/app/components/menu/Searcher";
+import Searcher from '@/components/menu/Searcher'
 import { useScrollAnimated } from '@/contexts/ScrollContext'
 import Animated from 'react-native-reanimated'
-import TableInfo from "@/app/components/table/TableInfo";
+import TableInfo from "@/components/table/TableInfo";
 import {tableStyles} from "@/assets/styles/table/Table.styles";
-import {adminStyles} from "@/assets/styles/admin/Admin.styles";
-import {Picker} from "@react-native-picker/picker";
-import TableCategory from "@/app/components/table/TableCategory";
+import {createAdminStyles} from "@/assets/styles/admin/Admin.styles";
+import TableCategory from "@/components/table/TableCategory";
+import { useThemeContext } from "@/contexts/ThemeContext";
 
 
 export default function Table() {
     const [status, setStatus] = useState<string>("All");
     const [capacity, setCapacity] = useState<string>("All");
     const [search, setSearch] = useState<string>("");
+
+    const { isDark } = useThemeContext()
+    const adminStyles = createAdminStyles(isDark)
 
     const { scrollHandler } = useScrollAnimated()
 
@@ -48,7 +51,7 @@ export default function Table() {
     return (
         <View style={tableStyles.container}>
             {/*<View style={tableStyles.blur}></View>*/}
-            <Searcher onSearch={handleSearch} />
+            <Searcher onSearch={handleSearch} children={null}/>
             {/*<StaffStatuss handleStatus={handleStatus} />*/}
             <View style={tableStyles.categories}>
                 <TableCategory category="Capacity" values={["All", "2", "4", "8"]} handlePick={handleCapacity}></TableCategory>
