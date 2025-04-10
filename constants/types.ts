@@ -1,7 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { ROUTES } from "./routes";
-import { GestureResponderEvent, ImageSourcePropType } from "react-native";
-import Animated from "react-native";
+import { Animated, GestureResponderEvent, ImageSourcePropType } from "react-native";
 import { InterpolateConfig } from "react-native-reanimated";
 
 export type TableStatus = 'reserved' | 'occupied' | 'available' | 'unknown'
@@ -63,4 +62,9 @@ export interface MenuItemProps {
     name: string,
     price: number,
     quantity: number
+}
+
+export interface ScrollContextType {
+    scrollY: Animated.Value
+    translateY: Animated.AnimatedInterpolation<string | number>;
 }

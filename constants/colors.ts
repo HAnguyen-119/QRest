@@ -22,5 +22,8 @@ export const COLORS = {
     trackLight: '#9ee3fb',
     thumbLight: '#68c3e1',
     trackDark: '#3c4145',
-    thumbDark: '#cccccc'
+    thumbDark: '#cccccc',
+    available: '#c8ffa9',
+    reserved: '#fffd70',
+    occupied: '#ffb0b0',
 }

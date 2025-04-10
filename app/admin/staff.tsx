@@ -4,10 +4,15 @@ import {adminStyles} from "@/assets/styles/admin/Admin.styles";
 import Searcher from "@/app/components/menu/Searcher";
 import StaffInfo from "@/app/components/staff/StaffInfo";
 import StaffPositions from "@/app/components/staff/StaffPositions";
+import { useScrollAnimated } from '@/contexts/ScrollContext'
+import Animated from 'react-native-reanimated'
+
 
 export default function Staff() {
     const [position, setPosition] = useState<string>("All");
     const [search, setSearch] = useState<string>("");
+
+    const { scrollHandler } = useScrollAnimated()
 
     const items = data.filter(item =>
         (position === 'All' || item.position === position)
@@ -39,13 +44,15 @@ export default function Staff() {
         <View style={adminStyles.staffContainer}>
             <Searcher onSearch={handleSearch} />
             <StaffPositions handlePosition={handlePosition} />
-            <FlatList
+            <Animated.FlatList
                 style={adminStyles.staffInfoContainer}
                 data={items}
                 renderItem={renderItem}
                 keyExtractor={(item) => item.id}
                 numColumns={1}
-            ></FlatList>
+                onScroll={scrollHandler}
+                scrollEventThrottle={16} 
+            />
         </View>
     )
 }

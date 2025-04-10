@@ -13,7 +13,7 @@ export default function MenuItem({id, imageUrl, name, price, category, descripti
                 <Image source={{uri: imageUrl}} style={styles.image}/>
             </View>
             <Text style={styles.name}>{name}</Text>
-            <Text style={styles.price}>{price}</Text>
+            <Text style={styles.price}>{"$" + price}</Text>
             {/*<Text style={styles.text}>{description}</Text>*/}
             {/*<Text style={styles.text}>{ingredients}</Text>*/}
             <TouchableOpacity style={styles.button} onPress={() => handleDetails(id)}>
@@ -23,7 +23,7 @@ export default function MenuItem({id, imageUrl, name, price, category, descripti
     )
 }
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         borderColor: COLORS.dark,
         borderWidth: 2,
@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
         borderRadius: 20,
         overflow: 'hidden',
         width: '43%',
-        height: 200,
+        height: 250,
         marginLeft: 17,
         marginTop: 17
     },
@@ -45,7 +45,9 @@ export const styles = StyleSheet.create({
     price: {
         fontFamily: 'Josefin-Sans',
         fontSize: 25,
-        marginLeft: 10,
+        position: 'absolute',
+        left: 10,
+        bottom: 12,
     },
 
     text: {

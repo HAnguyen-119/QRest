@@ -2,16 +2,21 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import ButtonBottom from './ButtonBottom';
 import { styles } from '@/assets/styles/button/BottomNav.styles';
-import { useThemeContext } from '@/contexts/ThemeContext';
-import { createRootStyles } from '@/assets/styles/Root';
 import { COLORS } from '@/constants/colors';
+import { useScrollAnimated } from '@/contexts/ScrollContext';
+import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 
 export default function BottomNav({ state, descriptors, navigation }: BottomTabBarProps) {
   const numberOfIcons = state.routes.length
   const marginHorizontal = Math.max(20, 60 - 10 * (numberOfIcons - 3))
-  const { isDark } = useThemeContext()
+  const { translateY } = useScrollAnimated()
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: translateY.value }]
+  }))
+  
   return (
-    <View style={[styles.container, {marginHorizontal: marginHorizontal}]}>
+    <Animated.View style={[styles.container, {marginHorizontal: marginHorizontal}, animatedStyle]}>
       {
       state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
@@ -47,6 +52,6 @@ export default function BottomNav({ state, descriptors, navigation }: BottomTabB
             <ButtonBottom key={route.key} onPress={onPress} onLongPress={onLongPress} isFocused={isFocused} label={label} icon={iconComponent}/>
         );
       })}
-    </View>
+    </Animated.View>
   );
 }
