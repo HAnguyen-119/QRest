@@ -20,6 +20,7 @@ export default function Menu() {
     const left = useSharedValue<string>("100%")
     const { scrollHandler } = useScrollAnimated()
 
+    // @ts-ignore
     const animatedStyle = useAnimatedStyle(() => {
         return {
             left: withTiming(left.value, { duration: 500 }),
