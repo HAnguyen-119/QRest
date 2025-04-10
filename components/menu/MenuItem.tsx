@@ -2,9 +2,11 @@ import {View, Text, Image, TouchableOpacity} from "react-native";
 import { StyleSheet } from "react-native"
 import {COLORS} from "@/constants/colors";
 import {useRouter} from "expo-router";
+import Icon from "../Icon/Icon";
+import AddToCart from '@/assets/images/add-to-cart.png'
 
 // @ts-ignore
-export default function MenuItem({id, imageUrl, name, price, category, description, handleDetails}) {
+export default function MenuItem({id, imageUrl, name, price, category, description, handleDetails, handleAdd}) {
     const router = useRouter();
 
     return (
@@ -13,39 +15,50 @@ export default function MenuItem({id, imageUrl, name, price, category, descripti
                 <Image source={{uri: imageUrl}} style={styles.image}/>
             </View>
             <Text style={styles.name}>{name}</Text>
-            <Text style={styles.price}>{price}</Text>
-            {/*<Text style={styles.text}>{description}</Text>*/}
-            {/*<Text style={styles.text}>{ingredients}</Text>*/}
-            <TouchableOpacity style={styles.button} onPress={() => handleDetails(id)}>
-                <Text style={styles.buttonText}>Details</Text>
-            </TouchableOpacity>
+            <View style={styles.priceContainer}>
+                <Text style={styles.price}>{price}$</Text>
+                {/*<Text style={styles.text}>{description}</Text>*/}
+                {/*<Text style={styles.text}>{ingredients}</Text>*/}
+                {handleDetails ? 
+                    <TouchableOpacity style={styles.details} onPress={() => handleDetails(id)}>
+                        <Text style={styles.buttonText}>Details</Text>
+                    </TouchableOpacity>    
+                    :
+                    <TouchableOpacity onPress={() => handleAdd(id)}>
+                        <Icon src={AddToCart} width={50} height={50}/>
+                    </TouchableOpacity>
+                }
+            </View>
+            
         </View>
     )
 }
 
 export const styles = StyleSheet.create({
     container: {
+        flex: 1,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
         borderColor: COLORS.dark,
         borderWidth: 2,
         borderStyle: 'solid',
         borderRadius: 20,
         overflow: 'hidden',
-        width: '43%',
-        height: 200,
-        marginLeft: 17,
-        marginTop: 17
+        height: 260,
+        margin: 8,
     },
 
     name: {
         fontFamily: 'Josefin-Sans',
         fontSize: 20,
-        marginLeft: 10,
+        textAlign: 'center',
+        textAlignVertical: 'center',
+        height: 48,
     },
 
     price: {
         fontFamily: 'Josefin-Sans',
         fontSize: 25,
-        marginLeft: 10,
     },
 
     text: {
@@ -64,22 +77,27 @@ export const styles = StyleSheet.create({
         resizeMode: 'cover',
     },
 
-    button: {
-        position: 'absolute',
-        bottom: 12,
-        right: 10,
-        width: 70,
-        height: 30,
+    details: {
+        flex: 1,
         borderRadius: 10,
         backgroundColor: COLORS.dark,
         alignItems: 'center',
         justifyContent: 'center',
+        height: 40
     },
 
     buttonText: {
         fontFamily: 'Josefin-Sans',
         color: COLORS.light,
+        padding: 0,
+        margin: 0
 
+    },
+    priceContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        paddingHorizontal: 16,
+        gap: 24,
     }
 })
 

@@ -12,7 +12,6 @@ export const usePostByData = (type: GetData) => {
                 case 'orders':
                     response = await fetchAPI.postOrder(data)
                     setPostData(response.data)
-                    console.log(response.data)
 
                     break
                 // case 'foods': 

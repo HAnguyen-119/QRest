@@ -121,3 +121,8 @@ export interface OrderProps {
     reservation: ReservationProps,
 }
 
+export interface UtilsPriceProps {
+    data: MenuItemProps[],
+    id: number,
+    quantity: number
+}
