@@ -1,13 +1,21 @@
 // import { ToggleType } from "@/constants/types";
+import { IconStyles } from "@/assets/styles/IconCount.styles";
 import { ToggleType } from "@/constants/types";
-import { Image } from "react-native";   
+import { View, Text } from "react-native";
 import Animated from "react-native-reanimated";
 
-export default function Icon({ src, width, height } : ToggleType) {
+export default function Icon({ src, width, height, count } : ToggleType) {
     return (
-        <Animated.Image 
-            source={src}
-            style={{ width: width, height: height }}
-        />
+        <View style={{width, height}}>
+            <Animated.Image 
+                source={src}
+                style={{ width: width, height: height }}
+            />
+            {count && count > 0 && (
+                <View style={IconStyles.badge}>
+                    <Text style={IconStyles.badgeText}>{count}</Text>
+                </View>
+            )}
+        </View>
     )
 }

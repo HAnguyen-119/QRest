@@ -27,7 +27,7 @@ export default function ToggleButton() {
         <View style={ToggleStyles.container}>
             <View style={ToggleStyles.track}>
                 <Animated.View style={[ToggleStyles.thumb, animatedStyle]}>
-                    <Icon src={isDark ? moon : sun} width={ICONSIZE.width} height={ICONSIZE.height} />
+                    <Icon src={isDark ? moon : sun} width={ICONSIZE.width} height={ICONSIZE.height} count={null}/>
                 </Animated.View>
             </View>
             <View style={ToggleStyles.toggleArea} onTouchEnd={toggle} />

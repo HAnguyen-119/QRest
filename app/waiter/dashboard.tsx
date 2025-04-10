@@ -1,24 +1,32 @@
-import { View, Text } from "react-native";
-import { adminStyles } from "@/assets/styles/admin/Admin.styles";
-import { menuStyles } from "@/assets/styles/menu/Menu.styles";
+import { View, Text, TouchableOpacity, Modal } from "react-native";
+import { createAdminStyles } from "@/assets/styles/admin/Admin.styles";
 import MenuItem from "@/components/menu/MenuItem";
 import MenuCategories from "@/components/menu/MenuCategories";
 import Searcher from "@/components/menu/Searcher";
-import { useEffect, useState } from "react";
-import { fetchAPI } from "@/services/fetchAPI";
-import MenuItemDetails from "@/components/menu/MenuItemDetails";
-import Animated, { useAnimatedScrollHandler, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import { useState } from "react";
+import Animated from "react-native-reanimated";
 import { useScrollAnimated } from "@/contexts/ScrollContext";
 import { OrderItemProps } from "@/constants/types";
 import { useFetch } from "@/hooks/useFetch";
-import { getOrderPrice, getTotalPrice } from "@/utils/GetTotalPrice";
-import { OrderListStyles } from "@/assets/styles/waiter/OrderList.styles";
+import { createOrderListStyles} from "@/assets/styles/waiter/OrderList.styles";
+import closeButton from '@/assets/images/close.png'
+import Icon from "@/components/Icon/Icon";
+import { BUTTONSIZE } from "@/constants/size";
+import { CountOrders } from "@/utils/CountOrders";
+
+import Cart from '@/assets/images/shopping-bag.png'
+import OrderListView from "@/components/Orders/OrderListView";
+import { useThemeContext } from "@/contexts/ThemeContext";
 
 export default function Menu() {
     const [category, setCategory] = useState<string>("All")
     const [search, setSearch] = useState<string>("")
-
+    const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
     const [orderList, setOrderList] = useState<OrderItemProps[] | null>(null)
+
+    const { isDark } = useThemeContext()
+    const adminStyles = createAdminStyles(isDark)
+    const OrderListStyles = createOrderListStyles(isDark)
 
     const { scrollHandler } = useScrollAnimated()
 
@@ -50,25 +58,6 @@ export default function Menu() {
     const { data: menuData } = useFetch('foods')
     const { data: categoryData } = useFetch('categories')
 
-    const orderListView = () => {
-        if (!orderList || orderList.length === 0) {
-            return <Text style={{ textAlign: 'center', marginTop: 16 }}>No items in the order list</Text>
-        }
-    
-        return (
-            <View style={OrderListStyles.container}>
-                {orderList.map((item, index) => (
-                    <Text key={index} style={{ fontSize: 16, marginVertical: 4 }}>
-                        Item ID: {item.id}, Quantity: {item.quantity}, total: {getTotalPrice({data: menuData, id: item.id, quantity: item.quantity})}$
-                    </Text>
-                ))}
-                <Text>
-                    Total price: {getOrderPrice(orderList, menuData)}
-                </Text>
-            </View>
-        )
-    }
-
     if (!menuData || !categoryData) {
         return null;
     }
@@ -94,11 +83,33 @@ export default function Menu() {
         );
     };
 
+    const renderCart = () => {
+        return (
+            <TouchableOpacity onPress={() => setIsModalVisible(true)}>
+                <Icon src={Cart} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={CountOrders(orderList)}/>
+            </TouchableOpacity>
+        )
+    }
+
     return (
         <View style={adminStyles.menuContainer}>
-            <Searcher onSearch={handleSearch} />
-            <MenuCategories data={categoryData} handleCategory={handleCategory} />
-            {orderListView()}
+            <Searcher onSearch={handleSearch} children={renderCart()}/>
+            <MenuCategories data={categoryData} handleCategory={handleCategory}/>
+            <Modal
+                visible={isModalVisible}
+                animationType="slide"
+                transparent={true}
+                onRequestClose={() => setIsModalVisible(false)}
+            >
+                <View style={OrderListStyles.modalContainer}>
+                    <Animated.ScrollView style={OrderListStyles.modalContent} contentContainerStyle={{ flexGrow: 1 }}>
+                        <TouchableOpacity onPress={() => setIsModalVisible(false)}>
+                            <Icon src={closeButton} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null}/>
+                        </TouchableOpacity>
+                        <OrderListView orderList={orderList} menuData={menuData}/>
+                    </Animated.ScrollView>
+                </View>
+            </Modal>
             <Animated.FlatList
                 style={adminStyles.menuItemsContainer}
                 data={items}

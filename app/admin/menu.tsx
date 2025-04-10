@@ -1,14 +1,15 @@
 import { FlatList, View } from "react-native";
-import { adminStyles } from "@/assets/styles/admin/Admin.styles";
-import { menuStyles } from "@/assets/styles/menu/Menu.styles";
+import { createAdminStyles } from "@/assets/styles/admin/Admin.styles";
+import { createMenuStyles} from "@/assets/styles/menu/Menu.styles";
 import MenuItem from "@/components/menu/MenuItem";
 import MenuCategories from "@/components/menu/MenuCategories";
 import Searcher from "@/components/menu/Searcher";
 import { useEffect, useState } from "react";
 import { fetchAPI } from "@/services/fetchAPI";
 import MenuItemDetails from "@/components/menu/MenuItemDetails";
-import Animated, { useAnimatedScrollHandler, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { useScrollAnimated } from "@/contexts/ScrollContext";
+import { useThemeContext } from "@/contexts/ThemeContext";
 
 export default function Menu() {
     const [category, setCategory] = useState<string>("All")
@@ -16,6 +17,10 @@ export default function Menu() {
     const [menuData, setMenuData] = useState<any>(null)
     const [categoryData, setCategoryData] = useState<any>(null)
     const [menuItemId, setMenuItemId] = useState<number>(0)
+
+    const { isDark } = useThemeContext()
+    const adminStyles = createAdminStyles(isDark)
+    const menuStyles = createMenuStyles(isDark)
 
     const left = useSharedValue<string>("100%")
     const { scrollHandler } = useScrollAnimated()
@@ -79,14 +84,15 @@ export default function Menu() {
                 handleDetails={() => {
                     handleDetails(item.id);
                 }}
+                handleAdd={null}
             />
         );
     };
 
     return (
         <View style={adminStyles.menuContainer}>
-            <Searcher onSearch={handleSearch} />
-            <MenuCategories data={categoryData} handleCategory={handleCategory} />
+            <Searcher onSearch={handleSearch} children={null}/>
+            <MenuCategories data={categoryData} handleCategory={handleCategory}/>
             <Animated.FlatList
                 style={adminStyles.menuItemsContainer}
                 data={items}

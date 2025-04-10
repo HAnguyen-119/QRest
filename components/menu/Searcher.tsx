@@ -1,13 +1,21 @@
 import {TextInput, View} from "react-native";
-import {adminStyles} from "@/assets/styles/admin/Admin.styles";
+import {createAdminStyles} from "@/assets/styles/admin/Admin.styles";
+import { useThemeContext } from "@/contexts/ThemeContext";
+import { COLORS } from "@/constants/colors";
 
 // @ts-ignore
-export default function Searcher({onSearch}) {
+export default function Searcher({onSearch, children}) {
+    const { isDark } = useThemeContext()
+    const adminStyles = createAdminStyles(isDark)
     return (
         <View style={adminStyles.searcher}>
-            <TextInput style={adminStyles.text}
+            <View>
+                {children}
+            </View>
+            <TextInput style={adminStyles.textInput}
                        placeholder="Search..."
                        onChangeText={(value) => onSearch(value)}
+                       placeholderTextColor={isDark ? COLORS.light : COLORS.dark}
             ></TextInput>
         </View>
     )

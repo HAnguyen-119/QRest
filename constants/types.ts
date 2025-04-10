@@ -39,7 +39,8 @@ export interface ButtonNav {
 export interface ToggleType {
     src: ImageSourcePropType,
     width: number,
-    height: number
+    height: number,
+    count: number | null,
 }
 
 //theme context
@@ -125,4 +126,9 @@ export interface UtilsPriceProps {
     data: MenuItemProps[],
     id: number,
     quantity: number
+}
+
+export interface OrderListViewProps {
+    orderList: OrderItemProps[] | null,
+    menuData: MenuItemProps[]
 }

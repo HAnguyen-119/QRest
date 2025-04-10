@@ -1,16 +1,20 @@
 import {FlatList, Text, View} from "react-native";
 import {useState} from "react";
-import {adminStyles} from "@/assets/styles/admin/Admin.styles";
+import {createAdminStyles} from "@/assets/styles/admin/Admin.styles";
 import Searcher from "@/components/menu/Searcher";
 import StaffInfo from "@/components/staff/StaffInfo";
 import StaffPositions from "@/components/staff/StaffPositions";
 import { useScrollAnimated } from '@/contexts/ScrollContext'
 import Animated from 'react-native-reanimated'
+import { useThemeContext } from "@/contexts/ThemeContext";
 
 
 export default function Staff() {
     const [position, setPosition] = useState<string>("All");
     const [search, setSearch] = useState<string>("");
+
+    const { isDark } = useThemeContext()
+    const adminStyles = createAdminStyles(isDark)
 
     const { scrollHandler } = useScrollAnimated()
 
@@ -42,7 +46,7 @@ export default function Staff() {
 
     return (
         <View style={adminStyles.staffContainer}>
-            <Searcher onSearch={handleSearch} />
+            <Searcher onSearch={handleSearch} children={null}/>
             <StaffPositions handlePosition={handlePosition} />
             <Animated.FlatList
                 style={adminStyles.staffInfoContainer}
