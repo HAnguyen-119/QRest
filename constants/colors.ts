@@ -10,4 +10,7 @@ export const COLORS = {
     modalBackground: 'rgba(0, 0, 0, 0.5)',
     containerBackground: '#e6fff3',
     buttonActive: '#dd6311',
+    available: '#c8ffa9',
+    reserved: '#fffd70',
+    occupied: '#ffb0b0',
 }
