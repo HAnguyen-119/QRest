@@ -2,7 +2,8 @@ import TabsLayout from "../(tabs)/_layout";
 
 export default function CashierLayout() {
     const routes = [
-        {name: 'dashboard', title: 'Dashboard', icon: 'home' as const}
+        {name: 'dashboard', title: 'Dashboard', icon: 'home' as const},
+        {name: 'index', title: 'Table list', icon: 'nutrition' as const},
     ]
     return <TabsLayout routes={routes}/>
 }

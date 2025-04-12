@@ -45,4 +45,88 @@ export interface ToggleType {
 export interface ThemeContextProps {
     isDark: boolean,
     toggle: () => void
+<<<<<<< Updated upstream
 }
+=======
+}
+
+//category props
+
+export interface CategoryProps {
+    description: string,
+    id: number,
+    name: string
+}
+
+export interface MenuItemProps {
+    category: CategoryProps,
+    description: string,
+    id: number,
+    imageUrl: string,
+    name: string,
+    price: number,
+    quantity: number
+}
+
+export interface Food {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  quantity: number;
+  imageUrl: string;
+  category: {
+    id: number;
+    name: string;
+    description: string;
+  };
+}
+
+export interface ComboFood {
+  id: number;
+  quantity: number | null;
+  food: Food;
+}
+
+export interface Combo {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  imageUrl: string;
+  comboFoods: ComboFood[];
+}
+
+export interface FoodOrder {
+  id: number;
+  quantity: number;
+  price: number;
+  food: Food;
+}
+
+export interface ComboOrder {
+  id: number;
+  quantity: number;
+  price: number;
+  combo: Combo;
+}
+
+export interface RestaurantTable {
+  id: number;
+  name: string;
+  capacity: number;
+  available: boolean;
+}
+
+export interface Order {
+  id: number;
+  totalPrice: number;
+  note: string | null;
+  orderStatus: string;
+  orderTime: string;
+  foodOrders: FoodOrder[];
+  comboOrders: ComboOrder[];
+  restaurantTable: RestaurantTable;
+  reservation: any | null;
+}  
+>>>>>>> Stashed changes

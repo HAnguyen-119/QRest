@@ -1,7 +1,12 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
+<<<<<<< Updated upstream
   baseURL: "http://localhost:8080", // todo: need change
+=======
+  // baseURL: "http://10.0.2.2:8080/api/v1/",
+  baseURL: "http://localhost:8080/api/v1/",
+>>>>>>> Stashed changes
   headers: {
     "Content-Type": "application/json",
   },

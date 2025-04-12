@@ -22,5 +22,12 @@ export const COLORS = {
     trackLight: '#9ee3fb',
     thumbLight: '#68c3e1',
     trackDark: '#3c4145',
-    thumbDark: '#cccccc'
+    thumbDark: '#cccccc',
+    background: '#f8f9fa',
+    white: '#ffffff',
+    black: '#000000',
+    gray: '#6c757d',
+    lightGray: '#e9ecef',
+    text: '#212529',
+    error: '#dc3545'
 }
