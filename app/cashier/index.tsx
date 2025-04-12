@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
-import { useFetch } from '../../hooks/useFetch';
+import { useFetch } from './_useFetchCashier';
 import { Order } from '../../constants/types';
 import { COLORS } from '../../constants/colors';
-import { formatDateTime } from '../../utils/format';
+import { formatDateTime } from './_format';
+
 
 export default function CashierScreen() {
   const router = useRouter();
@@ -64,18 +65,6 @@ export default function CashierScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Completed Orders</Text>
-      <TouchableOpacity 
-        style={styles.debugButton}
-        onPress={() => {
-          Alert.alert(
-            'Debug Info',
-            `Loading: ${loading}\nError: ${error}\nOrders: ${JSON.stringify(orders, null, 2)}`,
-            [{ text: 'OK' }]
-          );
-        }}
-      >
-        <Text style={styles.debugButtonText}>Debug Info</Text>
-      </TouchableOpacity>
       <FlatList
         data={orders}
         renderItem={renderOrderItem}
@@ -160,3 +149,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 }); 
+

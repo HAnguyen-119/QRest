@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
-import { useFetch } from '../../hooks/useFetch';
+import { useFetch } from './_useFetchCashier';
 import { Order } from '../../constants/types';
 import { COLORS } from '../../constants/colors';
-import { formatDateTime } from '../../utils/format';
+import { formatDateTime } from './_format';
 
 export default function OrderDetailScreen() {
   const { id } = useLocalSearchParams();

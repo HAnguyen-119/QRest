@@ -45,9 +45,6 @@ export interface ToggleType {
 export interface ThemeContextProps {
     isDark: boolean,
     toggle: () => void
-<<<<<<< Updated upstream
-}
-=======
 }
 
 //category props
@@ -129,4 +126,3 @@ export interface Order {
   restaurantTable: RestaurantTable;
   reservation: any | null;
 }  
->>>>>>> Stashed changes
