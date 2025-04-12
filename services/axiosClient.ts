@@ -1,32 +1,39 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
 const axiosClient = axios.create({
+  baseURL: "http://10.0.2.2:8080/api/v1/",
   // baseURL: "http://10.0.2.2:8080/api/v1/",
   baseURL: "http://localhost:8080/api/v1/",
   headers: {
     "Content-Type": "application/json",
   },
+  
 });
 
 // Interceptors
 // Add a request interceptor
 
 axiosClient.interceptors.request.use(
-  function (config) {
-    // Do something before request is sent
-    if (sessionStorage.getItem("isLogin") === "true") {
-      const token = sessionStorage.getItem("token");
-      if (token !== null && token !== undefined && token !== "undefined") {
+  async function (config) {
+    try {
+      const isLogin = await AsyncStorage.getItem("isLogin");
+      const token = await AsyncStorage.getItem("token");
+
+      if (isLogin === "true" && token) {
         config.headers["Authorization"] = `Bearer ${token}`;
       }
+    } catch (error) {
+      console.log("Error accessing AsyncStorage", error);
     }
+
     return config;
   },
   function (error) {
-    // Do something with request error
     return Promise.reject(error);
   }
 );
+
 
 // Add a response interceptor
 axiosClient.interceptors.response.use(

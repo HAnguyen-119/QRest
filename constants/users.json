@@ -5,9 +5,9 @@
       "role": "admin"
     },
     {
-      "username": "staff",
-      "password": "staff123",
-      "role": "staff"
+      "username": "waiter",
+      "password": "waiter123",
+      "role": "waiter"
     },
     {
       "username": "chef",
@@ -20,3 +20,5 @@
       "role": "cashier"
     }
   ]
+
+  

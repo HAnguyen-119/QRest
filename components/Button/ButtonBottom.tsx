@@ -4,7 +4,6 @@ import { styles } from '@/assets/styles/button/BottomNav.styles';
 import Animated, { FadeIn, FadeOut, interpolate, LinearTransition, useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { useEffect } from "react";
 import { useThemeContext } from "@/contexts/ThemeContext";
-import { createRootStyles } from "@/assets/styles/Root";
 import { COLORS } from "@/constants/colors";
 
 const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity)

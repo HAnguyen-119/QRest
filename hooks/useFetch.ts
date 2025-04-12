@@ -1,49 +1,32 @@
+import { GetData } from "@/constants/types"
+import { fetchAPI } from "@/services/fetchAPI"
 import { useEffect, useState } from "react"
-import axiosClient from "../services/axiosClient"
 
-export const useFetch = <T>(url: string) => {
-    const [data, setData] = useState<T | null>(null)
-    const [loading, setLoading] = useState<boolean>(true)
-    const [error, setError] = useState<string | null>(null)
-
+export const useFetch = (type: GetData) => {
+    const [data, setData] = useState<any>(null)
     useEffect(() => {
         const fetchData = async () => {
             try {
-                setLoading(true);
-                const response = await axiosClient.get(url);
-                console.log('Raw API response:', response);
-                
-                // Xác định dữ liệu cần lấy từ response
-                // Nhiều thư viện HTTP như axios thường trả về dữ liệu trong thuộc tính 'data'
-                let processedData;
-                if (response && typeof response === 'object') {
-                    // Nếu response là từ axios, nó thường nằm trong response.data
-                    if ('data' in response) {
-                        processedData = response.data;
-                    } else {
-                        // Nếu không, lấy toàn bộ response
-                        processedData = response;
-                    }
-                } else {
-                    processedData = response;
+                let response = null
+                switch(type) {
+                    case 'orders':
+                        response = await fetchAPI.getOrders()
+                        break
+                    case 'foods': 
+                        response = await fetchAPI.getFood()
+                        break
+                    case 'categories':
+                        response = await fetchAPI.getCategories()
+                        break
+                    default:
+                        console.error(`Error, type not found, add '${type}' to constants/types.ts and try again`)
                 }
-                
-                console.log('Processed data:', processedData);
-                
-                // Gán dữ liệu đã xử lý vào state
-                setData(processedData as T);
-                setError(null);
+                setData(response)
             } catch (error) {
-                console.error('Fetch error:', error);
-                setError(error instanceof Error ? error.message : String(error));
-                setData(null);
-            } finally {
-                setLoading(false);
-            }
+                console.log('Error while fetching data: ', error)
+            } 
         }
-        
-        fetchData();
-    }, [url]);
-
-    return { data, loading, error };
+        fetchData()
+    }, [type])
+    return { data }
 }

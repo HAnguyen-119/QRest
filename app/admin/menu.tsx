@@ -1,42 +1,114 @@
-import {FlatList, View} from "react-native";
-import {styles} from "@/assets/styles/admin/Admin.styles"
-import MenuItem from "@/app/components/menu/MenuItem";
-import MenuCategories from "@/app/components/menu/MenuCategories";
-import MenuSearcher from "@/app/components/menu/MenuSearcher";
+import { FlatList, View } from "react-native";
+import { createAdminStyles } from "@/assets/styles/admin/Admin.styles";
+import { createMenuStyles} from "@/assets/styles/menu/Menu.styles";
+import MenuItem from "@/components/menu/MenuItem";
+import MenuCategories from "@/components/menu/MenuCategories";
+import Searcher from "@/components/menu/Searcher";
+import { useEffect, useState } from "react";
+import { fetchAPI } from "@/services/fetchAPI";
+import MenuItemDetails from "@/components/menu/MenuItemDetails";
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import { useScrollAnimated } from "@/contexts/ScrollContext";
+import { useThemeContext } from "@/contexts/ThemeContext";
 
 export default function Menu() {
+    const [category, setCategory] = useState<string>("All")
+    const [search, setSearch] = useState<string>("")
+    const [menuData, setMenuData] = useState<any>(null)
+    const [categoryData, setCategoryData] = useState<any>(null)
+    const [menuItemId, setMenuItemId] = useState<number>(0)
+
+    const { isDark } = useThemeContext()
+    const adminStyles = createAdminStyles(isDark)
+    const menuStyles = createMenuStyles(isDark)
+
+    const left = useSharedValue<string>("100%")
+    const { scrollHandler } = useScrollAnimated()
+
     // @ts-ignore
-    const renderItem = ({item}) => { return (
-        <MenuItem imageUrl={item.imageUrl}
-                  name={item.name}
-                  price={item.price}
-                  description={item.description}
-                  ingredients={item.ingredients}>
-        </MenuItem>)
+    const animatedStyle = useAnimatedStyle(() => {
+        return {
+            left: withTiming(left.value, { duration: 500 }),
+        }
+    })
+
+    const handleDetails = (id: number) => {
+        left.value = "0%";
+        setMenuItemId(id);
+    };
+
+    const handleBack = () => {
+        left.value = "100%";
+    };
+
+    const handleCategory = (cat: string) => {
+        setCategory(cat);
+    };
+
+    const handleSearch = (search: string) => {
+        setSearch(search);
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const foodResponse = await fetchAPI.getFood();
+                const categoryResponse = await fetchAPI.getCategories();
+                setMenuData(foodResponse);
+                setCategoryData(categoryResponse);
+            } catch (error) {
+                console.log({ message: `Error while fetching data: ${error}` });
+            }
+        };
+        fetchData();
+    }, []);
+
+    if (!menuData || !categoryData) {
+        return null;
     }
 
-    return (
-        <View style={styles.menuContainer}>
-            <MenuSearcher/>
-            <MenuCategories/>
-            <FlatList
-                style={styles.menuItemsContainer}
-                data={data}
-                renderItem={renderItem}
-                keyExtractor={(item) => item.name}
-                numColumns={2}
-            ></FlatList>
-        </View>
-    )
-}
+    const items = Object.values(menuData).filter(
+        (item) =>
+            (category === "All" || item.category.name === category) &&
+            item.name.toLowerCase().includes(search.toLowerCase())
+    );
 
-const data = [
-    {imageUrl: "https://cdn3.ivivu.com/2023/11/pho-bo-ivivu-2.jpeg", name: "Pho", price: "$10", description: "abc", ingredients: "abc"},
-    {imageUrl: "https://i.ex-cdn.com/thitruongbiz.vn/files/f1/2024/032024/14/10/banh-mi120240314104259.jpg?rt=20240314104301", name: "Banh mi", price: "$10", description: "abc", ingredients: "abc"},
-    {imageUrl: "https://mtg.1cdn.vn/2023/09/02/banh-cuon.jpg", name: "Banh cuon", price: "$10", description: "abc", ingredients: "abc"},
-    {imageUrl: "https://cdn.sgtiepthi.vn/wp-content/uploads/2020/05/Bun-cha.png", name: "Bun cha", price: "$10", description: "abc", ingredients: "abc"},
-    {imageUrl: "https://www.hungryhuy.com/wp-content/uploads/bun-bo-hue-bowl.jpg", name: "Bun bo Hue", price: "$10", description: "abc", ingredients: "abc"},
-    {imageUrl: "https://asianinspirations.com.au/wp-content/uploads/2019/06/R00499_Banh-Xeo-Nuoc-Cham-Sauce-3.jpg", name: "Banh xeo", price: "$10", description: "abc", ingredients: "abc"},
-    {imageUrl: "https://th.bing.com/th/id/R.f4c9bdcd5feb268f38cb1a8b93d70267?rik=SVYu1tMEXKvCBQ&pid=ImgRaw&r=0", name: "Com tam", price: "$10", description: "abc", ingredients: "abc"},
-    {imageUrl: "https://vietnamnomad.com/wp-content/uploads/2023/05/What-is-bun-dau-mam-tom-768x576.jpg", name: "Bun dau", price: "$10", description: "abc", ingredients: "abc"},
-]
+    const renderItem = ({ item }: { item: any }) => {
+        return (
+            <MenuItem
+                id={item.id}
+                imageUrl={item.imageUrl}
+                name={item.name}
+                category={item.category.name}
+                price={item.price}
+                description={item.description}
+                handleDetails={() => {
+                    handleDetails(item.id);
+                }}
+                handleAdd={null}
+            />
+        );
+    };
+
+    return (
+        <View style={adminStyles.menuContainer}>
+            <Searcher onSearch={handleSearch} children={null}/>
+            <MenuCategories data={categoryData} handleCategory={handleCategory}/>
+            <Animated.FlatList
+                style={adminStyles.menuItemsContainer}
+                data={items}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.id.toString()}
+                numColumns={2}
+                onScroll={scrollHandler} 
+                scrollEventThrottle={16} 
+            />
+            <MenuItemDetails
+                containerStyle={[menuStyles.container, animatedStyle]}
+                data={menuData}
+                id={menuItemId}
+                handleBack={handleBack}
+            />
+        </View>
+    );
+}

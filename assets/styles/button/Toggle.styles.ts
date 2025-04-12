@@ -22,7 +22,6 @@ export const createToggleStyles = (isDark: boolean) =>
             width: 40,
             height: 40,
             borderRadius: 20,
-            backgroundColor: !isDark ? COLORS.thumbLight : COLORS.thumbDark,
             justifyContent: "center",
             alignItems: "center",
             position: "absolute",

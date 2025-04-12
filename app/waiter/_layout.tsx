@@ -1,10 +1,9 @@
 import TabsLayout from "../(tabs)/_layout";
 
-export default function StaffLayout() {
+export default function WaiterLayout() {
     const routes = [
-        {name: 'dashboard', title: 'Home', icon: 'home' as const},
+        {name: 'dashboard', title: 'Dashboard', icon: 'fast-food-outline' as const},
         {name: 'rooms', title: 'Manage', icon: 'add-circle-outline' as const},
-        {name: 'order', title: 'Order', icon: 'fast-food-outline' as const},
         {name: 'status', title: 'Status', icon: 'time-outline' as const}
 
     ]
