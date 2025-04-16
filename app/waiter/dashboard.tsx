@@ -30,10 +30,15 @@ export default function Menu() {
 
     const { scrollHandler } = useScrollAnimated()
 
-    const handleChange = (id: number, isAdd: boolean) => {
+    const handleChange = (id: number, isAdd: boolean, isDelete: boolean) => {
         setOrderList((prevList) => {
             if (prevList) {
                 const isExisting = prevList.find((item) => item.id === id)
+
+                if (isDelete) {
+                    prevList = prevList.filter((item) => item.id !== id)
+                    return prevList.length === 0 ? null  : prevList
+                }
 
                 if (isExisting) {
                     return prevList.map((item) => (
@@ -90,6 +95,8 @@ export default function Menu() {
             </TouchableOpacity>
         )
     }
+
+    console.log(orderList)
 
     return (
         <View style={adminStyles.menuContainer}>

@@ -62,6 +62,16 @@ export const createMenuItemStyles = (isDark: boolean) => {
             fontFamily: 'Josefin-Sans',
             fontSize: 16,
             fontWeight: 'bold',
+        },
+
+        deleteContainer: {
+            margin: 12,
+            justifyContent: 'center',
+            alignItems: 'center', 
+        },
+
+        deleteButton: {
+            marginHorizontal: 12,
         }
     })
 }

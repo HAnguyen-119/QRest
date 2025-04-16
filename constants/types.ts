@@ -135,13 +135,13 @@ export interface UtilsPriceProps {
 export interface OrderListViewProps {
     orderList: OrderItemProps[] | null,
     menuData: MenuItemProps[],
-    handleChange: (id: number, isAdd: boolean) => void
+    handleChange: (id: number, isAdd: boolean, isDelete: boolean) => void
 }
 
 export interface MenuItemOrderProps {
     data: MenuItemProps,
     quantity: number,
-    handleChange: (id: number, isAdd: boolean) => void
+    handleChange: (id: number, isAdd: boolean, isDelete: boolean) => void
 }
 
 // export interface ComboFood {

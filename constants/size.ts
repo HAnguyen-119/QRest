@@ -8,6 +8,11 @@ export const BUTTONSIZE = {
     height: 50
 }
 
+export const LARGEBUTTON = {
+    width: 60,
+    height: 60
+}
+
 export const MINIBUTTON = {
     width: 24,
     height: 24
