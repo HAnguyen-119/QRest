@@ -18,8 +18,8 @@
     "@expo/vector-icons": "^14.0.4",
     "@react-native-async-storage/async-storage": "^2.1.2",
     "@react-native-community/masked-view": "^0.1.11",
-    "@react-native-vector-icons/fontello": "^0.0.1",
     "@react-native-picker/picker": "^2.11.0",
+    "@react-native-vector-icons/fontello": "^0.0.1",
     "@react-navigation/bottom-tabs": "^7.3.2",
     "@react-navigation/elements": "^2.3.0",
     "@react-navigation/native": "^7.0.18",
@@ -49,7 +49,8 @@
     "react-native-screens": "~4.4.0",
     "react-native-web": "~0.19.13",
     "react-native-webview": "13.12.5",
-    "rive-react-native": "^9.2.1"
+    "rive-react-native": "^9.2.1",
+    "styled-components": "^6.1.17"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

@@ -4,14 +4,9 @@ import { StyleSheet } from "react-native"
 export const createOrderListStyles = (isDark: boolean) => {
     return StyleSheet.create({
         container: {
-            margin: 12,
-            paddingHorizontal: 20,
-            
         },
         scrollView: {
-            margin: 12,
-            height: 120,
-            paddingHorizontal: 20,
+            height: 600,
             flexGrow: 1
         },
         modalContainer: {

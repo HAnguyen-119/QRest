@@ -1,4 +1,4 @@
-import { OrderListViewProps } from "@/constants/types";
+import { MenuItemProps, OrderListViewProps } from "@/constants/types";
 import { getOrderPrice, getTotalPrice } from "@/utils/GetTotalPrice";
 import { View, Text, TouchableOpacity } from "react-native";
 import Icon from "../Icon/Icon";
@@ -10,8 +10,9 @@ import { BUTTONSIZE } from "@/constants/size";
 import Animated from "react-native-reanimated";
 import { useThemeContext } from "@/contexts/ThemeContext";
 import { COLORS } from "@/constants/colors";
+import MenuItemOrders from "../menu/MenuItemOrders";
 
-export default function OrderListView({ orderList, menuData }: OrderListViewProps) {
+export default function OrderListView({ orderList, menuData, handleChange }: OrderListViewProps) {
     const { isDark } = useThemeContext()
     const OrderListStyles = createOrderListStyles(isDark)
     if (!orderList || orderList.length === 0) {
@@ -24,11 +25,15 @@ export default function OrderListView({ orderList, menuData }: OrderListViewProp
                 <Icon src={Note} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null}/>
             </TouchableOpacity>
             <Animated.ScrollView style={OrderListStyles.scrollView}>
-                {orderList.map((item, index) => (
-                    <Text key={index} style={[{ fontSize: 16, marginVertical: 4 }, { color: isDark ? COLORS.light : COLORS.dark }]}>
-                        Item ID: {item.id}, Quantity: {item.quantity}, total: ${getTotalPrice({data: menuData, id: item.id, quantity: item.quantity})}
-                    </Text>
-                ))}
+                {orderList.map((item, index) => {
+                    const menuItem = menuData.find((menu: MenuItemProps) => menu.id === item.id)
+                    if (!menuItem) return null
+                    return (
+                        <>
+                            <MenuItemOrders key={index} data={menuItem} quantity={item.quantity} handleChange={handleChange}/>
+                        </>
+                    )
+                })}
             </Animated.ScrollView>
             <Text style={{ color: isDark ? COLORS.light : COLORS.dark }}>
                 Total price: {getOrderPrice(orderList, menuData)}

@@ -15,7 +15,6 @@ export default function RootLayout() {
     'Josefin-Sans': require('../assets/fonts/Josefin_Sans/static/JosefinSans-Regular.ttf')
   })
 
-
   useEffect(() => {
     const timer = setTimeout(() => setLoadStartup(false), 3000)
     return () => clearTimeout(timer)

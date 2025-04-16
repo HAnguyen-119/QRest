@@ -6,7 +6,7 @@ import Searcher from "@/components/menu/Searcher";
 import { useState } from "react";
 import Animated from "react-native-reanimated";
 import { useScrollAnimated } from "@/contexts/ScrollContext";
-import { OrderItemProps } from "@/constants/types";
+import { MenuItemProps, OrderItemProps } from "@/constants/types";
 import { useFetch } from "@/hooks/useFetch";
 import { createOrderListStyles} from "@/assets/styles/waiter/OrderList.styles";
 import closeButton from '@/assets/images/close.png'
@@ -30,14 +30,14 @@ export default function Menu() {
 
     const { scrollHandler } = useScrollAnimated()
 
-    const handleAdd = (id: number) => {
+    const handleChange = (id: number, isAdd: boolean) => {
         setOrderList((prevList) => {
             if (prevList) {
                 const isExisting = prevList.find((item) => item.id === id)
 
                 if (isExisting) {
                     return prevList.map((item) => (
-                        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+                        item.id === id ? { ...item, quantity: isAdd ? item.quantity + 1 : item.quantity - 1} : item
                     ))
                 }
 
@@ -63,7 +63,7 @@ export default function Menu() {
     }
 
     const items = Object.values(menuData).filter(
-        (item) =>
+        (item: any) =>
             (category === "All" || item.category.name === category) &&
             item.name.toLowerCase().includes(search.toLowerCase())
     );
@@ -78,7 +78,7 @@ export default function Menu() {
                 price={item.price}
                 description={item.description}
                 handleDetails={null}
-                handleAdd={handleAdd}
+                handleAdd={handleChange}
             />
         );
     };
@@ -106,7 +106,7 @@ export default function Menu() {
                         <TouchableOpacity onPress={() => setIsModalVisible(false)}>
                             <Icon src={closeButton} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null}/>
                         </TouchableOpacity>
-                        <OrderListView orderList={orderList} menuData={menuData}/>
+                        <OrderListView orderList={orderList} menuData={menuData} handleChange={handleChange}/>
                     </Animated.ScrollView>
                 </View>
             </Modal>
@@ -114,7 +114,7 @@ export default function Menu() {
                 style={adminStyles.menuItemsContainer}
                 data={items}
                 renderItem={renderItem}
-                keyExtractor={(item) => item.id.toString()}
+                keyExtractor={(item: any) => item.id.toString()}
                 numColumns={2}
                 onScroll={scrollHandler} 
                 scrollEventThrottle={16} 

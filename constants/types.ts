@@ -49,6 +49,10 @@ export interface ThemeContextProps {
     toggle: () => void
 }
 
+export interface TextContextProps {
+    fontFamily: string
+}
+
 //category props
 
 export interface CategoryProps {
@@ -64,7 +68,7 @@ export interface MenuItemProps {
     imageUrl: string,
     name: string,
     price: number,
-    quantity: number
+    quantity: number // sucks
 }
 
 export interface ScrollContextType {
@@ -130,5 +134,20 @@ export interface UtilsPriceProps {
 
 export interface OrderListViewProps {
     orderList: OrderItemProps[] | null,
-    menuData: MenuItemProps[]
+    menuData: MenuItemProps[],
+    handleChange: (id: number, isAdd: boolean) => void
 }
+
+export interface MenuItemOrderProps {
+    data: MenuItemProps,
+    quantity: number,
+    handleChange: (id: number, isAdd: boolean) => void
+}
+
+// export interface ComboFood {
+//     id: number;
+//     name: string,
+//     description: string,
+//     price: number,
+//     comboFoods: Food[];
+//   }
