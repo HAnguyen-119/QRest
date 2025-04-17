@@ -5,7 +5,7 @@ import { InterpolateConfig } from "react-native-reanimated";
 
 export type TableStatus = 'reserved' | 'occupied' | 'available' | 'unknown'
 export type CustomerTitle = 'MR' | 'MRS'
-export type GetData = 'orders' | 'foods' | 'categories'
+export type GetData = 'orders' | 'foods' | 'categories' | 'tables'
 
 export interface Route {
     name: string;

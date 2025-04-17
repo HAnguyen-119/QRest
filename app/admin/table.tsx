@@ -29,13 +29,13 @@ export default function Table() {
     //@ts-ignore
     const renderItem = ({item}) => { return (
         <TableInfo id={item.id}
-        name={item.name}
-        capacity={item.capacity}
-        status={item.status}
-        customer={item.customer}>
-
-        </TableInfo>)
-    }
+            name={item.name}
+            capacity={item.capacity}
+            status={item.status}
+            customer={item.customer}
+            handleChangeStatus={null}
+        />  
+    )}
 
     const handleCapacity = (capacity: string) => {
         setCapacity(capacity);

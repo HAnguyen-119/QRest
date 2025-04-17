@@ -11,6 +11,9 @@ export const fetchAPI = {
     getCategories: () => {
         return axiosClient.get('categories')
     },
+    getTables: () => {
+        return axiosClient.get('restaurant_tables')
+    },
     postOrder: (data: OrderProps) => {
         return axiosClient.post('orders', data)
     }

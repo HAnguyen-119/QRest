@@ -96,8 +96,6 @@ export default function Menu() {
         )
     }
 
-    console.log(orderList)
-
     return (
         <View style={adminStyles.menuContainer}>
             <Searcher onSearch={handleSearch} children={renderCart()}/>
