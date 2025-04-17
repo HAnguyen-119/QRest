@@ -3,8 +3,6 @@ import { getOrderPrice, getTotalPrice } from "@/utils/GetTotalPrice";
 import { View, Text, TouchableOpacity } from "react-native";
 import Icon from "../Icon/Icon";
 
-import Note  from '@/assets/images/note.png'
-import Next from '@/assets/images/next.png'
 import { createOrderListStyles} from "@/assets/styles/waiter/OrderList.styles";
 import { BUTTONSIZE } from "@/constants/size";
 import Animated from "react-native-reanimated";
@@ -21,11 +19,8 @@ export default function OrderListView({ orderList, menuData, handleChange }: Ord
 
     return (
         <View style={OrderListStyles.container}>
-            <TouchableOpacity>
-                <Icon src={Note} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null}/>
-            </TouchableOpacity>
             <Animated.ScrollView style={OrderListStyles.scrollView}>
-                {orderList.map((item, index) => {
+                {orderList.map((item) => {
                     const menuItem = menuData.find((menu: MenuItemProps) => menu.id === item.id)
                     if (!menuItem) return null
                     return (
@@ -36,9 +31,6 @@ export default function OrderListView({ orderList, menuData, handleChange }: Ord
             <Text style={{ color: isDark ? COLORS.light : COLORS.dark }}>
                 Total price: {getOrderPrice(orderList, menuData)}
             </Text>
-            <TouchableOpacity>
-                <Icon src={Next} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null}/>
-            </TouchableOpacity>
         </View>
     )
 }

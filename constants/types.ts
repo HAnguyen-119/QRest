@@ -2,10 +2,15 @@ import { Ionicons } from "@expo/vector-icons";
 import { ROUTES } from "./routes";
 import { Animated, GestureResponderEvent, ImageSourcePropType } from "react-native";
 import { InterpolateConfig } from "react-native-reanimated";
+import { ReactNode } from "react";
 
 export type TableStatus = 'reserved' | 'occupied' | 'available' | 'unknown'
 export type CustomerTitle = 'MR' | 'MRS'
 export type GetData = 'orders' | 'foods' | 'categories' | 'tables'
+
+export interface Children {
+    children: ReactNode
+}
 
 export interface Route {
     name: string;

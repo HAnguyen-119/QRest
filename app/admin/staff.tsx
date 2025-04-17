@@ -46,7 +46,7 @@ export default function Staff() {
 
     return (
         <View style={adminStyles.staffContainer}>
-            <Searcher onSearch={handleSearch} children={null}/>
+            <Searcher onSearch={handleSearch}/>
             <StaffPositions handlePosition={handlePosition} />
             <Animated.FlatList
                 style={adminStyles.staffInfoContainer}

@@ -52,7 +52,7 @@ export default function Table() {
     return (
         <View style={tableStyles.container}>
             {/*<View style={tableStyles.blur}></View>*/}
-            <Searcher onSearch={handleSearch} children={null}/>
+            <Searcher onSearch={handleSearch}/>
             {/*<StaffStatuss handleStatus={handleStatus} />*/}
             <View style={tableStyles.categories}>
                 <TableCategory category="Capacity" values={["All", "2", "4", "8"]} handlePick={handleCapacity}></TableCategory>

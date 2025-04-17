@@ -53,19 +53,19 @@ export default function Table() {
 
 
     const items = data
-    ?.filter(item =>
-        (status === 'All' || item.status === status)
-        && (capacity === 'All' || item.capacity.toString() === capacity)
-        && item.name.toLowerCase().includes(search.toLowerCase())
-    ).sort((a, b) => {
-        if (a.status === 'Available' && b.status !== 'Available') return -2
-        if (a.status !== 'Available' && b.status === 'Available') return 2
-        return 0
-    }).sort((c, d) => {
-        if (c.status === 'Reserved' && d.status === 'Occupied') return -1
-        if (c.status === 'Occupied' && d.status === 'Reserved') return 1
-        return 0
-    })
+        ?.filter(item =>
+            (status === 'All' || item.status === status)
+            && (capacity === 'All' || item.capacity.toString() === capacity)
+            && item.name.toLowerCase().includes(search.toLowerCase())
+        ).sort((a, b) => {
+            if (a.status === 'Available' && b.status !== 'Available') return -2
+            if (a.status !== 'Available' && b.status === 'Available') return 2
+            return 0
+        }).sort((c, d) => {
+            if (c.status === 'Reserved' && d.status === 'Occupied') return -1
+            if (c.status === 'Occupied' && d.status === 'Reserved') return 1
+            return 0
+        })
 
     useEffect(() => {
         
@@ -95,7 +95,7 @@ export default function Table() {
 
     return (
         <View style={tableStyles.container}>
-            <Searcher onSearch={handleSearch} children={null}/>
+            <Searcher onSearch={handleSearch}/>
             <View style={tableStyles.categories}>
                 <TableCategory category="Capacity" values={["All", "2", "4", "8"]} handlePick={handleCapacity}></TableCategory>
                 <TableCategory category="Status" values={["All", "Available", "Reserved", "Occupied"]} handlePick={handleStatus} />

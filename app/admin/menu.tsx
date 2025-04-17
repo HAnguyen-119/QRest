@@ -92,7 +92,7 @@ export default function Menu() {
 
     return (
         <View style={adminStyles.menuContainer}>
-            <Searcher onSearch={handleSearch} children={null}/>
+            <Searcher onSearch={handleSearch}/>
             <MenuCategories data={categoryData} handleCategory={handleCategory}/>
             <Animated.FlatList
                 style={adminStyles.menuItemsContainer}

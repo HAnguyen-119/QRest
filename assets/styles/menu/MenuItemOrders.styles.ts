@@ -7,14 +7,15 @@ export const createMenuItemStyles = (isDark: boolean) => {
             flex: 1,
             backgroundColor: 'white',
             borderRadius: 8,
-            shadowColor: COLORS.shadow,
-            shadowOffset: {
-                width: 0,
-                height: 8,
-            },
-            shadowOpacity: 0.44,
-            shadowRadius: 10.32,
-            elevation: 16,
+            // shadowColor: COLORS.shadow,
+            // shadowOffset: {
+            //     width: 0,
+            //     height: 8,
+            // },
+            // shadowOpacity: 0.44,
+            // shadowRadius: 10.32,
+            // elevation: 16,
+            borderWidth: 2,
             margin: 12,
         },
 
