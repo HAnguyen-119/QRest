@@ -16,15 +16,18 @@ import Cart from '@/assets/images/shopping-bag.png'
 import { useThemeContext } from "@/contexts/ThemeContext";
 import ModalView from "@/components/Modal/ModalComponent";
 import { MenuSearcherStyles } from "@/assets/styles/menu/MenuSearcher.styles";
+import { createGlobalStyles } from "@/assets/styles/Global.styles";
 
 export default function Menu() {
     const [category, setCategory] = useState<string>("All")
     const [search, setSearch] = useState<string>("")
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
     const [orderList, setOrderList] = useState<OrderItemProps[] | null>(null)
+    const [note, setNote] = useState<string | null>(null)
 
     const { isDark } = useThemeContext()
     const adminStyles = createAdminStyles(isDark)
+    const globalStyles = createGlobalStyles(isDark)
 
     const { scrollHandler } = useScrollAnimated()
 
@@ -95,7 +98,7 @@ export default function Menu() {
                 <Searcher onSearch={handleSearch}/>
             </View>
             <MenuCategories data={categoryData} handleCategory={handleCategory}/>
-            <ModalView orderList={orderList} menuData={menuData} handleChange={handleChange} isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible}/>
+            <ModalView orderList={orderList} menuData={menuData} handleChange={handleChange} isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} setNote={setNote}/>
             <Animated.FlatList
                 style={adminStyles.menuItemsContainer}
                 data={items}

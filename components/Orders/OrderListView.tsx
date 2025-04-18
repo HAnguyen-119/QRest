@@ -9,12 +9,15 @@ import Animated from "react-native-reanimated";
 import { useThemeContext } from "@/contexts/ThemeContext";
 import { COLORS } from "@/constants/colors";
 import MenuItemOrders from "../menu/MenuItemOrders";
+import { createGlobalStyles } from "@/assets/styles/Global.styles";
 
 export default function OrderListView({ orderList, menuData, handleChange }: OrderListViewProps) {
     const { isDark } = useThemeContext()
     const OrderListStyles = createOrderListStyles(isDark)
+    const globalStyles = createGlobalStyles(isDark)
+
     if (!orderList || orderList.length === 0) {
-        return <Text style={[{ textAlign: 'center', marginTop: 16 }, { color: isDark ? COLORS.light : COLORS.dark }]}>No items in the order list</Text>
+        return <Text style={[{ textAlign: 'center', marginTop: 16 }, globalStyles.text]}>No items in the order list</Text>
     }
 
     return (
@@ -28,9 +31,6 @@ export default function OrderListView({ orderList, menuData, handleChange }: Ord
                     )
                 })}
             </Animated.ScrollView>
-            <Text style={{ color: isDark ? COLORS.light : COLORS.dark }}>
-                Total price: {getOrderPrice(orderList, menuData)}
-            </Text>
         </View>
     )
 }
