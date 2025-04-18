@@ -13,6 +13,13 @@ export const createAdminStyles = ( isDark: boolean ) => {
             width: '100%',
             backgroundColor: isDark ? COLORS.dark : COLORS.light,
         },
+
+        toolBar: {
+            display: 'flex',
+            flexDirection: 'row',
+            alignSelf: 'center',
+            alignItems: 'center',
+        },
     
         menuItemsContainer: {
             marginTop: 0,
@@ -89,6 +96,36 @@ export const createAdminStyles = ( isDark: boolean ) => {
             width: '100%',
             alignSelf: 'center',
         },
-    
+
+        updatingContainer: {
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            width: '100%',
+            height: '100%',
+            zIndex: 7,
+        },
+
+        blur: {
+            width: '100%',
+            height: '100%',
+            backgroundColor: COLORS.dark,
+            opacity: 0.7,
+            zIndex: 7,
+        },
+
+        updating: {
+            position: 'absolute',
+            width: '80%',
+            height: '70%',
+            alignSelf: 'center',
+            top: 100,
+            borderRadius: 20,
+            backgroundColor: "white",
+            zIndex: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center'
+        },
     })
 } 

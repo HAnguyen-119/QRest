@@ -60,7 +60,6 @@ export interface CategoryProps {
 export interface MenuItemProps {
     category: CategoryProps,
     description: string,
-    id: number,
     imageUrl: string,
     name: string,
     price: number,
