@@ -8,7 +8,7 @@ import {useState} from "react";
 // @ts-ignore
 export default function MenuItemDetails({data, id, handleBack, handleEdit, handleDelete, containerStyle}) {
 
-    const item = data.find((item: { id: string; }) => item.id === id);
+    const item = data.find((item: { id: number; }) => item.id === id);
 
     const [isDelete, setIsDelete] = useState<boolean>(false);
 

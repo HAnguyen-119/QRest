@@ -7,72 +7,87 @@ import {CategoryProps, MenuItemProps} from "@/constants/types";
 import {COLORS} from "@/constants/colors";
 import {fetchAPI} from "@/services/fetchAPI";
 
-export default function UpdateMenuItemView({id, isAdding, handleCancel, handleRefresh, categories}:
-{id: number, isAdding: boolean,
+export default function UpdateMenuItemView({item, isAdding, handleCancel, handleRefresh, categories}:
+{item: any, isAdding: boolean,
     handleCancel: () => void, handleRefresh: () => void, categories: Array<CategoryProps>}) {
     const { isDark } = useThemeContext()
     const adminStyles = createAdminStyles(isDark)
 
     const [open, setOpen] = useState(false);
-    const [value, setValue] = useState(null);
+    const [value, setValue] = useState(isAdding ? null : item.category.id);
 
-    const [name, setName] = useState<string>("");
-    const [description, setDescription] = useState<string>("");
-    const [price, setPrice] = useState<number>(0);
-    const [image, setImage] = useState<string>("");
-    const [category, setCategory] = useState<any>();
+    const [name, setName] = useState<string>(isAdding ? "" : item.name);
+    const [description, setDescription] = useState<string>(isAdding ? "" : item.description);
+    const [price, setPrice] = useState<string>(isAdding ? "" : item.price.toString());
+    const [image, setImage] = useState<string>(isAdding ? "" : item.imageUrl);
+    const [category, setCategory] = useState<any>(isAdding ? null : item.category);
 
-    const handleAdd = () => {
-        const newItem : MenuItemProps = {
-            name: name,
-            description: description,
-            price: price,
-            imageUrl: image,
-            quantity: 0,
-            category: category,
+    const isValid =
+            name.trim().length > 0
+            && price.trim().length > 0
+            && description.trim().length > 0
+            && image.trim().length > 0
+            && category !== null ;
+
+
+    const handleAdd = async () => {
+        if (!isValid) return;
+        const newItem: MenuItemProps = {
+            name, description, price: parseFloat(price), imageUrl: image, quantity: 0, category
+        };
+
+        try {
+            await fetchAPI.addMenuItem(newItem);
+            handleRefresh();
+            handleCancel();
+        } catch (error) {
+            console.error("Add failed:", error);
         }
-        fetchAPI.addMenuItem(newItem)
-        handleRefresh();
-        handleCancel();
-    }
+    };
 
-    const handleEdit = () => {
-        const newItem : MenuItemProps = {
-            name: name,
-            description: description,
-            price: price,
-            imageUrl: image,
-            quantity: 0,
-            category: category,
+    const handleEdit = async () => {
+        if (!isValid) return;
+        const newItem: MenuItemProps = {
+            name, description, price: parseFloat(price), imageUrl: image, quantity: 0, category
+        };
+
+        try {
+            await fetchAPI.editMenuItem(item.id, newItem);
+            handleRefresh();
+            handleCancel();
+        } catch (error) {
+            console.error("Edit failed:", error);
+            console.log(item)
+            console.log(newItem);
         }
-        fetchAPI.editMenuItem(id, newItem)
-        handleRefresh();
-        handleCancel();
-    }
+    };
 
     return (
         <View style={adminStyles.updating}>
             <Text style={styles.header}>{isAdding ? "ADD NEW ITEM" : "EDIT ITEM"}</Text>
             <View style={styles.inputContainer}>
-                <Text style={styles.inputText}>Name:  </Text>
+                <Text style={styles.inputText}>Name </Text>
                 <TextInput
+                    value={name}
                     style={styles.input}
                     placeholder="Item Name"
                     onChangeText={(text) => setName(text)}
                 ></TextInput>
             </View>
             <View style={styles.inputContainer}>
-                <Text style={styles.inputText}>Price: </Text>
+                <Text style={styles.inputText}>Price ($) </Text>
                 <TextInput
+                    value={price}
                     style={styles.input}
                     placeholder="Item Price"
                     keyboardType="decimal-pad"
-                    onChangeText={(text) => setPrice(parseFloat(text))}
+                    onChangeText={(text) => setPrice(text)}
                 ></TextInput>
             </View>
             <View style={styles.inputContainer}>
-                <Text style={styles.inputText}>Description: </Text>
+                <Text style={styles.inputText}>Description </Text>
                 <TextInput
+                    value={description}
                     style={styles.input}
                     placeholder="Item Description"
                     multiline={true}
@@ -80,15 +95,16 @@ export default function UpdateMenuItemView({id, isAdding, handleCancel, handleRe
                 ></TextInput>
             </View>
             <View style={styles.inputContainer}>
-                <Text style={styles.inputText}>Image URL: </Text>
+                <Text style={styles.inputText}>Image URL </Text>
                 <TextInput
+                    value={image}
                     style={styles.input}
                     placeholder="Item image url"
                     onChangeText={(text) => setImage(text)}
                 ></TextInput>
             </View>
             <View style={styles.inputContainer}>
-                <Text style={styles.inputText}>Category: </Text>
+                <Text style={styles.inputText}>Category</Text>
                 <DropDownPicker
                     open={open}
                     value={value}
@@ -109,9 +125,10 @@ export default function UpdateMenuItemView({id, isAdding, handleCancel, handleRe
                 >
                 </DropDownPicker>
             </View>
+            {!isValid && (<Text style={styles.invalid}>You must fill all the information above !</Text>)}
             <View style={styles.buttonContainer}>
                 <TouchableOpacity style={styles.button} onPress={isAdding ? handleAdd : handleEdit}>
-                    <Text style={styles.buttonText}>{isAdding ? "ADD" : "EDIT"}</Text>
+                    <Text style={styles.buttonText}>{isAdding ? "ADD" : "CONFIRM"}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button} onPress={handleCancel}>
                     <Text style={styles.buttonText}>CANCEL</Text>
@@ -126,6 +143,12 @@ const styles = StyleSheet.create({
         fontFamily: "Josefin-Sans",
     },
 
+    invalid: {
+        fontFamily: "Josefin-Sans",
+        color: "red",
+        alignSelf: "center",
+    },
+
     header: {
         fontFamily: "Josefin-Sans",
         fontSize: 18,
@@ -135,6 +158,7 @@ const styles = StyleSheet.create({
 
     inputText: {
         fontFamily: "Josefin-Sans",
+        fontSize: 15,
         width: "30%",
     },
 

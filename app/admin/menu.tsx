@@ -20,6 +20,8 @@ export default function Menu() {
     const [categoryData, setCategoryData] = useState<any>(null)
     const [menuItemId, setMenuItemId] = useState<number>(0)
 
+    const [currentItem, setCurrentItem] = useState<any>(null)
+
     const [isAdding, setIsAdding] = useState<boolean>(false)
     const [isEdit, setIsEdit] = useState<boolean>(false)
 
@@ -56,6 +58,7 @@ export default function Menu() {
     const handleDetails = (id: number) => {
         left.value = "0%";
         setMenuItemId(id);
+        setCurrentItem(menuData.find((item : any) => item.id === id));
     };
 
     const handleBack = () => {
@@ -78,11 +81,15 @@ export default function Menu() {
         setIsEdit(true);
     }
 
-    const handleDelete = () => {
-        fetchAPI.deleteMenuItem(menuItemId)
-        setIsRefresh(!isRefresh)
-        handleCancel();
-        handleBack();
+    const handleDelete = async () => {
+        try {
+            await fetchAPI.deleteMenuItem(menuItemId)
+            setIsRefresh(!isRefresh)
+            handleCancel();
+            handleBack();
+        } catch (error) {
+            console.error("Delete failed:", error);
+        }
     }
 
     const handleCancel = () => {
@@ -102,6 +109,7 @@ export default function Menu() {
 
     const renderItem = ({ item }: { item: any }) => {
         return (
+            <View style={{width: "50%"}}>
             <MenuItem
                 id={item.id}
                 imageUrl={item.imageUrl}
@@ -114,6 +122,7 @@ export default function Menu() {
                 }}
                 handleAdd={null}
             />
+            </View>
         );
     };
 
@@ -133,7 +142,8 @@ export default function Menu() {
                 keyExtractor={(item : any) => item.id.toString()}
                 numColumns={2}
                 onScroll={scrollHandler} 
-                scrollEventThrottle={16} 
+                scrollEventThrottle={16}
+                extraData={isRefresh}
             />
             <MenuItemDetails
                 containerStyle={[menuStyles.container, animatedStyle]}
@@ -147,7 +157,7 @@ export default function Menu() {
                 <View style={adminStyles.updatingContainer}>
                     <View style={adminStyles.blur}></View>
                     <UpdateMenuItemView
-                        id={menuItemId}
+                        item={currentItem}
                         handleCancel={handleCancel}
                         categories={categoryData}
                         isAdding={isAdding}
