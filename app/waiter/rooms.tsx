@@ -44,8 +44,9 @@ export default function Table() {
 
     
     const handleChangeStatus = (id: number) => {
+        const res = data.find((table) => table.id === id).status === 'Reserved' ? 'Occupied' : 'Available'
         const updatedData = data.map(table => (
-            table.id === id ? { ...table, status: 'Available' } : table
+            table.id === id ? { ...table, status: res } : table
         ))
         setData(updatedData)
         //put by id

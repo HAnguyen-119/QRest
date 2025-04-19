@@ -53,9 +53,10 @@ export const createOrderListStyles = (isDark: boolean) => {
             fontWeight: 'bold',
         },
         details: {
-            borderWidth: 2,
-            borderRadius: 8,
-            margin: 12,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginHorizontal: 32,
             padding: 8,
         }
     })

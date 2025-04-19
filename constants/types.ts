@@ -156,3 +156,10 @@ export interface MenuItemOrderProps {
 //     price: number,
 //     comboFoods: Food[];
 //   }
+
+// selectgroupoption props
+export interface SelectGroupProps {
+    options: number[] ,
+    selectedValue: number,
+    onSelect: (value: number) => void
+}

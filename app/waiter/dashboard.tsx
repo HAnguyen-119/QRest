@@ -14,9 +14,9 @@ import { CountOrders } from "@/utils/CountOrders";
 
 import Cart from '@/assets/images/shopping-bag.png'
 import { useThemeContext } from "@/contexts/ThemeContext";
-import ModalView from "@/components/Modal/ModalComponent";
 import { MenuSearcherStyles } from "@/assets/styles/menu/MenuSearcher.styles";
 import { createGlobalStyles } from "@/assets/styles/Global.styles";
+import OrderView from "@/components/Modal/ModalOrderList";
 
 export default function Menu() {
     const [category, setCategory] = useState<string>("All")
@@ -98,7 +98,7 @@ export default function Menu() {
                 <Searcher onSearch={handleSearch}/>
             </View>
             <MenuCategories data={categoryData} handleCategory={handleCategory}/>
-            <ModalView orderList={orderList} menuData={menuData} handleChange={handleChange} isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} setNote={setNote}/>
+            <OrderView orderList={orderList} menuData={menuData} handleChange={handleChange} isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} setNote={setNote}/>
             <Animated.FlatList
                 style={adminStyles.menuItemsContainer}
                 data={items}

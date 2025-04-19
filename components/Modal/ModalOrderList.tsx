@@ -11,15 +11,17 @@ import closeButton from '@/assets/images/close.png'
 
 import { BUTTONSIZE, MINIBUTTON } from "@/constants/size";
 import { OrderListViewProps } from "@/constants/types";
-import { COLORS } from "@/constants/colors";
 import { getOrderPrice } from "@/utils/GetTotalPrice";
 import { createGlobalStyles } from "@/assets/styles/Global.styles";
+import SelectGroup from "../Input/Select";
 
-export default function ModalView({ orderList, menuData, handleChange, isModalVisible, setIsModalVisible, setNote }: OrderListViewProps & { isModalVisible: boolean; setIsModalVisible: (visible: boolean) => void; setNote: (note: string) => void}) {
+export default function OrderView({ orderList, menuData, handleChange, isModalVisible, setIsModalVisible, setNote }: OrderListViewProps & { isModalVisible: boolean; setIsModalVisible: (visible: boolean) => void; setNote: (note: string) => void}) {
     const { isDark } = useThemeContext()
     const OrderListStyles = createOrderListStyles(isDark)
     const globalStyles = createGlobalStyles(isDark)
     
+    const [guestCount, setGuestCount] = useState<number>(1)
+
     return (
         <Modal
             visible={isModalVisible}
@@ -42,14 +44,16 @@ export default function ModalView({ orderList, menuData, handleChange, isModalVi
                             onChangeText={setNote}
                         />                        
                     </View>
+                    <SelectGroup 
+                        options={[1, 2, 3, 4, 5, 6, 7, 8]}
+                        selectedValue={guestCount}
+                        onSelect={setGuestCount}
+                    />
                     <OrderListView orderList={orderList} menuData={menuData} handleChange={handleChange}/>
                     { orderList && 
                         <View style={OrderListStyles.details}>
-                            <Text style={[OrderListStyles.summary, globalStyles.text]}>
-                                Summary
-                            </Text>
                             <Text style={[globalStyles.text, OrderListStyles.total]}>
-                                ${getOrderPrice(orderList, menuData)}
+                                Total: ${getOrderPrice(orderList, menuData)}
                             </Text>
                             <TouchableOpacity style={OrderListStyles.nextButton}>
                                 <Icon src={Next} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null}/>

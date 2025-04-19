@@ -4,7 +4,7 @@ import axios from "axios";
 const axiosClient = axios.create({
   // baseURL: "http://10.0.2.2:8080/api/v1/",
   //deployment
-  baseURL: "https://qrest-latest.onrender.com/api/v1",
+  baseURL: "http://34.87.113.245:18080/api/v1/",
   headers: {
     "Content-Type": "application/json",
   },

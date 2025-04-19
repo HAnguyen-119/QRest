@@ -7,6 +7,10 @@ export const createGlobalStyles = (isDark: boolean) => {
             color: isDark ? COLORS.light : COLORS.dark,
             fontFamily: 'Josefin-Sans'
         },
+        textInverse: {
+            color: isDark ? COLORS.dark : COLORS.light,
+            fontFamily: 'Josefin-Sans'
+        },
         background: {
             backgroundColor: isDark ? COLORS.dark : COLORS.light
         }

@@ -51,11 +51,6 @@ export default function MenuItemOrders( { data, quantity, handleChange }: MenuIt
                                 <Icon src={decreaseButton} width={MINIBUTTON.width} height={MINIBUTTON.height} count={null}/>
                             </TouchableOpacity>
                         </View>
-                        <View>
-                            <TouchableOpacity>
-
-                            </TouchableOpacity>
-                        </View>
                     </View>
                 </View>
             </Swipeable>
