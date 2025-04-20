@@ -19,6 +19,10 @@ export const createAdminStyles = ( isDark: boolean ) => {
             flexDirection: 'row',
             alignSelf: 'center',
             alignItems: 'center',
+            justifyContent: 'center',
+            gap: 10,
+            marginTop: 10,
+            width: '100%',
         },
     
         menuItemsContainer: {
@@ -46,16 +50,17 @@ export const createAdminStyles = ( isDark: boolean ) => {
         },
     
         searcher: {
-            flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
-            width: '100%'
+            marginVertical: 10,
+            width: '70%',
         },
     
         text: {
             fontFamily: "Josefin-Sans",
             color: isDark ? COLORS.light : COLORS.dark
         },
+
         textInput: {
             fontFamily: 'Josefin-Sans',
             borderWidth: 2,
@@ -131,6 +136,19 @@ export const createAdminStyles = ( isDark: boolean ) => {
             width: '80%',
             height: '80%',
             top: 50,
+            alignSelf: 'center',
+            borderRadius: 20,
+            backgroundColor: "white",
+            zIndex: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center'
+        },
+
+        tableUpdating: {
+            position: 'absolute',
+            width: '80%',
+            height: '40%',
             alignSelf: 'center',
             borderRadius: 20,
             backgroundColor: "white",

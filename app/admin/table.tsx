@@ -1,5 +1,5 @@
-import {FlatList, Text, View} from "react-native";
-import {useState} from "react";
+import {FlatList, Text, TouchableOpacity, View} from "react-native";
+import {useEffect, useState} from "react";
 import Searcher from '@/components/menu/Searcher'
 import { useScrollAnimated } from '@/contexts/ScrollContext'
 import Animated from 'react-native-reanimated'
@@ -8,12 +8,25 @@ import {createAdminTableStyles} from "@/assets/styles/table/Table.styles";
 import {createAdminStyles} from "@/assets/styles/admin/Admin.styles";
 import TableCategory from "@/components/table/TableCategory";
 import { useThemeContext } from "@/contexts/ThemeContext";
+import Icon from "react-native-vector-icons/Ionicons";
+import {fetchAPI} from "@/services/fetchAPI";
+import UpdateTableView from "@/components/admin/UpdateTableView";
+import DeleteConfirmView from "@/components/admin/DeleteConfirmView";
 
 
 export default function Table() {
+    const [tableData, setTableData] = useState<any>(null);
+
+    const [isAdd, setIsAdd] = useState<boolean>(false)
+    const [isEdit, setIsEdit] = useState<boolean>(false)
+    const [isDelete, setIsDelete] = useState<boolean>(false)
+    const [isRefresh, setIsRefresh] = useState<boolean>(false)
+
     const [status, setStatus] = useState<string>("All");
     const [capacity, setCapacity] = useState<string>("All");
     const [search, setSearch] = useState<string>("");
+
+    const [currentTableId, setCurrentTableId] = useState<number>(0);
 
     const { isDark } = useThemeContext()
     const adminStyles = createAdminStyles(isDark)
@@ -21,7 +34,23 @@ export default function Table() {
 
     const { scrollHandler } = useScrollAnimated()
 
-    const items = data.filter(item =>
+    const capacities = [2, 4, 8]
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const tableResponse = await fetchAPI.getTables();
+                setTableData(tableResponse);
+            } catch (error) {
+                console.log({ message: `Error while fetching data: ${error}` });
+            }
+        };
+        fetchData();
+    }, [isRefresh]);
+
+    if (!tableData) return null;
+
+    const items = Object.values(tableData).filter((item : any) =>
         (status === 'All' || item.status === status)
         && (capacity === 'All' || item.capacity.toString() === capacity)
         && item.name.toLowerCase().includes(search.toLowerCase()));
@@ -32,8 +61,10 @@ export default function Table() {
             name={item.name}
             capacity={item.capacity}
             status={item.status}
-            customer={item.customer}
             handleChangeStatus={null}
+                   handleEdit={handleEdit}
+                   handleDelete={handleDeleteConfirmView}
+                   setCurrentTableId={setCurrentTableId}
         />  
     )}
 
@@ -49,46 +80,77 @@ export default function Table() {
         setSearch(search);
     }
 
+    const handleAdd = () => {
+        setIsAdd(true);
+    }
+
+    const handleEdit = () => {
+        setIsEdit(true)
+    }
+
+    const handleCancel = () => {
+        setIsEdit(false)
+        setIsDelete(false)
+        setIsAdd(false)
+    }
+
+    const handleDelete = async () => {
+        try {
+            await fetchAPI.deleteTable(currentTableId);
+            setIsRefresh(!isRefresh);
+            handleCancel()
+        } catch (error) {
+            console.log({ message: `Error while deleting table: ${error}` });
+        }
+    }
+
+    const handleDeleteConfirmView = () => {
+        setIsDelete(true)
+    }
+
     return (
         <View style={tableStyles.container}>
-            {/*<View style={tableStyles.blur}></View>*/}
-            <Searcher onSearch={handleSearch}/>
-            {/*<StaffStatuss handleStatus={handleStatus} />*/}
+            <View style={adminStyles.toolBar}>
+                <Searcher onSearch={handleSearch}/>
+                <TouchableOpacity onPress={handleAdd}>
+                    <Icon name={"add-circle-outline"} size={40}/>
+                </TouchableOpacity>
+            </View>
             <View style={tableStyles.categories}>
                 <TableCategory category="Capacity" values={["All", "2", "4", "8"]} handlePick={handleCapacity}></TableCategory>
                 <TableCategory category="Status" values={["All", "Available", "Reserved", "Occupied"]} handlePick={handleStatus} />
             </View>
             <View style={tableStyles.tableContainer}>
-            {/*{items.map((item) => (*/}
-            {/*    <TableInfo  key={item.id}*/}
-            {/*                id={item.id}*/}
-            {/*                name={item.name}*/}
-            {/*                capacity={item.capacity}*/}
-            {/*                status={item.status}*/}
-            {/*                customer={item.customer}>*/}
-            {/*    </TableInfo>*/}
-            {/*    ))}*/}
                 <Animated.FlatList
                     style={adminStyles.menuItemsContainer}
                     data={items}
                     renderItem={renderItem}
-                    keyExtractor={(item) => item.id.toString()}
+                    keyExtractor={(item : any) => item.id}
                     numColumns={2}
                     onScroll={scrollHandler}
                     scrollEventThrottle={16}
                 />
             </View>
+            {(isAdd || isEdit) && (
+                <View style={adminStyles.updatingContainer}>
+                    <View style={adminStyles.blur}></View>
+                    <UpdateTableView
+                        table={tableData.find((table : any) => table.id === currentTableId)}
+                        isAdding={isAdd}
+                        handleCancel={handleCancel}
+                        handleRefresh={() => {setIsRefresh(!isRefresh)}}
+                        capacities={capacities}>
+                    </UpdateTableView>
+                </View>
+            )}
+            {isDelete && (
+                <DeleteConfirmView
+                    name={tableData.find((table : any) => table.id === currentTableId).name}
+                    content={"table"}
+                    handleDelete={handleDelete}
+                    handleCancel={handleCancel}
+                ></DeleteConfirmView>
+            )}
         </View>
     )
 }
-
-export const data = [
-    {id: '1', name: "Table1", capacity: 2, status: "Available", customer: "Tom", top: 10, left: 10},
-    {id: '2', name: "Table2", capacity: 4, status: "Reserved", customer: "Tom", top: 10, left: 10},
-    {id: '3', name: "Table3", capacity: 2, status: "Occupied", customer: "Tom", top: 10, left: 10},
-    {id: '4', name: "Table4", capacity: 8, status: "Occupied", customer: "Tom", top: 10, left: 10},
-    {id: '5', name: "Table5", capacity: 8, status: "Occupied", customer: "Tom", top: 10, left: 10},
-    {id: '6', name: "Table6", capacity: 4, status: "Occupied", customer: "Tom", top: 10, left: 10},
-    {id: '7', name: "Table7", capacity: 4, status: "Occupied", customer: "Tom", top: 10, left: 10},
-    {id: '8', name: "Table8", capacity: 2, status: "Occupied", customer: "Tom", top: 10, left: 10},
-]

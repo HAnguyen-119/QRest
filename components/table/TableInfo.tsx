@@ -6,7 +6,7 @@ import { useThemeContext } from "@/contexts/ThemeContext";
 import { createTableInfoStyles } from "@/assets/styles/table/TableInfo.styles";
 
 // @ts-ignore
-export default function TableInfo({id, name, capacity, status, customer, handleChangeStatus}) {
+export default function TableInfo({id, name, capacity, status, handleChangeStatus, handleEdit, handleDelete, setCurrentTableId}) {
     const { isDark } = useThemeContext()
     const tableInfoStyles = createTableInfoStyles(isDark)
     return (
@@ -14,10 +14,17 @@ export default function TableInfo({id, name, capacity, status, customer, handleC
             <View style={tableInfoStyles.nameContainer}>
                 <Text style={tableInfoStyles.text}>{name}</Text>
             </View>
-            <View style={tableInfoStyles.infoContainer}>
-                <Text style={tableInfoStyles.text}>Capacity : {capacity}</Text>
-                <Text style={tableInfoStyles.text}>Customer : {status === "AVAILABLE" ? "None" : customer}</Text>
-            </View>
+            { handleEdit &&
+                <View style={tableInfoStyles.infoContainer}>
+                    <Text style={tableInfoStyles.text}>Capacity : {capacity}</Text>
+                    <TouchableOpacity onPress={() => {setCurrentTableId(id); handleEdit()}}>
+                        <Text>Edit</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => {setCurrentTableId(id); handleDelete()}}>
+                        <Text>Delete</Text>
+                    </TouchableOpacity>
+                </View>
+            }
             {handleChangeStatus && status !== 'AVAILABLE' 
             ? 
             (

@@ -89,8 +89,10 @@ export default function Table() {
             name={table.name}
             capacity={table.capacity}
             status={table.status}
-            customer={null}
             handleChangeStatus={handleChangeStatus}
+            handleEdit={null}
+            handleDelete={null}
+            setCurrentTableId={null}
         />
     )}
 

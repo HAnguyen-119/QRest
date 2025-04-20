@@ -10,6 +10,7 @@ import { useThemeContext } from "@/contexts/ThemeContext";
 import {fetchAPI} from "@/services/fetchAPI";
 import Icon from "react-native-vector-icons/Ionicons";
 import UpdateStaffInfoView from "@/components/admin/UpdateStaffInfoView";
+import DeleteConfirmView from "@/components/admin/DeleteConfirmView";
 
 
 export default function Staff() {
@@ -21,6 +22,7 @@ export default function Staff() {
 
     const [isAdd, setIsAdd] = useState<boolean>(false)
     const [isEdit, setIsEdit] = useState<boolean>(false)
+    const [isDelete, setIsDelete] = useState<boolean>(false)
     const [isRefresh, setIsRefresh] = useState<boolean>(false)
 
     const { isDark } = useThemeContext()
@@ -64,7 +66,7 @@ export default function Staff() {
                   position={item.position}
                     salary={item.salary}
                    handleEdit={handleEdit}
-                   handleDelete={handleDelete}
+                   handleDelete={handleDeleteConfirmView}
                    setCurrentStaffId={setCurrentStaffId}
         >
         </StaffInfo>)
@@ -89,10 +91,22 @@ export default function Staff() {
     const handleCancel = () => {
         setIsAdd(false);
         setIsEdit(false);
+        setIsDelete(false);
     }
 
-    const handleDelete = () => {
+    const handleDeleteConfirmView = () => {
+        setIsDelete(true);
+    }
 
+    const handleDelete = async () => {
+        try {
+            await fetchAPI.deleteStaff(currentStaffId);
+            setIsRefresh(!isRefresh);
+            handleCancel();
+            setIsDelete(false);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
@@ -104,7 +118,6 @@ export default function Staff() {
                 </TouchableOpacity>
             </View>
             <StaffPositions data={positions} handlePosition={handlePosition} />
-            <Searcher onSearch={handleSearch}/>
             <Animated.FlatList
                 style={adminStyles.staffInfoContainer}
                 data={items}
@@ -127,6 +140,14 @@ export default function Staff() {
                     />
                 </View>
             }
+            {isDelete && (
+                <DeleteConfirmView
+                    name={staffData.find((s : any) => s.id === currentStaffId).fullName}
+                    content={"staff"}
+                    handleDelete={handleDelete}
+                    handleCancel={handleCancel}
+                ></DeleteConfirmView>
+            )}
         </View>
     )
 }
