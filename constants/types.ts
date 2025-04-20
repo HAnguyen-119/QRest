@@ -2,10 +2,15 @@ import { Ionicons } from "@expo/vector-icons";
 import { ROUTES } from "./routes";
 import { Animated, GestureResponderEvent, ImageSourcePropType } from "react-native";
 import { InterpolateConfig } from "react-native-reanimated";
+import { ReactNode } from "react";
 
-export type TableStatus = 'reserved' | 'occupied' | 'available' | 'unknown'
+export type TableStatus = 'RESERVED' | 'OCCUPIED' | 'AVAILABLE'
 export type CustomerTitle = 'MR' | 'MRS'
-export type GetData = 'orders' | 'foods' | 'categories'
+export type GetData = 'orders' | 'foods' | 'categories' | 'tables' | 'combos'
+
+export interface Children {
+    children: ReactNode
+}
 
 export interface Route {
     name: string;
@@ -49,6 +54,10 @@ export interface ThemeContextProps {
     toggle: () => void
 }
 
+export interface TextContextProps {
+    fontFamily: string
+}
+
 //category props
 
 export interface CategoryProps {
@@ -61,9 +70,10 @@ export interface MenuItemProps {
     category: CategoryProps,
     description: string,
     imageUrl: string,
+    id: number,
     name: string,
     price: number,
-    quantity: number
+    quantity: number // sucks
 }
 
 export interface ScrollContextType {
@@ -81,10 +91,10 @@ export interface OrderItemProps {
 }
 
 export interface TableProps {
+    capacity: number,
     id: number, 
     name: string,
-    capacity: number,
-    available: boolean
+    status: string
 }
 
 export interface CustomerOrderProps {
@@ -109,17 +119,19 @@ export interface ReservationProps {
     numberOfGuests: number,
     deposit: number, 
     customer: CustomerOrderProps,
-    restaurantTable: RestaurantTableProps,
+    tableOrders: RestaurantTableProps[],
     confirmed: boolean,
 }
 
 export interface OrderProps {
-    note: string,
-    foodOrderItems: OrderItemProps[],
-    comboOrderItems: OrderItemProps[],
-    restaurantTable: RestaurantTableProps,
-    reservation: ReservationProps,
+    note: string | null,
+    foodOrderItems: OrderItemProps[] | null,
+    comboOrderItems: OrderItemProps[] | null,
+    restaurantTableIds: number[],
+    reservationId: number | null,
 }
+
+
 
 export interface UtilsPriceProps {
     data: MenuItemProps[],
@@ -139,4 +151,27 @@ export interface StaffInfoProps {
     address: string
     salary: number
     position: string
+    menuData: MenuItemProps[],
+    handleChange: (id: number, isAdd: boolean, isDelete: boolean) => void
+}
+
+export interface MenuItemOrderProps {
+    data: MenuItemProps,
+    quantity: number,
+    handleChange: (id: number, isAdd: boolean, isDelete: boolean) => void
+}
+
+// export interface ComboFood {
+//     id: number;
+//     name: string,
+//     description: string,
+//     price: number,
+//     comboFoods: Food[];
+//   }
+
+// selectgroupoption props
+export interface SelectGroupProps {
+    options: number[] ,
+    selectedValue: number,
+    onSelect: (value: number) => void
 }

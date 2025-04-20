@@ -129,7 +129,7 @@ export default function Menu() {
     return (
         <View style={adminStyles.menuContainer}>
             <View style={adminStyles.toolBar}>
-                <Searcher onSearch={handleSearch} children={null}/>
+                <Searcher onSearch={handleSearch}/>
                 <TouchableOpacity onPress={handleAddItem}>
                     <Icon name={"add-circle-outline"} size={40}/>
                 </TouchableOpacity>

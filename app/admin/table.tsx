@@ -29,13 +29,13 @@ export default function Table() {
     //@ts-ignore
     const renderItem = ({item}) => { return (
         <TableInfo id={item.id}
-        name={item.name}
-        capacity={item.capacity}
-        status={item.status}
-        customer={item.customer}>
-
-        </TableInfo>)
-    }
+            name={item.name}
+            capacity={item.capacity}
+            status={item.status}
+            customer={item.customer}
+            handleChangeStatus={null}
+        />  
+    )}
 
     const handleCapacity = (capacity: string) => {
         setCapacity(capacity);
@@ -52,7 +52,7 @@ export default function Table() {
     return (
         <View style={tableStyles.container}>
             {/*<View style={tableStyles.blur}></View>*/}
-            <Searcher onSearch={handleSearch} children={null}/>
+            <Searcher onSearch={handleSearch}/>
             {/*<StaffStatuss handleStatus={handleStatus} />*/}
             <View style={tableStyles.categories}>
                 <TableCategory category="Capacity" values={["All", "2", "4", "8"]} handlePick={handleCapacity}></TableCategory>

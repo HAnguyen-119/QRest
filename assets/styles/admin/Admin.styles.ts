@@ -47,10 +47,9 @@ export const createAdminStyles = ( isDark: boolean ) => {
     
         searcher: {
             flexDirection: 'row',
-            gap: 20,
-            marginVertical: 12,
             justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            width: '100%'
         },
     
         text: {

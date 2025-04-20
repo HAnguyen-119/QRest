@@ -11,7 +11,7 @@ export default function Icon({ src, width, height, count } : ToggleType) {
                 source={src}
                 style={{ width: width, height: height }}
             />
-            {count && count > 0 && (
+            {count !== null && count !== undefined && count > 0 && (
                 <View style={IconStyles.badge}>
                     <Text style={IconStyles.badgeText}>{count}</Text>
                 </View>

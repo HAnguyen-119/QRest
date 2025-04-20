@@ -25,12 +25,11 @@ export default function MenuItem({id, imageUrl, name, price, category, descripti
                         <Text style={menuItemStyles.buttonText}>Details</Text>
                     </TouchableOpacity>    
                     :
-                    <TouchableOpacity onPress={() => handleAdd(id)}>
+                    <TouchableOpacity onPress={() => handleAdd(id, true)}>
                         <Icon src={AddToCart} width={50} height={50} count={null}/>
                     </TouchableOpacity>
                 }
             </View>
-            
         </View>
     )
 }

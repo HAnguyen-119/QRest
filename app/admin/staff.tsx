@@ -98,12 +98,13 @@ export default function Staff() {
     return (
         <View style={adminStyles.staffContainer}>
             <View style={adminStyles.toolBar}>
-                <Searcher onSearch={handleSearch} children={null}/>
+                <Searcher onSearch={handleSearch}/>
                 <TouchableOpacity onPress={handleAdd}>
                     <Icon name={"add-circle-outline"} size={40}/>
                 </TouchableOpacity>
             </View>
             <StaffPositions data={positions} handlePosition={handlePosition} />
+            <Searcher onSearch={handleSearch}/>
             <Animated.FlatList
                 style={adminStyles.staffInfoContainer}
                 data={items}
