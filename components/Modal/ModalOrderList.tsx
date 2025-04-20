@@ -16,7 +16,7 @@ import { createGlobalStyles } from "@/assets/styles/Global.styles";
 import SelectGroup from "../Input/Select";
 import ModalTableView from "./ModalTableList";
 
-export default function OrderView({ orderList, menuData, handleChange, isModalVisible, setIsModalVisible }: OrderListViewProps & { isModalVisible: boolean; setIsModalVisible: (visible: boolean) => void, handleChange: (id: number, isAdd: boolean, isDelete: boolean, category: string) => void }) {
+export default function OrderView({ orderList, menuData, combosData, handleChange, isModalVisible, setIsModalVisible }: OrderListViewProps & { isModalVisible: boolean; setIsModalVisible: (visible: boolean) => void, handleChange: (id: number, isAdd: boolean, isDelete: boolean, category: string) => void }) {
     const { isDark } = useThemeContext()
     const OrderListStyles = createOrderListStyles(isDark)
     const globalStyles = createGlobalStyles(isDark)
@@ -52,11 +52,11 @@ export default function OrderView({ orderList, menuData, handleChange, isModalVi
                         selectedValue={guestCount}
                         onSelect={setGuestCount}
                     />
-                    <OrderListView orderList={orderList} menuData={menuData} handleChange={handleChange}/>
+                    <OrderListView orderList={orderList} combosData={combosData} menuData={menuData} handleChange={handleChange}/>
                     { orderList && 
                         <View style={OrderListStyles.details}>
                             <Text style={[globalStyles.text, OrderListStyles.total]}>
-                                Total: ${getOrderPrice(orderList, menuData)}
+                                Total: ${getOrderPrice(orderList, menuData, combosData)}
                             </Text>
                             <TouchableOpacity style={OrderListStyles.nextButton} onPress={() => setTableModalVisible(true)}>
                                 <Icon src={Next} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null}/>

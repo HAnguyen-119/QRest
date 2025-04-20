@@ -64,15 +64,15 @@ export default function Menu() {
 
     const { data: menuData } = useFetch('foods')
     const { data: categoryData } = useFetch('categories')
-    
+    const { data: combosData } = useFetch('combos')
 
     if (!menuData || !categoryData) {
         return null;
     }
 
-    const items = Object.values(menuData).filter(
+    const items = (category === "Combo" ? Object.values(combosData) : Object.values(menuData)).filter(
         (item: any) =>
-            (category === "All" || item.category.name === category) &&
+            (category === "All" || category === "Combo" || item.category.name === category) &&
             item.name.toLowerCase().includes(search.toLowerCase())
     );
 
@@ -100,7 +100,7 @@ export default function Menu() {
                 <Searcher onSearch={handleSearch}/>
             </View>
             <MenuCategories data={categoryData} handleCategory={handleCategory}/>
-            <OrderView orderList={orderList} menuData={menuData} handleChange={handleChange} isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible}/>
+            <OrderView orderList={orderList} menuData={menuData} combosData={combosData} handleChange={handleChange} isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible}/>
             <Animated.FlatList
                 style={adminStyles.menuItemsContainer}
                 data={items}

@@ -150,14 +150,29 @@ export interface OrderProps {
 
 
 export interface UtilsPriceProps {
-    data: MenuItemIDProps[],
+    data: MenuItemIDProps[] | ComboItemProps[],
     id: number,
     quantity: number
 }
 
 export interface OrderListViewProps {
     orderList: OrderItemProps[] | null,
-    menuData: MenuItemIDProps[]
+    menuData: MenuItemIDProps[],
+    combosData: ComboItemProps[]
+}
+
+export interface ComboItemProps {
+    id: number,
+    name: string,
+    category: CategoryProps,
+    price: number,
+    imageUrl: string,
+    description: string,
+    comboFoods: [{
+        id: number,
+        quantity: number,
+        food: MenuItemIDProps
+    }]
 }
 
 export interface StaffInfoProps {
@@ -171,7 +186,7 @@ export interface StaffInfoProps {
 }
 
 export interface MenuItemOrderProps {
-    data: MenuItemIDProps,
+    data: MenuItemIDProps | ComboItemProps,
     quantity: number,
     handleChange: (id: number, isAdd: boolean, isDelete: boolean, category: string) => void
 }

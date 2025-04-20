@@ -1,4 +1,4 @@
-import { MenuItemIDProps, MenuItemProps, OrderItemProps, UtilsPriceProps } from "@/constants/types";
+import { ComboItemProps, MenuItemIDProps, MenuItemProps, OrderItemProps, UtilsPriceProps } from "@/constants/types";
 
 export const getTotalPrice = ({ data, id, quantity}: UtilsPriceProps) => {
     let price = 0
@@ -10,10 +10,10 @@ export const getTotalPrice = ({ data, id, quantity}: UtilsPriceProps) => {
     return price
 }
 
-export const getOrderPrice = (orderList : OrderItemProps[], menuData: MenuItemIDProps[]) => {
+export const getOrderPrice = (orderList : OrderItemProps[], menuData: MenuItemIDProps[], combosData: ComboItemProps[]) => {
     let totalPrice = 0
     for (let i = 0; i < orderList.length; i++) {
-        totalPrice += getTotalPrice({ data: menuData, id: orderList[i].id, quantity: orderList[i].quantity})
+        totalPrice += getTotalPrice({ data: orderList[i].category === 'Combo' ? combosData : menuData, id: orderList[i].id, quantity: orderList[i].quantity})
     }
     return totalPrice
 }
