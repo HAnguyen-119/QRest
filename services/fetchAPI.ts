@@ -45,15 +45,19 @@ export const fetchAPI = {
     deleteStaff: (id: number) => {
         return axiosClient.delete(`staffs/${id}`);
     },
+
     getTables: () => {
         return axiosClient.get('restaurant_tables')
     },
+
     getCombos: () => {
         return axiosClient.get('combos')
     },
+
     putTableByID: (id: number) => {
         return axiosClient.put(`restaurant_tables/${id}`)
     },
+
     putTableStatusByID: (id: number, status: TableStatus) => {
         return axiosClient.put(`restaurant_tables/${id}/status/${status}`)
     }

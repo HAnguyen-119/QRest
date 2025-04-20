@@ -38,7 +38,7 @@ export default function UpdateStaffInfoView({staff, isAdding, handleCancel, posi
                             && address.trim().length > 0
                             && phone.trim().length > 0
                             && parseFloat(salary) > 0
-                            // && image.trim().length > 0
+                            && image.trim().length > 0
 
     const handleAdd = async () => {
         if (!isValid) return;
@@ -48,7 +48,8 @@ export default function UpdateStaffInfoView({staff, isAdding, handleCancel, posi
             position: position.toUpperCase(),
             address: address,
             phoneNumber: phone,
-            salary: parseFloat(salary)
+            salary: parseFloat(salary),
+            imageUrl: image
         }
         try {
             await fetchAPI.addStaff(newStaff);
@@ -68,7 +69,8 @@ export default function UpdateStaffInfoView({staff, isAdding, handleCancel, posi
             address: address,
             phoneNumber: phone,
             dob: format(dob, "yyyy-MM-dd"),
-            salary: parseFloat(salary)
+            salary: parseFloat(salary),
+            imageUrl: image
         }
 
         try {

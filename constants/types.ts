@@ -70,7 +70,6 @@ export interface MenuItemProps {
     category: CategoryProps,
     description: string,
     imageUrl: string,
-    id: number,
     name: string,
     price: number,
     quantity: number // sucks
@@ -150,9 +149,8 @@ export interface StaffInfoProps {
     phoneNumber: string
     address: string
     salary: number
-    position: string
-    menuData: MenuItemProps[],
-    handleChange: (id: number, isAdd: boolean, isDelete: boolean) => void
+    position: string,
+    imageUrl: string,
 }
 
 export interface MenuItemOrderProps {
