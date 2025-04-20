@@ -9,29 +9,59 @@ import {createAdminStyles} from "@/assets/styles/admin/Admin.styles";
 import TableCategory from "@/components/table/TableCategory";
 import { useThemeContext } from "@/contexts/ThemeContext";
 import { useFetch } from "@/hooks/useFetch";
-import { TableProps } from "@/constants/types";
+import { TableProps, TableStatus } from "@/constants/types";
+import { fetchAPI } from "@/services/fetchAPI";
 
 
 export default function Table() {
     const [status, setStatus] = useState<string>("All");
     const [capacity, setCapacity] = useState<string>("All");
     const [search, setSearch] = useState<string>("");
+    const [tableData, setTableData] = useState<TableProps[]>([])
+    
     const { isDark } = useThemeContext()
     const adminStyles = createAdminStyles(isDark)
     const tableStyles = createAdminTableStyles(isDark)
 
     const { scrollHandler } = useScrollAnimated()
 
-    const { data: orderData } = useFetch('orders')
-    const { data: tableData } = useFetch('tables')
+    useEffect(() => {
+        const fetchTables = async () => {
+            try {
+                const response = await fetchAPI.getTables(); 
+                setTableData(Object.values(response)); 
+            } catch (error) {
+                console.log("Error fetching tables:", error);
+            }
+        };
+        
+        fetchTables(); 
+    }, []);
+
+    const changeStatus = async (id: number, status: TableStatus) => {
+        try {
+            const putData = await fetchAPI.putTableStatusByID(id, status)
+            console.log(putData)
+
+            setTableData((prev) =>
+                prev?.map((table) =>
+                    table.id === id ? { ...table, status: status } : table
+                )
+            );
+            
+        } catch(error) {
+            console.log(`Error while changing status of table with id ${id} and status ${status}: ${error}`)
+        }
+    }
 
     
     const handleChangeStatus = (id: number) => {
-        const res = tableData?.find((table: TableProps) => table.id === id).status === 'OCCUPIED' ? 'RESERVED' : 'AVAILABLE'
-        const updatedData = tableData?.map((table: TableProps) => (
-            table.id === id ? { ...table, status: res } : table
-        ))
-        //put by id
+        const table = tableData?.find((table: TableProps) => table.id === id);
+        const res = table?.status === 'RESERVED' ? 'OCCUPIED' : 'AVAILABLE';
+        // const updatedData = tableData?.map((table: TableProps) => (
+        //     table.id === id ? { ...table, status: res } : table
+        // ))
+        changeStatus(id, res)
     }
 
 

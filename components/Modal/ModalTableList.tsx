@@ -49,8 +49,8 @@ export default function ModalTableView({ visible, setVisible, orderList, note }:
         note: note,
         foodOrderItems: orderList,
         comboOrderItems: null,
-        restaurantTable: 1,
-        reservation: null,
+        restaurantTableIds: [1],
+        reservationId: null,
     }
 
     const { loading, error, response, postData } = usePostByData('orders')

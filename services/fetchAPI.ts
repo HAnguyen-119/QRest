@@ -1,4 +1,4 @@
-import { OrderProps } from "@/constants/types";
+import { OrderProps, TableStatus } from "@/constants/types";
 import axiosClient from "./axiosClient";
 
 export const fetchAPI = {
@@ -21,6 +21,9 @@ export const fetchAPI = {
         return axiosClient.post('orders', data)
     },
     putTableByID: (id: number) => {
-        return axiosClient.put('restaurant_tables/id')
+        return axiosClient.put(`restaurant_tables/${id}`)
+    },
+    putTableStatusByID: (id: number, status: TableStatus) => {
+        return axiosClient.put(`restaurant_tables/${id}/status/${status}`)
     }
 }

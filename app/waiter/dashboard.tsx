@@ -62,6 +62,7 @@ export default function Menu() {
 
     const { data: menuData } = useFetch('foods')
     const { data: categoryData } = useFetch('categories')
+    
 
     if (!menuData || !categoryData) {
         return null;

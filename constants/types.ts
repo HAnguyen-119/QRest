@@ -4,7 +4,7 @@ import { Animated, GestureResponderEvent, ImageSourcePropType } from "react-nati
 import { InterpolateConfig } from "react-native-reanimated";
 import { ReactNode } from "react";
 
-export type TableStatus = 'reserved' | 'occupied' | 'available' | 'unknown'
+export type TableStatus = 'RESERVED' | 'OCCUPIED' | 'AVAILABLE'
 export type CustomerTitle = 'MR' | 'MRS'
 export type GetData = 'orders' | 'foods' | 'categories' | 'tables' | 'combos'
 
@@ -119,7 +119,7 @@ export interface ReservationProps {
     numberOfGuests: number,
     deposit: number, 
     customer: CustomerOrderProps,
-    restaurantTable: RestaurantTableProps,
+    tableOrders: RestaurantTableProps[],
     confirmed: boolean,
 }
 
@@ -127,8 +127,8 @@ export interface OrderProps {
     note: string | null,
     foodOrderItems: OrderItemProps[] | null,
     comboOrderItems: OrderItemProps[] | null,
-    restaurantTable: number,
-    reservation: number | null,
+    restaurantTableIds: number[],
+    reservationId: number | null,
 }
 
 
