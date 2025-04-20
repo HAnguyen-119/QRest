@@ -131,3 +131,12 @@ export interface OrderListViewProps {
     orderList: OrderItemProps[] | null,
     menuData: MenuItemProps[]
 }
+
+export interface StaffInfoProps {
+    fullName: string
+    dob: string
+    phoneNumber: string
+    address: string
+    salary: number
+    position: string
+}

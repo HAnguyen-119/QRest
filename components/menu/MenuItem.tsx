@@ -20,8 +20,6 @@ export default function MenuItem({id, imageUrl, name, price, category, descripti
             <Text style={menuItemStyles.name}>{name}</Text>
             <View style={menuItemStyles.priceContainer}>
                 <Text style={menuItemStyles.price}>${price}</Text>
-                {/*<Text style={menuItemStyles.text}>{description}</Text>*/}
-                {/*<Text style={menuItemStyles.text}>{ingredients}</Text>*/}
                 {handleDetails ? 
                     <TouchableOpacity style={menuItemStyles.details} onPress={() => handleDetails(id)}>
                         <Text style={menuItemStyles.buttonText}>Details</Text>

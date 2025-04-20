@@ -22,7 +22,7 @@ export default function Menu() {
 
     const [currentItem, setCurrentItem] = useState<any>(null)
 
-    const [isAdding, setIsAdding] = useState<boolean>(false)
+    const [isAdd, setisAdding] = useState<boolean>(false)
     const [isEdit, setIsEdit] = useState<boolean>(false)
 
     const [isRefresh, setIsRefresh] = useState<boolean>(false)
@@ -74,7 +74,7 @@ export default function Menu() {
     };
 
     const handleAddItem = () => {
-        setIsAdding(true);
+        setisAdding(true);
     }
 
     const handleEdit = () => {
@@ -93,7 +93,7 @@ export default function Menu() {
     }
 
     const handleCancel = () => {
-        setIsAdding(false);
+        setisAdding(false);
         setIsEdit(false);
     }
 
@@ -153,14 +153,14 @@ export default function Menu() {
                 handleDelete={handleDelete}
                 handleEdit={handleEdit}
             />
-            {(isAdding || isEdit) &&
+            {(isAdd || isEdit) &&
                 <View style={adminStyles.updatingContainer}>
                     <View style={adminStyles.blur}></View>
                     <UpdateMenuItemView
                         item={currentItem}
                         handleCancel={handleCancel}
                         categories={categoryData}
-                        isAdding={isAdding}
+                        isAdding={isAdd}
                         handleRefresh={() => {setIsRefresh(!isRefresh)}}
                     />
                 </View>

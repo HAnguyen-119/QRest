@@ -76,13 +76,12 @@ export const createAdminStyles = ( isDark: boolean ) => {
         staffPositions: {
             display: "flex",
             flexDirection: "row",
-            marginBottom: 10,
-            marginTop: 10,
             alignSelf: "center",
+            paddingBottom: 20,
         },
     
         staffPosition: {
-            width: 70,
+            width: 80,
             height: 30,
             alignItems: "center",
             justifyContent: "center",
@@ -93,8 +92,8 @@ export const createAdminStyles = ( isDark: boolean ) => {
         },
     
         staffInfoContainer: {
-            width: '100%',
-            alignSelf: 'center',
+            height: '100%',
+            marginTop: 10
         },
 
         updatingContainer: {
@@ -125,7 +124,21 @@ export const createAdminStyles = ( isDark: boolean ) => {
             zIndex: 8,
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'center'
+            justifyContent: 'center',
         },
+
+        staffUpdating: {
+            position: 'absolute',
+            width: '80%',
+            height: '80%',
+            top: 50,
+            alignSelf: 'center',
+            borderRadius: 20,
+            backgroundColor: "white",
+            zIndex: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center'
+        }
     })
 } 

@@ -1,4 +1,4 @@
-import {MenuItemProps, OrderProps} from "@/constants/types";
+import {MenuItemProps, OrderProps, StaffInfoProps} from "@/constants/types";
 import axiosClient from "./axiosClient";
 
 export const fetchAPI = {
@@ -28,5 +28,22 @@ export const fetchAPI = {
 
     postOrder: (data: OrderProps) => {
         return axiosClient.post('orders', data)
+    },
+
+    getStaff: () => {
+        return axiosClient.get('staffs')
+    },
+
+    addStaff: (data: StaffInfoProps) => {
+        return axiosClient.post('staffs', data);
+    },
+
+    editStaff: (id: number, data: StaffInfoProps) => {
+        return axiosClient.put(`staffs/${id}`, data);
+    },
+
+    deleteStaff: (id: number) => {
+        return axiosClient.delete(`staffs/${id}`);
     }
+
 }
