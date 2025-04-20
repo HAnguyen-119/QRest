@@ -70,7 +70,6 @@ export interface MenuItemProps {
     category: CategoryProps,
     description: string,
     imageUrl: string,
-    id: number,
     name: string,
     price: number,
     quantity: number // sucks
@@ -92,9 +91,22 @@ export interface OrderItemProps {
 
 export interface TableProps {
     capacity: number,
-    id: number, 
+    id: number,
     name: string,
     status: string
+}
+
+export interface AdminTableProps {
+    capacity: number,
+    name: string,
+    status: string
+}
+
+export interface RestaurantTableProps {
+    id: number, 
+    name: string,
+    capacity: number,
+    available: boolean
 }
 
 export interface CustomerOrderProps {
@@ -103,13 +115,6 @@ export interface CustomerOrderProps {
     firstname: string,
     lastname: string,
     phone: string,
-}
-
-export interface RestaurantTableProps {
-    id: number, 
-    name: string,
-    capacity: number,
-    available: boolean
 }
 
 export interface ReservationProps {
@@ -150,9 +155,8 @@ export interface StaffInfoProps {
     phoneNumber: string
     address: string
     salary: number
-    position: string
-    menuData: MenuItemProps[],
-    handleChange: (id: number, isAdd: boolean, isDelete: boolean) => void
+    position: string,
+    imageUrl: string,
 }
 
 export interface MenuItemOrderProps {

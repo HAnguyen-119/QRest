@@ -143,6 +143,19 @@ export const createAdminStyles = ( isDark: boolean ) => {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center'
+        },
+
+        tableUpdating: {
+            position: 'absolute',
+            width: '80%',
+            height: '40%',
+            alignSelf: 'center',
+            borderRadius: 20,
+            backgroundColor: "white",
+            zIndex: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center'
         }
     })
 } 
