@@ -14,7 +14,7 @@ export const fetchAPI = {
     getTables: () => {
         return axiosClient.get('restaurant_tables')
     },
-    postOrder: (data: OrderProps) => {
+    postOrder: (data: OrderProps | null) => {
         return axiosClient.post('orders', data)
     }
 }

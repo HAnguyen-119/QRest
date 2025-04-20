@@ -23,7 +23,6 @@ export default function Menu() {
     const [search, setSearch] = useState<string>("")
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
     const [orderList, setOrderList] = useState<OrderItemProps[] | null>(null)
-    const [note, setNote] = useState<string | null>(null)
 
     const { isDark } = useThemeContext()
     const adminStyles = createAdminStyles(isDark)
@@ -98,7 +97,7 @@ export default function Menu() {
                 <Searcher onSearch={handleSearch}/>
             </View>
             <MenuCategories data={categoryData} handleCategory={handleCategory}/>
-            <OrderView orderList={orderList} menuData={menuData} handleChange={handleChange} isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} setNote={setNote}/>
+            <OrderView orderList={orderList} menuData={menuData} handleChange={handleChange} isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible}/>
             <Animated.FlatList
                 style={adminStyles.menuItemsContainer}
                 data={items}

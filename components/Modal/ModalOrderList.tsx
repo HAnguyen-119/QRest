@@ -14,13 +14,16 @@ import { OrderListViewProps } from "@/constants/types";
 import { getOrderPrice } from "@/utils/GetTotalPrice";
 import { createGlobalStyles } from "@/assets/styles/Global.styles";
 import SelectGroup from "../Input/Select";
+import ModalTableView from "./ModalTableList";
 
-export default function OrderView({ orderList, menuData, handleChange, isModalVisible, setIsModalVisible, setNote }: OrderListViewProps & { isModalVisible: boolean; setIsModalVisible: (visible: boolean) => void; setNote: (note: string) => void}) {
+export default function OrderView({ orderList, menuData, handleChange, isModalVisible, setIsModalVisible }: OrderListViewProps & { isModalVisible: boolean; setIsModalVisible: (visible: boolean) => void}) {
     const { isDark } = useThemeContext()
     const OrderListStyles = createOrderListStyles(isDark)
     const globalStyles = createGlobalStyles(isDark)
+    const [note, setNote] = useState<string | null>(null)
     
     const [guestCount, setGuestCount] = useState<number>(1)
+    const [tableModalVisible, setTableModalVisible] = useState<boolean>(false)
 
     return (
         <Modal
@@ -55,11 +58,17 @@ export default function OrderView({ orderList, menuData, handleChange, isModalVi
                             <Text style={[globalStyles.text, OrderListStyles.total]}>
                                 Total: ${getOrderPrice(orderList, menuData)}
                             </Text>
-                            <TouchableOpacity style={OrderListStyles.nextButton}>
+                            <TouchableOpacity style={OrderListStyles.nextButton} onPress={() => setTableModalVisible(true)}>
                                 <Icon src={Next} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null}/>
                             </TouchableOpacity>
                         </View>
                     }
+                    <ModalTableView 
+                        visible={tableModalVisible} 
+                        setVisible={setTableModalVisible}
+                        orderList={orderList}
+                        note={note}
+                    />
                 </View>
             </View>
         </Modal>

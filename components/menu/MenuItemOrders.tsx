@@ -5,6 +5,7 @@ import { Image, View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import bin from '@/assets/images/bin.png'
 import addButton from '@/assets/images/add.png'
 import decreaseButton from '@/assets/images/minus.png'
+
 import Icon from "../Icon/Icon";
 import { BUTTONSIZE, LARGEBUTTON, MINIBUTTON } from "@/constants/size";
 import { createMenuItemStyles } from "@/assets/styles/menu/MenuItemOrders.styles";

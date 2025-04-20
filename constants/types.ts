@@ -91,10 +91,10 @@ export interface OrderItemProps {
 }
 
 export interface TableProps {
+    capacity: number,
     id: number, 
     name: string,
-    capacity: number,
-    available: boolean
+    status: string
 }
 
 export interface CustomerOrderProps {
@@ -124,12 +124,14 @@ export interface ReservationProps {
 }
 
 export interface OrderProps {
-    note: string,
-    foodOrderItems: OrderItemProps[],
-    comboOrderItems: OrderItemProps[],
-    restaurantTable: RestaurantTableProps,
-    reservation: ReservationProps,
+    note: string | null,
+    foodOrderItems: OrderItemProps[] | null,
+    comboOrderItems: OrderItemProps[] | null,
+    restaurantTable: number,
+    reservation: number | null,
 }
+
+
 
 export interface UtilsPriceProps {
     data: MenuItemProps[],
