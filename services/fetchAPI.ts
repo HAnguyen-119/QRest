@@ -14,7 +14,13 @@ export const fetchAPI = {
     getTables: () => {
         return axiosClient.get('restaurant_tables')
     },
+    getCombos: () => {
+        return axiosClient.get('combos')
+    },
     postOrder: (data: OrderProps | null) => {
         return axiosClient.post('orders', data)
+    },
+    putTableByID: (id: number) => {
+        return axiosClient.put('restaurant_tables/id')
     }
 }

@@ -21,6 +21,9 @@ export const useFetch = (type: GetData) => {
                     case 'tables':
                         response = await fetchAPI.getTables()
                         break
+                    case 'combos':
+                        response = await fetchAPI.getCombos()
+                        break
                     default:
                         console.error(`Error, type not found, add '${type}' to constants/types.ts and try again`)
                 }

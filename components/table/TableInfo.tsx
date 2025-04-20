@@ -16,15 +16,15 @@ export default function TableInfo({id, name, capacity, status, customer, handleC
             </View>
             <View style={tableInfoStyles.infoContainer}>
                 <Text style={tableInfoStyles.text}>Capacity : {capacity}</Text>
-                <Text style={tableInfoStyles.text}>Customer : {status === "Available" ? "None" : customer}</Text>
+                <Text style={tableInfoStyles.text}>Customer : {status === "AVAILABLE" ? "None" : customer}</Text>
             </View>
-            {handleChangeStatus && status !== 'Available' 
+            {handleChangeStatus && status !== 'AVAILABLE' 
             ? 
             (
                 <TouchableOpacity 
-                    style={[tableInfoStyles.statusContainer, {backgroundColor: status === "Available" 
+                    style={[tableInfoStyles.statusContainer, {backgroundColor: status === "AVAILABLE" 
                         ? COLORS.available 
-                        : (status === "Occupied" ? COLORS.occupied : COLORS.reserved)}]}
+                        : (status === "OCCUPIED" ? COLORS.occupied : COLORS.reserved)}]}
                     onPress={() => handleChangeStatus(id)}
                 >
                     <Text style={tableInfoStyles.statusText}>{status}</Text>
@@ -32,9 +32,9 @@ export default function TableInfo({id, name, capacity, status, customer, handleC
             )
             : 
             (
-                <View style={[tableInfoStyles.statusContainer, {backgroundColor: status === "Available" ?
-                        COLORS.available : (status === "Occupied" ? COLORS.occupied : COLORS.reserved)}]}>
-                    <Text style={tableInfoStyles.statusText}>{status}</Text>
+                <View style={[tableInfoStyles.statusContainer, {backgroundColor: status === "AVAILABLE" ?
+                        COLORS.available : (status === "OCCUPIED" ? COLORS.occupied : COLORS.reserved)}]}>
+                    <Text style={tableInfoStyles.statusText}>{status === 'AVAILABLE' ? 'Available' : status === 'RESERVED' ? 'Reserved' : 'Occupied'}</Text>
                 </View>
             )
             }

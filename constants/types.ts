@@ -6,7 +6,7 @@ import { ReactNode } from "react";
 
 export type TableStatus = 'reserved' | 'occupied' | 'available' | 'unknown'
 export type CustomerTitle = 'MR' | 'MRS'
-export type GetData = 'orders' | 'foods' | 'categories' | 'tables'
+export type GetData = 'orders' | 'foods' | 'categories' | 'tables' | 'combos'
 
 export interface Children {
     children: ReactNode
