@@ -75,6 +75,16 @@ export interface MenuItemProps {
     quantity: number // sucks
 }
 
+export interface MenuItemIDProps {
+    id: number
+    category: CategoryProps,
+    description: string,
+    imageUrl: string,
+    name: string,
+    price: number,
+    quantity: number // sucks
+}
+
 export interface ScrollContextType {
     scrollY: Animated.Value
     translateY: Animated.AnimatedInterpolation<string | number>;
@@ -139,14 +149,14 @@ export interface OrderProps {
 
 
 export interface UtilsPriceProps {
-    data: MenuItemProps[],
+    data: MenuItemIDProps[],
     id: number,
     quantity: number
 }
 
 export interface OrderListViewProps {
     orderList: OrderItemProps[] | null,
-    menuData: MenuItemProps[]
+    menuData: MenuItemIDProps[]
 }
 
 export interface StaffInfoProps {
@@ -160,7 +170,7 @@ export interface StaffInfoProps {
 }
 
 export interface MenuItemOrderProps {
-    data: MenuItemProps,
+    data: MenuItemIDProps,
     quantity: number,
     handleChange: (id: number, isAdd: boolean, isDelete: boolean) => void
 }

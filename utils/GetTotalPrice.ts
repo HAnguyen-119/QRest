@@ -1,4 +1,4 @@
-import { MenuItemProps, OrderItemProps, UtilsPriceProps } from "@/constants/types";
+import { MenuItemIDProps, MenuItemProps, OrderItemProps, UtilsPriceProps } from "@/constants/types";
 
 export const getTotalPrice = ({ data, id, quantity}: UtilsPriceProps) => {
     let price = 0
@@ -10,7 +10,7 @@ export const getTotalPrice = ({ data, id, quantity}: UtilsPriceProps) => {
     return price
 }
 
-export const getOrderPrice = (orderList : OrderItemProps[], menuData: MenuItemProps[]) => {
+export const getOrderPrice = (orderList : OrderItemProps[], menuData: MenuItemIDProps[]) => {
     let totalPrice = 0
     for (let i = 0; i < orderList.length; i++) {
         totalPrice += getTotalPrice({ data: menuData, id: orderList[i].id, quantity: orderList[i].quantity})

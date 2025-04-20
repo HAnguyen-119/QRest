@@ -1,4 +1,4 @@
-import { MenuItemProps, OrderListViewProps } from "@/constants/types";
+import { MenuItemIDProps, MenuItemProps, OrderListViewProps } from "@/constants/types";
 import { getOrderPrice, getTotalPrice } from "@/utils/GetTotalPrice";
 import { View, Text, TouchableOpacity } from "react-native";
 import Icon from "../Icon/Icon";
@@ -24,7 +24,7 @@ export default function OrderListView({ orderList, menuData, handleChange }: Ord
         <View style={OrderListStyles.container}>
             <Animated.ScrollView style={OrderListStyles.scrollView}>
                 {orderList.map((item) => {
-                    const menuItem = menuData.find((menu: MenuItemProps) => menu.id === item.id)
+                    const menuItem = menuData.find((menu: MenuItemIDProps) => menu.id === item.id)
                     if (!menuItem) return null
                     return (
                         <MenuItemOrders key={item.id} data={menuItem} quantity={item.quantity} handleChange={handleChange}/>
