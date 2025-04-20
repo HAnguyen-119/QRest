@@ -1,4 +1,4 @@
-import {FlatList, Text, View} from "react-native";
+import {FlatList, Text, TouchableOpacity, View} from "react-native";
 import {useState} from "react";
 import Searcher from '@/components/menu/Searcher'
 import { useScrollAnimated } from '@/contexts/ScrollContext'
@@ -8,6 +8,7 @@ import {createAdminTableStyles} from "@/assets/styles/table/Table.styles";
 import {createAdminStyles} from "@/assets/styles/admin/Admin.styles";
 import TableCategory from "@/components/table/TableCategory";
 import { useThemeContext } from "@/contexts/ThemeContext";
+import Icon from "react-native-vector-icons/Ionicons";
 
 
 export default function Table() {
@@ -49,11 +50,16 @@ export default function Table() {
         setSearch(search);
     }
 
+    const handleAdd = () => {}
+
     return (
         <View style={tableStyles.container}>
-            {/*<View style={tableStyles.blur}></View>*/}
-            <Searcher onSearch={handleSearch}/>
-            {/*<StaffStatuss handleStatus={handleStatus} />*/}
+            <View style={adminStyles.toolBar}>
+                <Searcher onSearch={handleSearch}/>
+                <TouchableOpacity onPress={handleAdd}>
+                    <Icon name={"add-circle-outline"} size={40}/>
+                </TouchableOpacity>
+            </View>
             <View style={tableStyles.categories}>
                 <TableCategory category="Capacity" values={["All", "2", "4", "8"]} handlePick={handleCapacity}></TableCategory>
                 <TableCategory category="Status" values={["All", "Available", "Reserved", "Occupied"]} handlePick={handleStatus} />

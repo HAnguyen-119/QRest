@@ -19,6 +19,10 @@ export const createAdminStyles = ( isDark: boolean ) => {
             flexDirection: 'row',
             alignSelf: 'center',
             alignItems: 'center',
+            justifyContent: 'center',
+            gap: 10,
+            marginTop: 10,
+            width: '100%',
         },
     
         menuItemsContainer: {
@@ -46,16 +50,17 @@ export const createAdminStyles = ( isDark: boolean ) => {
         },
     
         searcher: {
-            flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
-            width: '100%'
+            marginVertical: 10,
+            width: '70%',
         },
     
         text: {
             fontFamily: "Josefin-Sans",
             color: isDark ? COLORS.light : COLORS.dark
         },
+
         textInput: {
             fontFamily: 'Josefin-Sans',
             borderWidth: 2,

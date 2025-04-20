@@ -104,7 +104,6 @@ export default function Staff() {
                 </TouchableOpacity>
             </View>
             <StaffPositions data={positions} handlePosition={handlePosition} />
-            <Searcher onSearch={handleSearch}/>
             <Animated.FlatList
                 style={adminStyles.staffInfoContainer}
                 data={items}

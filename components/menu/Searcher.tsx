@@ -9,7 +9,7 @@ export default function Searcher({onSearch}) {
     const adminStyles = createAdminStyles(isDark)
     return (
         <View style={adminStyles.searcher}>
-            <TextInput style={adminStyles.textInput}
+            <TextInput style={[adminStyles.textInput, {width: "100%"}]}
                        placeholder="Search..."
                        onChangeText={(value) => onSearch(value)}
                        placeholderTextColor={isDark ? COLORS.light : COLORS.dark}

@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     staffInfo: {
         display: 'flex',
         flexDirection: 'row',
-        width: '80%',
+        width: '85%',
         alignSelf: 'center',
         borderWidth: 2,
         borderColor: COLORS.dark,
