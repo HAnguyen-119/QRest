@@ -60,7 +60,6 @@ export interface CategoryProps {
 export interface MenuItemProps {
     category: CategoryProps,
     description: string,
-    id: number,
     imageUrl: string,
     name: string,
     price: number,
@@ -131,4 +130,13 @@ export interface UtilsPriceProps {
 export interface OrderListViewProps {
     orderList: OrderItemProps[] | null,
     menuData: MenuItemProps[]
+}
+
+export interface StaffInfoProps {
+    fullName: string
+    dob: string
+    phoneNumber: string
+    address: string
+    salary: number
+    position: string
 }

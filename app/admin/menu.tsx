@@ -1,4 +1,4 @@
-import { FlatList, View } from "react-native";
+import {FlatList, TouchableOpacity, View, Text} from "react-native";
 import { createAdminStyles } from "@/assets/styles/admin/Admin.styles";
 import { createMenuStyles} from "@/assets/styles/menu/Menu.styles";
 import MenuItem from "@/components/menu/MenuItem";
@@ -10,6 +10,8 @@ import MenuItemDetails from "@/components/menu/MenuItemDetails";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { useScrollAnimated } from "@/contexts/ScrollContext";
 import { useThemeContext } from "@/contexts/ThemeContext";
+import Icon from "react-native-vector-icons/Ionicons"
+import UpdateMenuItemView from "@/components/admin/UpdateMenuItemView";
 
 export default function Menu() {
     const [category, setCategory] = useState<string>("All")
@@ -17,6 +19,27 @@ export default function Menu() {
     const [menuData, setMenuData] = useState<any>(null)
     const [categoryData, setCategoryData] = useState<any>(null)
     const [menuItemId, setMenuItemId] = useState<number>(0)
+
+    const [currentItem, setCurrentItem] = useState<any>(null)
+
+    const [isAdd, setisAdding] = useState<boolean>(false)
+    const [isEdit, setIsEdit] = useState<boolean>(false)
+
+    const [isRefresh, setIsRefresh] = useState<boolean>(false)
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const foodResponse = await fetchAPI.getFood();
+                const categoryResponse = await fetchAPI.getCategories();
+                setMenuData(foodResponse);
+                setCategoryData(categoryResponse);
+            } catch (error) {
+                console.log({ message: `Error while fetching data: ${error}` });
+            }
+        };
+        fetchData();
+    }, [isRefresh]);
 
     const { isDark } = useThemeContext()
     const adminStyles = createAdminStyles(isDark)
@@ -35,6 +58,7 @@ export default function Menu() {
     const handleDetails = (id: number) => {
         left.value = "0%";
         setMenuItemId(id);
+        setCurrentItem(menuData.find((item : any) => item.id === id));
     };
 
     const handleBack = () => {
@@ -49,32 +73,43 @@ export default function Menu() {
         setSearch(search);
     };
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const foodResponse = await fetchAPI.getFood();
-                const categoryResponse = await fetchAPI.getCategories();
-                setMenuData(foodResponse);
-                setCategoryData(categoryResponse);
-            } catch (error) {
-                console.log({ message: `Error while fetching data: ${error}` });
-            }
-        };
-        fetchData();
-    }, []);
+    const handleAddItem = () => {
+        setisAdding(true);
+    }
+
+    const handleEdit = () => {
+        setIsEdit(true);
+    }
+
+    const handleDelete = async () => {
+        try {
+            await fetchAPI.deleteMenuItem(menuItemId)
+            setIsRefresh(!isRefresh)
+            handleCancel();
+            handleBack();
+        } catch (error) {
+            console.error("Delete failed:", error);
+        }
+    }
+
+    const handleCancel = () => {
+        setisAdding(false);
+        setIsEdit(false);
+    }
 
     if (!menuData || !categoryData) {
         return null;
     }
 
     const items = Object.values(menuData).filter(
-        (item) =>
+        (item : any) =>
             (category === "All" || item.category.name === category) &&
             item.name.toLowerCase().includes(search.toLowerCase())
     );
 
     const renderItem = ({ item }: { item: any }) => {
         return (
+            <View style={{width: "50%"}}>
             <MenuItem
                 id={item.id}
                 imageUrl={item.imageUrl}
@@ -87,28 +122,49 @@ export default function Menu() {
                 }}
                 handleAdd={null}
             />
+            </View>
         );
     };
 
     return (
         <View style={adminStyles.menuContainer}>
-            <Searcher onSearch={handleSearch} children={null}/>
+            <View style={adminStyles.toolBar}>
+                <Searcher onSearch={handleSearch} children={null}/>
+                <TouchableOpacity onPress={handleAddItem}>
+                    <Icon name={"add-circle-outline"} size={40}/>
+                </TouchableOpacity>
+            </View>
             <MenuCategories data={categoryData} handleCategory={handleCategory}/>
             <Animated.FlatList
                 style={adminStyles.menuItemsContainer}
                 data={items}
                 renderItem={renderItem}
-                keyExtractor={(item) => item.id.toString()}
+                keyExtractor={(item : any) => item.id.toString()}
                 numColumns={2}
                 onScroll={scrollHandler} 
-                scrollEventThrottle={16} 
+                scrollEventThrottle={16}
+                extraData={isRefresh}
             />
             <MenuItemDetails
                 containerStyle={[menuStyles.container, animatedStyle]}
                 data={menuData}
                 id={menuItemId}
                 handleBack={handleBack}
+                handleDelete={handleDelete}
+                handleEdit={handleEdit}
             />
+            {(isAdd || isEdit) &&
+                <View style={adminStyles.updatingContainer}>
+                    <View style={adminStyles.blur}></View>
+                    <UpdateMenuItemView
+                        item={currentItem}
+                        handleCancel={handleCancel}
+                        categories={categoryData}
+                        isAdding={isAdd}
+                        handleRefresh={() => {setIsRefresh(!isRefresh)}}
+                    />
+                </View>
+            }
         </View>
     );
 }

@@ -1,19 +1,19 @@
-import {TouchableOpacity, View, Text} from "react-native";
+import {TouchableOpacity, View, Text, ScrollView} from "react-native";
 import {createAdminStyles} from "@/assets/styles/admin/Admin.styles";
 import StaffPosition from "@/components/staff/StaffPosition";
 import { useThemeContext } from "@/contexts/ThemeContext";
+import MenuCategory from "@/components/menu/MenuCategory";
 
 
-// @ts-ignore
-export default function StaffPositions({handlePosition}) {
+export default function StaffPositions({data, handlePosition} : {data: Array<string>, handlePosition: (arg0: string) => void}) {
     const { isDark } = useThemeContext()
     const adminStyles = createAdminStyles(isDark)
     return (
-        <View style={adminStyles.menuCategories}>
+        <ScrollView style={adminStyles.staffPositions} horizontal showsHorizontalScrollIndicator={false}>
             <StaffPosition content="All" handlePress={handlePosition} />
-            <StaffPosition content="Chef" handlePress={handlePosition} />
-            <StaffPosition content="Waiter" handlePress={handlePosition} />
-            <StaffPosition content="Cashier" handlePress={handlePosition} />
-        </View>
+            {data.map((item : string) => (
+                <StaffPosition key={item} content={item} handlePress={handlePosition} />
+            ))}
+        </ScrollView>
     )
 }

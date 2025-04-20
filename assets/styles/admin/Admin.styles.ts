@@ -13,6 +13,13 @@ export const createAdminStyles = ( isDark: boolean ) => {
             width: '100%',
             backgroundColor: isDark ? COLORS.dark : COLORS.light,
         },
+
+        toolBar: {
+            display: 'flex',
+            flexDirection: 'row',
+            alignSelf: 'center',
+            alignItems: 'center',
+        },
     
         menuItemsContainer: {
             marginTop: 0,
@@ -69,13 +76,12 @@ export const createAdminStyles = ( isDark: boolean ) => {
         staffPositions: {
             display: "flex",
             flexDirection: "row",
-            marginBottom: 10,
-            marginTop: 10,
             alignSelf: "center",
+            paddingBottom: 20,
         },
     
         staffPosition: {
-            width: 70,
+            width: 80,
             height: 30,
             alignItems: "center",
             justifyContent: "center",
@@ -86,9 +92,53 @@ export const createAdminStyles = ( isDark: boolean ) => {
         },
     
         staffInfoContainer: {
-            width: '100%',
-            alignSelf: 'center',
+            height: '100%',
+            marginTop: 10
         },
-    
+
+        updatingContainer: {
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            width: '100%',
+            height: '100%',
+            zIndex: 7,
+        },
+
+        blur: {
+            width: '100%',
+            height: '100%',
+            backgroundColor: COLORS.dark,
+            opacity: 0.7,
+            zIndex: 7,
+        },
+
+        updating: {
+            position: 'absolute',
+            width: '80%',
+            height: '70%',
+            alignSelf: 'center',
+            top: 100,
+            borderRadius: 20,
+            backgroundColor: "white",
+            zIndex: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+        },
+
+        staffUpdating: {
+            position: 'absolute',
+            width: '80%',
+            height: '80%',
+            top: 50,
+            alignSelf: 'center',
+            borderRadius: 20,
+            backgroundColor: "white",
+            zIndex: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center'
+        }
     })
 } 
