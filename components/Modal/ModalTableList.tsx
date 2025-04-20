@@ -79,7 +79,7 @@ export default function ModalTableView({ visible, setVisible, orderList, note }:
                 <TouchableOpacity onPress={() => setVisible(false)} style={buttonStyles.closeButton}>
                     <Icon src={closeButton} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null}/>
                 </TouchableOpacity>
-                <View>
+                <View >
                     <ScrollView style={styles.tableView}>
                         {availables?.map((table: TableProps) => {
                             return (

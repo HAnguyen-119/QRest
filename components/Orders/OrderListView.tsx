@@ -11,7 +11,7 @@ import { COLORS } from "@/constants/colors";
 import MenuItemOrders from "../menu/MenuItemOrders";
 import { createGlobalStyles } from "@/assets/styles/Global.styles";
 
-export default function OrderListView({ orderList, menuData, handleChange }: OrderListViewProps & { handleChange: (id: number, isAdd: boolean, isDelete: boolean) => void }) {
+export default function OrderListView({ orderList, menuData, handleChange }: OrderListViewProps & { handleChange: (id: number, isAdd: boolean, isDelete: boolean, category: string) => void }) {
     const { isDark } = useThemeContext()
     const OrderListStyles = createOrderListStyles(isDark)
     const globalStyles = createGlobalStyles(isDark)

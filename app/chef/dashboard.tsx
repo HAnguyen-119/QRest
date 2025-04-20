@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {Text, ScrollView, StyleSheet } from "react-native";
-import OrderItem from "@/components/order/OrderItem"; // if using Expo, or use any custom checkbox
+import OrderItem from "@/components/Orders/OrderItem"; // if using Expo, or use any custom checkbox
 export default function Dashboard() {
     const [tasks, setTasks] = useState(
         data.map((item) => ({ ...item, done: false }))

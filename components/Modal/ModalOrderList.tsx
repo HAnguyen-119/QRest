@@ -16,7 +16,7 @@ import { createGlobalStyles } from "@/assets/styles/Global.styles";
 import SelectGroup from "../Input/Select";
 import ModalTableView from "./ModalTableList";
 
-export default function OrderView({ orderList, menuData, handleChange, isModalVisible, setIsModalVisible }: OrderListViewProps & { isModalVisible: boolean; setIsModalVisible: (visible: boolean) => void, handleChange: (id: number, isAdd: boolean, isDelete: boolean) => void }) {
+export default function OrderView({ orderList, menuData, handleChange, isModalVisible, setIsModalVisible }: OrderListViewProps & { isModalVisible: boolean; setIsModalVisible: (visible: boolean) => void, handleChange: (id: number, isAdd: boolean, isDelete: boolean, category: string) => void }) {
     const { isDark } = useThemeContext()
     const OrderListStyles = createOrderListStyles(isDark)
     const globalStyles = createGlobalStyles(isDark)

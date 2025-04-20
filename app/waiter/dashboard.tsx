@@ -30,10 +30,12 @@ export default function Menu() {
 
     const { scrollHandler } = useScrollAnimated()
 
-    const handleChange = (id: number, isAdd: boolean, isDelete: boolean) => {
+    const handleChange = (id: number, isAdd: boolean, isDelete: boolean, category: string) => {
         setOrderList((prevList) => {
             if (prevList) {
                 const isExisting = prevList.find((item) => item.id === id)
+
+                console.log(category)
 
                 if (isDelete) {
                     prevList = prevList.filter((item) => item.id !== id)
@@ -46,9 +48,9 @@ export default function Menu() {
                     ))
                 }
 
-                return [...prevList, { id, quantity: 1 }]
+                return [...prevList, { id, quantity: 1, category: category }]
             }
-            return [{ id, quantity: 1 }]
+            return [{ id, quantity: 1, category: category }]
         })
     }
 

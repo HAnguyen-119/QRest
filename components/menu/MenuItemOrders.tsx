@@ -18,7 +18,7 @@ export default function MenuItemOrders( { data, quantity, handleChange }: MenuIt
 
     const renderDeleteButton = () => (
         <View style={menuItemOrderStyles.deleteContainer}>
-            <TouchableOpacity style={menuItemOrderStyles.deleteButton} onPress={() => handleChange(data.id, false, true)}>
+            <TouchableOpacity style={menuItemOrderStyles.deleteButton} onPress={() => handleChange(data.id, false, true, data.category.name)}>
                 <Icon src={bin} width={LARGEBUTTON.width} height={LARGEBUTTON.height} count={null}/>
             </TouchableOpacity>
         </View>
@@ -44,11 +44,11 @@ export default function MenuItemOrders( { data, quantity, handleChange }: MenuIt
                             </Text>
                         </View>
                         <View style={menuItemOrderStyles.buttonContainer}>
-                            <TouchableOpacity onPress={() => handleChange(data.id, true, false)}>
+                            <TouchableOpacity onPress={() => handleChange(data.id, true, false, data.category.name)}>
                                 <Icon src={addButton} width={MINIBUTTON.width} height={MINIBUTTON.height} count={null}/>
                             </TouchableOpacity>
                             <Text style={menuItemOrderStyles.quantityText}>x{quantity}</Text>
-                            <TouchableOpacity onPress={() => handleChange(data.id, false, false)} disabled={quantity <= 1}>
+                            <TouchableOpacity onPress={() => handleChange(data.id, false, false, data.category.name)} disabled={quantity <= 1}>
                                 <Icon src={decreaseButton} width={MINIBUTTON.width} height={MINIBUTTON.height} count={null}/>
                             </TouchableOpacity>
                         </View>

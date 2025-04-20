@@ -88,6 +88,7 @@ export interface ScrollContextType {
 export interface OrderItemProps {
     id: number,
     quantity: number,
+    category: string
 }
 
 export interface TableProps {
@@ -158,7 +159,7 @@ export interface StaffInfoProps {
 export interface MenuItemOrderProps {
     data: MenuItemProps,
     quantity: number,
-    handleChange: (id: number, isAdd: boolean, isDelete: boolean) => void
+    handleChange: (id: number, isAdd: boolean, isDelete: boolean, category: string) => void
 }
 
 // export interface ComboFood {
