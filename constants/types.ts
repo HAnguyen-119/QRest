@@ -120,14 +120,20 @@ export interface RestaurantTable {
 
 export interface Order {
   id: number;
-  totalPrice: number;
+  total_price: number;
   note: string | null;
-  orderStatus: string;
-  orderTime: string;
-  foodOrders: FoodOrder[];
-  comboOrders: ComboOrder[];
-  restaurantTable: RestaurantTable;
+  order_status: string;
+  order_time: string;
+  food_orders: FoodOrder[];
+  combo_orders: ComboOrder[];
+  restaurant_table: RestaurantTable;
   reservation: any | null;
+  totalPrice?: number;
+  orderStatus?: string;
+  orderTime?: string;
+  foodOrders?: FoodOrder[];
+  comboOrders?: ComboOrder[];
+  restaurantTable?: RestaurantTable;
 }  
 
 // het payment cua Luong

@@ -1,78 +1,159 @@
-import React, { useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { useRouter } from 'expo-router';
-import { useFetch } from './_useFetchCashier';
+import React from 'react';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import { Order } from '../../constants/types';
 import { COLORS } from '../../constants/colors';
 import { formatDateTime } from './_format';
+import OrderDetail from './_OrderDetail';
+import axiosClient from '../../services/axiosClient';
 
+// Khai báo interface cho global
+declare global {
+  var __NEEDS_REFRESH__: boolean;
+}
 
-export default function CashierScreen() {
-  const router = useRouter();
-  const { data: orders, loading, error } = useFetch<Order[]>('/orders/completed/without-payment');
+interface CashierScreenState {
+  orders: Order[];
+  loading: boolean;
+  error: string | null;
+  selectedOrder: Order | null;
+  modalVisible: boolean;
+}
 
-  const renderOrderItem = ({ item }: { item: Order }) => {
-    console.log("debugg");
-    console.log(item.orderTime);
-    console.log(item.restaurantTable.name);
-    console.log(item.totalPrice);
+export default class CashierScreen extends React.Component<{}, CashierScreenState> {
+  state: CashierScreenState = {
+    orders: [],
+    loading: true,
+    error: null,
+    selectedOrder: null,
+    modalVisible: false
+  };
+
+  componentDidMount() {
+    this.fetchOrders();
+  }
+  
+  componentDidUpdate() {
+    // Kiểm tra nếu flag cần refresh được set
+    if (global.__NEEDS_REFRESH__) {
+      // Reset flag
+      global.__NEEDS_REFRESH__ = false;
+      // Fetch lại dữ liệu
+      this.fetchOrders();
+    }
+  }
+
+  fetchOrders = async () => {
+    try {
+      this.setState({ loading: true });
+      const response = await axiosClient.get<Order[]>('/orders/completed/without-payment');
+      console.log(response);
+      
+      // Nếu response là array
+      if (Array.isArray(response)) {
+        // Transform snake_case to camelCase for backward compatibility
+        const formattedOrders = response.map((order: Order) => ({
+          ...order,
+          totalPrice: order.total_price,
+          orderStatus: order.order_status,
+          orderTime: order.order_time,
+          foodOrders: order.food_orders,
+          comboOrders: order.combo_orders,
+          restaurantTable: order.restaurant_table
+        }));
+        
+        this.setState({ orders: formattedOrders, loading: false, error: null });
+      } else {
+        this.setState({ 
+          error: 'Invalid response format', 
+          loading: false 
+        });
+      }
+    } catch (error) {
+      this.setState({ 
+        error: error instanceof Error ? error.message : 'An error occurred', 
+        loading: false 
+      });
+    }
+  };
+
+  handleOrderPress = (order: Order) => {
+    this.setState({ selectedOrder: order, modalVisible: true });
+  };
+
+  handleCloseModal = () => {
+    this.setState({ modalVisible: false, selectedOrder: null });
+  };
+
+  renderOrderItem = ({ item }: { item: Order }) => {
+    // Fallback to the snake_case properties if camelCase doesn't exist
+    const orderTime = item.orderTime || item.order_time || '';
+    const totalPrice = item.totalPrice || item.total_price || 0;
+    const tableName = item.restaurantTable?.name || item.restaurant_table?.name || 'Unknown';
+    
     return (
       <TouchableOpacity 
         style={styles.orderItem}
-        onPress={() => router.push(`/cashier/${item.id}` as any)}
+        onPress={() => this.handleOrderPress(item)}
       >
+        <View style={styles.orderHeader}>
+          <Text style={styles.orderId}>Order #{item.id}</Text>
+          <Text style={styles.orderTime}>{formatDateTime(orderTime)}</Text>
+        </View>
+        <View style={styles.orderDetails}>
+          <Text style={styles.tableId}>Table: {tableName}</Text>
+          <Text style={styles.totalPrice}>Total: ${totalPrice}</Text>
+        </View>
         {item.note && (
           <Text style={styles.note}>Note: {item.note}</Text>
         )}
-        <View style={styles.orderHeader}>
-          <Text style={styles.orderId}>Order #{item.id}</Text>
-          <Text style={styles.orderTime}>{formatDateTime(item.orderTime)?.toString()}</Text>
-        </View>
-        <View style={styles.orderDetails}>
-        <Text style={styles.tableId}>
-          Table: {item.restaurantTable && typeof item.restaurantTable === 'object' ? item.restaurantTable.name || 'Unknown' : 'Unknown'}
-        </Text>
-        <Text style={styles.totalPrice}>Total: ${Number(item.totalPrice).toFixed(2) || "0.00"}</Text>
-        </View>
       </TouchableOpacity>
     );
   };
 
-  if (loading) {
+  render() {
+    const { loading, error, orders, selectedOrder, modalVisible } = this.state;
+
+    if (loading) {
+      return (
+        <View style={styles.container}>
+          <Text>Loading...</Text>
+        </View>
+      );
+    }
+
+    if (error) {
+      return (
+        <View style={styles.container}>
+          <Text style={styles.error}>Error: {error}</Text>
+        </View>
+      );
+    }
+
+    if (!orders || orders.length === 0) {
+      return (
+        <View style={styles.container}>
+          <Text style={styles.emptyText}>No completed orders found</Text>
+        </View>
+      );
+    }
+
     return (
       <View style={styles.container}>
-        <Text>Loading...</Text>
+        <Text style={styles.title}>Completed Orders</Text>
+        <FlatList
+          data={orders}
+          renderItem={this.renderOrderItem}
+          keyExtractor={(item) => item.id.toString()}
+          contentContainerStyle={styles.listContainer}
+        />
+        <OrderDetail
+          order={selectedOrder}
+          visible={modalVisible}
+          onClose={this.handleCloseModal}
+        />
       </View>
     );
   }
-
-  if (error) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.error}>Error: {error}</Text>
-      </View>
-    );
-  }
-
-  if (!orders || orders.length === 0) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.emptyText}>No completed orders found</Text>
-      </View>
-    );
-  }
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Completed Orders</Text>
-      <FlatList
-        data={orders}
-        renderItem={renderOrderItem}
-        keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={styles.listContainer}
-      />
-    </View>
-  );
 }
 
 const styles = StyleSheet.create({
@@ -80,6 +161,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: COLORS.background,
+    paddingBottom: 60,
   },
   title: {
     fontSize: 24,
@@ -137,16 +219,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: COLORS.gray,
     fontSize: 16,
-  },
-  debugButton: {
-    backgroundColor: COLORS.primary,
-    padding: 8,
-    borderRadius: 4,
-    marginBottom: 16,
-  },
-  debugButtonText: {
-    color: COLORS.white,
-    textAlign: 'center',
   },
 }); 
 

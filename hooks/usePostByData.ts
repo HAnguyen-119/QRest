@@ -1,33 +1,40 @@
-import { GetData, OrderProps } from "@/constants/types"
-import { fetchAPI } from "@/services/fetchAPI"
-import { useEffect, useState } from "react"
+import { useState } from 'react';
+import axiosClient from '../services/axiosClient';
 
-export const usePostByData = (type: GetData) => {
-    const [success, setSuccess] = useState<boolean>(false)
-    const [postData, setPostData] = useState<any | null>(null)
-    const post = async ({data}: OrderProps | any) => {
-        try {
-            let response = null
-            switch(type) {
-                case 'orders':
-                    response = await fetchAPI.postOrder(data)
-                    setPostData(response.data)
+interface PostResponse {
+  success: boolean;
+  message?: string;
+  id?: number;
+}
 
-                    break
-                // case 'foods': 
-                //     response = fetchAPI.postFood()
-                //     break
-                // case 'categories':
-                //     response = fetchAPI.postCategories()
-                //     break
-                default:
-                    console.error(`Error, type not found, add '${type}' to constants/types.ts and try again`)
-            }
-            setSuccess(true)
-        } catch (error) {
-            console.log('Error while fetching data: ', error)
-        }
+export function usePostByData() {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
+  const post = async (url: string, data: any): Promise<PostResponse> => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await axiosClient.post(url, data);
+      if (response && typeof response === 'object' && 'id' in response) {
+        return { 
+          success: true, 
+          id: typeof response.id === 'number' ? response.id : undefined 
+        };
+      }
+      return { success: true };
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'An error occurred';
+      setError(message);
+      return { success: false, message };
+    } finally {
+      setLoading(false);
     }
-    return { success, postData, post }
+  };
+
+  return {
+    post,
+    loading,
+    error
+  };
 }

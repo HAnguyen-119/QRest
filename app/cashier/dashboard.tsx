@@ -1,7 +1,9 @@
-import { View } from "react-native";
+import { View, Text } from "react-native";
 
 export default function Dashboard() {
     return (
-        <View>cashier home</View>
+        <View>
+            <Text>Cashier Dashboard</Text>
+        </View>
     )
 }
