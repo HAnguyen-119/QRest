@@ -9,8 +9,6 @@ export default function Dashboard() {
   const { data } = useFetch("orders");
 
   const pendingOrders = data?.filter((order) => order.orderStatus === OrderStatus.PENDING);
-  const allComboOrders = pendingOrders?.flatMap(order => order.comboOrders);
-  const allFoodOrders = pendingOrders?.flatMap(order => order.foodOrders);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -19,6 +17,7 @@ export default function Dashboard() {
         <OrderItem
           key={index}
           name={task.name}
+          orderID={task.id}
           orderTime={task.orderTime}
           foodOrders={task.foodOrders}
           comboOrders={task.comboOrders}
