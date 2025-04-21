@@ -1,4 +1,4 @@
-import { FlatList, Modal, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Alert, FlatList, Modal, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import Icon from "../Icon/Icon";
 
 import closeButton from '@/assets/images/close.png'
@@ -21,11 +21,12 @@ interface ModalTableViewProps {
     visible: boolean,
     setVisible: (visible: boolean) => void,
     orderList: OrderItemProps[] | null,
-    note: string | null
-
+    note: string | null,
+    preModal: (visible: boolean) => void
+    setOrderList: (list: OrderItemProps[]) => void
 }
 
-export default function ModalTableView({ visible, setVisible, orderList, note }: ModalTableViewProps) {
+export default function ModalTableView({ visible, setVisible, orderList, setOrderList, note, preModal }: ModalTableViewProps) {
     const { isDark } = useThemeContext()
     const globalStyles = createGlobalStyles(isDark)
     const buttonStyles = createOrderListStyles(isDark)
@@ -49,7 +50,7 @@ export default function ModalTableView({ visible, setVisible, orderList, note }:
         note: note,
         foodOrderItems: orderList,
         comboOrderItems: null,
-        restaurantTableIds: [1],
+        restaurantTableIds: selectedTables,
         reservationId: null,
     }
 
@@ -61,12 +62,23 @@ export default function ModalTableView({ visible, setVisible, orderList, note }:
         ))
     }
 
-    const handlePostOrder = () => {
-        console.log(data)
-        postData(data)
-        setVisible(false)
-        console.log(`loading: ${loading}\nerror: ${error}\nresponse:${Object.values(response)}`)
-    }
+    const handlePostOrder = async () => {
+        try {
+            await postData(data); 
+            if (!error) {
+                Alert.alert("Success", "Order has been created successfully!");
+                setSelectedTables([]); 
+                setVisible(false); 
+                preModal(false); 
+                setOrderList([]); 
+            } else {
+                Alert.alert("Error", "Failed to create order. Please try again.");
+            }
+        } catch (err) {
+            Alert.alert("Error", "An unexpected error occurred.");
+            console.error(err);
+        }
+    };
 
     return(
         <Modal 
@@ -79,8 +91,8 @@ export default function ModalTableView({ visible, setVisible, orderList, note }:
                 <TouchableOpacity onPress={() => setVisible(false)} style={buttonStyles.closeButton}>
                     <Icon src={closeButton} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null}/>
                 </TouchableOpacity>
-                <View >
-                    <ScrollView style={styles.tableView}>
+                <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+                    <View style={styles.tableGrid}>
                         {availables?.map((table: TableProps) => {
                             return (
                                 <TableItemOrders 
@@ -94,8 +106,8 @@ export default function ModalTableView({ visible, setVisible, orderList, note }:
                                 />
                             )
                         })}
-                    </ScrollView>
-                </View>
+                    </View>
+                </ScrollView>
                 <TouchableOpacity onPress={handlePostOrder}>
                     <Icon src={nextButton} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={0}/>
                 </TouchableOpacity>

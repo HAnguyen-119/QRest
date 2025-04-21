@@ -4,7 +4,6 @@ export const createTableItemStyles = (isDark: boolean) => {
     return StyleSheet.create({
         container: {
             flex: 1,
-            width: "40%",
             borderWidth: 1,
             borderRadius: 8,
         },

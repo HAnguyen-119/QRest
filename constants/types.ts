@@ -97,7 +97,6 @@ export interface ScrollContextType {
 export interface OrderItemProps {
     id: number,
     quantity: number,
-    category: string
 }
 
 export interface TableProps {
@@ -156,9 +155,12 @@ export interface UtilsPriceProps {
 }
 
 export interface OrderListViewProps {
-    orderList: OrderItemProps[] | null,
+    orderList: OrderItemProps[],
+    comboList: OrderItemProps[],
     menuData: MenuItemIDProps[],
-    combosData: ComboItemProps[]
+    combosData: ComboItemProps[],
+    handleChange: (id: number, isAdd: boolean, isDelete: boolean, category: string) => void, 
+
 }
 
 export interface ComboItemProps {
