@@ -1,33 +1,32 @@
-import { GetData, OrderProps } from "@/constants/types"
-import { fetchAPI } from "@/services/fetchAPI"
-import { useEffect, useState } from "react"
+import { GetData, OrderProps } from "@/constants/types";
+import { fetchAPI } from "@/services/fetchAPI";
+import { useEffect, useState } from "react";
 
 export const usePostByData = (type: GetData) => {
-    const [success, setSuccess] = useState<boolean>(false)
-    const [postData, setPostData] = useState<any | null>(null)
-    const post = async ({data}: OrderProps | any) => {
+    const [loading, setLoading] = useState<boolean>(false); 
+    const [error, setError] = useState<string | null>(null); 
+    const [response, setResponse] = useState<any>(null); 
+
+    const postData = async (data : OrderProps | null) => {
+        setLoading(true);
+        setError(null);
+        let result
+
         try {
-            let response = null
             switch(type) {
                 case 'orders':
-                    response = await fetchAPI.postOrder(data)
-                    setPostData(response.data)
-
+                    result = await fetchAPI.postOrder(data); 
                     break
-                // case 'foods': 
-                //     response = fetchAPI.postFood()
-                //     break
-                // case 'categories':
-                //     response = fetchAPI.postCategories()
-                //     break
                 default:
-                    console.error(`Error, type not found, add '${type}' to constants/types.ts and try again`)
+                    console.error(`Error while pushing data to ${type}, check valid type!`)
             }
-            setSuccess(true)
-        } catch (error) {
-            console.log('Error while fetching data: ', error)
+            setResponse(result); 
+        } catch (err: any) {
+            setError(err.message || "An error occurred"); 
+        } finally {
+            setLoading(false); 
         }
+    };
 
-    }
-    return { success, postData, post }
-}
+    return { loading, error, response, postData };
+};

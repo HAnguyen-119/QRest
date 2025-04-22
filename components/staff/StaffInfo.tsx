@@ -3,9 +3,10 @@ import {StyleSheet} from "react-native";
 import {COLORS} from "@/constants/colors";
 import {useState} from "react";
 import Animated,{  useAnimatedStyle, useSharedValue, withTiming} from "react-native-reanimated";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 // @ts-ignore
-export default function StaffInfo({id, imageUrl, name, age, address, phone, email, position, experience, salary}) {
+export default function StaffInfo({id, imageUrl, fullName, dob, address, phoneNumber, position, salary, handleEdit, handleDelete, setCurrentStaffId}) {
     const [expanded, setExpanded] = useState<boolean>(false)
     const height = useSharedValue(100)
 
@@ -16,33 +17,35 @@ export default function StaffInfo({id, imageUrl, name, age, address, phone, emai
     });
 
     const toggleHeight = () => {
-        height.value = height.value === 100 ? 250 : 100;
+        height.value = height.value === 100 ? 200 : 100;
         setExpanded(!expanded);
     };
 
     return (
         <Animated.View style={[styles.staffInfo, animatedStyle]}>
-            {/*<View style={styles.staffImageContainer}>*/}
-            {/*    <Image style={styles.staffImage} source={{uri: imageUrl}}></Image>*/}
-            {/*</View>*/}
             <ImageBackground source={{uri: imageUrl}}
                              style={styles.staffImageContainer}></ImageBackground>
 
             <View style={{margin: 5, width: "65%"}}>
-                <Text style={[styles.text, styles.name]}>{name}</Text>
+                <Text style={[styles.text, styles.name]}>{fullName}</Text>
                 <Text style={[styles.text, styles.position]}>{position}</Text>
                 {expanded &&
                 <View>
-                <Text style={styles.text}>Age: {age}</Text>
-                <Text style={styles.text}>Address: {address}</Text>
-                <Text style={styles.text}>Phone: {phone}</Text>
-                <Text style={styles.text}>Email: {email}</Text>
-                <Text style={styles.text}>Phone Number: {phone}</Text>
-                <Text style={styles.text}>Experience: {experience}</Text>
-                <Text style={styles.text}>Salary: {salary}</Text>
+                    <Text style={styles.text}>D.O.B: {dob}</Text>
+                    <Text style={styles.text}>Address: {address}</Text>
+                    <Text style={styles.text}>Phone Number: {phoneNumber}</Text>
+                    <Text style={styles.text}>Salary: ${salary}</Text>
+                    <View style={styles.buttonContainer}>
+                        <TouchableOpacity style={styles.button} onPress={() => {setCurrentStaffId(id); handleEdit()}}>
+                            <Text style={styles.buttonText}>Edit</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.button} onPress={() => {setCurrentStaffId(id); handleDelete()}}>
+                            <Text style={styles.buttonText}>Delete</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>}
-                <TouchableOpacity style={styles.button} onPress={toggleHeight}>
-                    <Text style={styles.buttonText}>{expanded ? "Less" : "More"}</Text>
+                <TouchableOpacity style={styles.expand} onPress={toggleHeight}>
+                    <Icon name={expanded ? "angle-double-up" : "angle-double-down"} size={30}></Icon>
                 </TouchableOpacity>
             </View>
         </Animated.View>
@@ -56,23 +59,43 @@ const styles = StyleSheet.create({
     },
 
     name: {
-        fontSize: 25,
+        fontSize: 20,
     },
 
     position: {
         fontSize: 20,
     },
 
-    button: {
+    buttonContainer: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "flex-start",
         alignSelf: "center",
+        gap: 10,
+
+    },
+
+    button: {
         alignItems: "center",
         justifyContent: "center",
-        width: 60,
-        height: 25,
-        borderRadius: 10,
+        width: 80,
+        height: 30,
         backgroundColor: COLORS.buttonActive,
+        borderRadius: 15,
+        position: "relative",
+        right: 20,
+        top: 10,
+    },
+
+    expand: {
+        alignSelf: "flex-end",
+        alignItems: "center",
+        justifyContent: "center",
+        width: 30,
+        height: 30,
         position: "absolute",
-        bottom: 2,
+        bottom: 0,
     },
 
     buttonText: {
@@ -83,7 +106,7 @@ const styles = StyleSheet.create({
     staffInfo: {
         display: 'flex',
         flexDirection: 'row',
-        width: '80%',
+        width: '85%',
         alignSelf: 'center',
         borderWidth: 2,
         borderColor: COLORS.dark,

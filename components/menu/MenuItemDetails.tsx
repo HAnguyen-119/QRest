@@ -1,12 +1,16 @@
-import {View, Text, TouchableOpacity, Image} from "react-native";
+import {View, Text, TouchableOpacity, Image, StyleSheet} from "react-native";
 import {createMenuStyles} from "@/assets/styles/menu/Menu.styles";
 import Animated from "react-native-reanimated";
 import { useThemeContext } from "@/contexts/ThemeContext";
+import DeleteConfirmView from "@/components/admin/DeleteConfirmView";
+import {useState} from "react";
 
 // @ts-ignore
-export default function MenuItemDetails({data, id, handleBack, containerStyle}) {
+export default function MenuItemDetails({data, id, handleBack, handleEdit, handleDelete, containerStyle}) {
 
-    const item = data.find((item: { id: string; }) => item.id === id);
+    const item = data.find((item: { id: number; }) => item.id === id);
+
+    const [isDelete, setIsDelete] = useState<boolean>(false);
 
     const { isDark } = useThemeContext()
     const menuStyles = createMenuStyles(isDark)
@@ -24,10 +28,21 @@ export default function MenuItemDetails({data, id, handleBack, containerStyle}) 
             <View style={menuStyles.detailsContainer}>
                 <Text style={menuStyles.text}>{item?.description}</Text>
                 <Text style={menuStyles.text}>{item?.ingredients}</Text>
-                <TouchableOpacity style={menuStyles.editButton} onPress={() => {}}>
+                <TouchableOpacity style={menuStyles.editButton} onPress={handleEdit}>
                     <Text style={menuStyles.text}>Edit</Text>
                 </TouchableOpacity>
+                <TouchableOpacity style={menuStyles.editButton} onPress={() => {setIsDelete(true)}}>
+                    <Text style={menuStyles.text}>Delete</Text>
+                </TouchableOpacity>
             </View>
+            {isDelete && (
+                <DeleteConfirmView
+                    name={item?.name}
+                    content={"menu item"}
+                    handleDelete={() => {handleDelete(id); setIsDelete(false)}}
+                    handleCancel={() => setIsDelete(false)}
+                ></DeleteConfirmView>
+            )}
         </Animated.View>
     )
 }

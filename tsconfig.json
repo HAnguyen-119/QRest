@@ -15,6 +15,7 @@
     "expo-env.d.ts",
     "assets/**/*.png",
     "utils/ValidateLogin.ts",
-    "config/images.d.ts"
+    "config/images.d.ts",
+    "config/module.d.ts"
   ]
 }
