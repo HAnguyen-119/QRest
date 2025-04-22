@@ -1,4 +1,4 @@
-import {View, TouchableOpacity, StyleSheet, Text, TextInput} from "react-native";
+import {View, TouchableOpacity, StyleSheet, Text, TextInput, Image} from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import {COLORS} from "@/constants/colors";
 import {useThemeContext} from "@/contexts/ThemeContext";
@@ -8,6 +8,8 @@ import {StaffInfoProps} from "@/constants/types";
 import {fetchAPI} from "@/services/fetchAPI";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {format} from "date-fns";
+import * as ImagePicker from 'expo-image-picker';
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default function UpdateStaffInfoView({staff, isAdding, handleCancel, positions, handleRefresh}:
 {staff: any, isAdding: boolean, handleCancel: any, handleRefresh: any, positions: Array<string>}) {
@@ -31,6 +33,20 @@ export default function UpdateStaffInfoView({staff, isAdding, handleCancel, posi
     const [phone, setPhone] = useState(isAdding ? "" : staff.phoneNumber);
     const [salary, setSalary] = useState(isAdding ? "0" : staff.salary.toString());
     const [image, setImage] = useState<string>(isAdding ? "" : staff.imageUrl);
+
+    const pickImageAsync = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ['images'],
+            allowsEditing: true,
+            quality: 1,
+        });
+
+        if (!result.canceled) {
+            setImage(result.assets[0].uri);
+        } else {
+            alert('You did not select any image.');
+        }
+    };
 
     const isValid = fullName.trim().length > 0
                             && position !== null
@@ -163,12 +179,17 @@ export default function UpdateStaffInfoView({staff, isAdding, handleCancel, posi
             </View>
             <View style={styles.inputContainer}>
                 <Text style={styles.inputText}>Image </Text>
-                <TextInput
-                    value={image}
-                    style={styles.input}
-                    placeholder="Staff Image url"
-                    onChangeText={(text) => setImage(text)}
-                ></TextInput>
+                <View style={{width: "70%"}}>
+                    <TouchableOpacity style={{display: "flex", flexDirection:"row", alignItems: "center", gap: 5, marginBottom: 5}} onPress={pickImageAsync}>
+                        <Icon name="file-image-plus-outline" size={30}></Icon>
+                        <Text style={styles.text}>Choose image</Text>
+                    </TouchableOpacity>
+                    <View style={styles.imageContainer}>
+                        <Image
+                            source={{uri: image}}
+                            style={styles.image}/>
+                    </View>
+                </View>
             </View>
             {!isValid && (<Text style={styles.invalid}>You must fill all the information above !</Text>)}
             <View style={styles.buttonContainer}>
@@ -259,5 +280,21 @@ const styles = StyleSheet.create({
     buttonText: {
         fontFamily: "Josefin-Sans",
         color: "white",
+    },
+
+    imageContainer: {
+        width: "100%",
+        height: 200,
+        borderRadius: 15,
+        borderColor: COLORS.dark,
+        borderStyle: "solid",
+        borderWidth: 2,
+        overflow: "hidden",
+    },
+
+    image: {
+        width: "100%",
+        height: "100%",
+        resizeMode: "cover",
     }
 })
