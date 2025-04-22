@@ -117,12 +117,12 @@ export const createAdminStyles = ( isDark: boolean ) => {
             zIndex: 7,
         },
 
-        updating: {
+        menuUpdating: {
             position: 'absolute',
             width: '80%',
-            height: '70%',
+            height: '85%',
             alignSelf: 'center',
-            top: 100,
+            top: "7%",
             borderRadius: 20,
             backgroundColor: "white",
             zIndex: 8,
@@ -133,9 +133,9 @@ export const createAdminStyles = ( isDark: boolean ) => {
 
         staffUpdating: {
             position: 'absolute',
-            width: '80%',
-            height: '80%',
-            top: 50,
+            width: '90%',
+            height: '98%',
+            top: "1%",
             alignSelf: 'center',
             borderRadius: 20,
             backgroundColor: "white",
@@ -149,6 +149,7 @@ export const createAdminStyles = ( isDark: boolean ) => {
             position: 'absolute',
             width: '80%',
             height: '40%',
+            top: "30%",
             alignSelf: 'center',
             borderRadius: 20,
             backgroundColor: "white",
