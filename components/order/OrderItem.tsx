@@ -1,18 +1,35 @@
 
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { COLORS } from "@/constants/colors";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import { fetchAPI } from "@/services/fetchAPI";
+import { createOrderListStyles } from "@/assets/styles/waiter/OrderList.styles";
+import { OrderStatus } from "@/constants/types";
 export default function OrderItem({ orderID, foodOrders, comboOrders, orderTime, orderStatus, onClick }) {
+
+  //const { isDark } = useThemeContext()
+  //const OrderItemStyles = createOrderListStyles(isDark)
   const [expanded, setExpanded] = useState(false);
+  const [taken, setTaken] = useState(false);
+
+  useEffect(() => {
+    setTaken(orderStatus === "PROCESSING");
+  }, [orderStatus]);
+  const chefCompleteOrder = (orderID: number) => {
+    // Logic to complete the order
+    fetchAPI.editOrderStatus(orderID, "PROCESSED")
+    console.log(`Order ${orderID} completed`);
+  };
+
+  const chefTakeOrder = (orderID: number) => {
+    // Logic to take the order
+    fetchAPI.editOrderStatus(orderID, "PROCESSING")
+    setTaken(taken => !taken)
+    console.log(`Order ${orderID} taken`);
+  }
 
   return (
-    <TouchableOpacity
-      activeOpacity={1.0}
-      onPress={() => {
-        setExpanded(expanded => !expanded)
-      }}
-      style={styles.container}>
+    <View style={container(taken)}>
       <View style={styles.content}>
         <Text style={styles.orderID}>
           Order ID: {orderID}
@@ -40,28 +57,49 @@ export default function OrderItem({ orderID, foodOrders, comboOrders, orderTime,
           Order Time: {orderTime}
         </Text>
       </View>
-      {expanded && <TouchableOpacity style={{ position: "absolute", right: 10, bottom: 10 }}><Text>Complete Order</Text></TouchableOpacity>}
 
-      <Text style={styles.toggleText}>
-        {expanded ? 'Hide Orders ▲' : 'Show Orders ▼'}
-      </Text>
-    </TouchableOpacity>
+      {expanded && (
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={styles.completeButton}
+            onPress={() => chefCompleteOrder(orderID)}
+          >
+            <Text style={styles.completeButtonText}>Complete Order</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.completeButton}
+            onPress={() => chefTakeOrder(orderID)}
+          >
+            <Text style={styles.completeButtonText}>Take Order</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
+      <TouchableOpacity
+        style={styles.toggleButton}
+        onPress={() => setExpanded(expanded => !expanded)}
+      >
+        <Text style={styles.toggleText}>
+          {expanded ? 'Hide Orders ▲' : 'Show Orders ▼'}
+        </Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 
+const container = (taken: boolean) => ({
+  backgroundColor: taken ? COLORS.orderActive : COLORS.primary,
+  borderRadius: 12,
+  margin: 8,
+  padding: 17,
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 4 },
+  shadowOpacity: 0.3,
+  shadowRadius: 4.65,
+  elevation: 8,
+  position: 'relative',
+});
 export const styles = StyleSheet.create({
-  container: {
-    backgroundColor: COLORS.primary,
-    borderRadius: 12,
-    margin: 8,
-    padding: 17,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4.65,
-    elevation: 8,
-    position: 'relative',
-  },
   content: {
     paddingBottom: 10,
   },
@@ -87,13 +125,42 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     marginTop: 10,
   },
-  toggleText: {
-    fontFamily: 'monospace',
-    fontSize: 12,
+  toggleButton: {
     position: "absolute",
     right: 10,
     top: 10,
-    color: COLORS.dark,  // You can choose a more visually appealing color for the toggle
     paddingVertical: 4,
+    paddingHorizontal: 8,
+  },
+  toggleText: {
+    fontFamily: 'monospace',
+    fontSize: 12,
+    color: COLORS.dark,
+    fontWeight: '600',
+  },
+  buttonContainer: {
+    position: "absolute",
+    right: 10,
+    bottom: 10,
+    flexDirection: "row",
+    //margin: 5,
+  },
+  completeButton: {
+    backgroundColor: COLORS.primary,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    elevation: 5,
+    margin: 5,
+  },
+  completeButtonText: {
+    color: COLORS.dark,
+    fontSize: 14,
+    fontWeight: '600',
+    textAlign: 'center',
   },
 });

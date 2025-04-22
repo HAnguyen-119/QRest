@@ -1,17 +1,38 @@
 import React, { useState } from "react";
-import { Text, ScrollView, StyleSheet } from "react-native";
+import { Text, ScrollView, StyleSheet, RefreshControl } from "react-native";
 import OrderItem from "@/components/order/OrderItem"; // if using Expo, or use any custom checkbox
 import { useFetch } from "@/hooks/useFetch";
 import { OrderStatus } from "@/constants/orderstatus";
+
+
 export default function Dashboard() {
-  const [tasks, setTasks] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
-  const { data } = useFetch("orders");
+  // Use the useFetch hook and destructure data, loading, error, and refetch
+  const { data, loading, refetch } = useFetch("orders");
 
-  const pendingOrders = data?.filter((order) => order.orderStatus === OrderStatus.PENDING);
+  // Filter pending orders
+  const pendingOrders = data?.filter(
+    (order: any) => order.orderStatus === "PENDING" || order.orderStatus === "PROCESSING"
+  );
+
+  // Handle pull-to-refresh
+  const onRefresh = async () => {
+    setRefreshing(true);
+    try {
+      await refetch();  // Call refetch to trigger a re-fetch of data
+    } catch (error) {
+      console.error("❌ Failed to refresh orders:", error);
+    }
+    setRefreshing(false);
+  };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
       <Text style={styles.header}>Chef's To-Do List</Text>
       {pendingOrders?.map((task, index) => (
         <OrderItem
