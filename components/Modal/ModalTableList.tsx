@@ -8,7 +8,7 @@ import { createGlobalStyles } from "@/assets/styles/Global.styles";
 import { createModalTableViewStyles } from "@/assets/styles/table/ModalTableView.styles";
 import { createOrderListStyles } from "@/assets/styles/waiter/OrderList.styles";
 import { useFetch } from "@/hooks/useFetch";
-import { OrderItemProps, OrderProps, TableProps } from "@/constants/types";
+import { ComboItemProps, OrderItemProps, OrderProps, TableProps } from "@/constants/types";
 import TableItemOrders from "../table/TableItemOrders";
 import { useState } from "react";
 import { usePostByData } from "@/hooks/usePostByData";
@@ -20,13 +20,16 @@ import { ROUTES } from "@/constants/routes";
 interface ModalTableViewProps {
     visible: boolean,
     setVisible: (visible: boolean) => void,
-    orderList: OrderItemProps[] | null,
+    orderList: OrderItemProps[],
     note: string | null,
     preModal: (visible: boolean) => void
-    setOrderList: (list: OrderItemProps[]) => void
+    setOrderList: (list: OrderItemProps[]) => void,
+    combosData: ComboItemProps[],
+    comboList: OrderItemProps[],
+    setComboList: (list: OrderItemProps[]) => void
 }
 
-export default function ModalTableView({ visible, setVisible, orderList, setOrderList, note, preModal }: ModalTableViewProps) {
+export default function ModalTableView({ visible, setVisible, orderList, setOrderList, comboList, setComboList, note, preModal }: ModalTableViewProps) {
     const { isDark } = useThemeContext()
     const globalStyles = createGlobalStyles(isDark)
     const buttonStyles = createOrderListStyles(isDark)
@@ -49,7 +52,7 @@ export default function ModalTableView({ visible, setVisible, orderList, setOrde
     const data: OrderProps = {
         note: note,
         foodOrderItems: orderList,
-        comboOrderItems: null,
+        comboOrderItems: comboList,
         restaurantTableIds: selectedTables,
         reservationId: null,
     }
@@ -71,6 +74,7 @@ export default function ModalTableView({ visible, setVisible, orderList, setOrde
                 setVisible(false); 
                 preModal(false); 
                 setOrderList([]); 
+                setComboList([])
             } else {
                 Alert.alert("Error", "Failed to create order. Please try again.");
             }

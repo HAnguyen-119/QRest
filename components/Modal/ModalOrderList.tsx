@@ -76,6 +76,8 @@ export default function OrderView(
                         note={note}
                         preModal={setIsModalVisible}
                         setOrderList={setOrderList}
+                        comboList={comboList}
+                        setComboList={setComboList}
                     />
                 </View>
             </View>
