@@ -1,4 +1,4 @@
-import { GetData, OrderProps } from "@/constants/types";
+import { GetData, PostOrderProps } from "@/constants/types";
 import { fetchAPI } from "@/services/fetchAPI";
 import { useEffect, useState } from "react";
 
@@ -7,7 +7,7 @@ export const usePostByData = (type: GetData) => {
     const [error, setError] = useState<string | null>(null); 
     const [response, setResponse] = useState<any>(null); 
 
-    const postData = async (data : OrderProps | null) => {
+    const postData = async (data : PostOrderProps | null) => {
         setLoading(true);
         setError(null);
         let result

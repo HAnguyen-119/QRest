@@ -6,7 +6,8 @@ import { ReactNode } from "react";
 
 export type TableStatus = 'RESERVED' | 'OCCUPIED' | 'AVAILABLE'
 export type CustomerTitle = 'MR' | 'MRS'
-export type GetData = 'orders' | 'foods' | 'categories' | 'tables' | 'combos'
+export type GetData = 'orders' | 'foods' | 'categories' | 'tables' | 'combos' | 'reservations'
+export type OrderStatus = 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'CANCELED'
 
 export interface Children {
     children: ReactNode
@@ -87,17 +88,17 @@ export interface MenuItemIDProps {
 
  // payment cua Luong
 export interface Food {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  quantity: number;
-  imageUrl: string;
-  category: {
     id: number;
     name: string;
     description: string;
-  };
+    price: number;
+    quantity: number;
+    imageUrl: string;
+    category: {
+        id: number;
+        name: string;
+        description: string;
+    };
 }
 
 export interface ComboFood {
@@ -116,10 +117,10 @@ export interface Combo {
 }
 
 export interface FoodOrder {
-  id: number;
-  quantity: number;
-  price: number;
-  food: Food;
+    id: number;
+    quantity: number;
+    price: number;
+    food: Food;
 }
 
 export interface ComboOrder {
@@ -129,23 +130,22 @@ export interface ComboOrder {
   combo: Combo;
 }
 
-export interface RestaurantTable {
-  id: number;
-  name: string;
-  capacity: number;
-  available: boolean;
-}
 
-export interface Order {
-  id: number;
-  totalPrice: number;
-  note: string | null;
-  orderStatus: string;
-  orderTime: string;
-  foodOrders: FoodOrder[];
-  comboOrders: ComboOrder[];
-  restaurantTable: RestaurantTable;
-  reservation: any | null;
+export interface OrderProps {
+    id: number;
+    totalPrice: number;
+    note: string | null;
+    orderStatus: OrderStatus;
+    orderTime: Date;
+    foodOrders: FoodOrder[];
+    comboOrders: ComboOrder[];
+    tableOrders: [
+        {
+            id: number,
+            RestaurantTable: RestaurantTableProps
+        }
+    ];
+    reservation: any | null;
 }  
 
 // het payment cua Luong
@@ -182,15 +182,7 @@ export interface RestaurantTableProps {
     id: number, 
     name: string,
     capacity: number,
-    available: boolean
-}
-
-export interface CustomerOrderProps {
-    id: number,
-    customerTitle: CustomerTitle,
-    firstname: string,
-    lastname: string,
-    phone: string,
+    status: TableStatus
 }
 
 export interface ReservationProps {
@@ -199,20 +191,19 @@ export interface ReservationProps {
     arrivalTime: Date,
     numberOfGuests: number,
     deposit: number, 
-    customer: CustomerOrderProps,
-    tableOrders: RestaurantTableProps[],
+    customerName: string,
+    customerPhone: string,
+    tableReservations: [{id: number, restaurantTable: RestaurantTableProps}],
     confirmed: boolean,
 }
 
-export interface OrderProps {
+export interface PostOrderProps {
     note: string | null,
     foodOrderItems: OrderItemProps[] | null,
     comboOrderItems: OrderItemProps[] | null,
     restaurantTableIds: number[],
     reservationId: number | null,
 }
-
-
 
 export interface UtilsPriceProps {
     data: MenuItemIDProps[],
@@ -241,17 +232,15 @@ export interface MenuItemOrderProps {
     handleChange: (id: number, isAdd: boolean, isDelete: boolean) => void
 }
 
-// export interface ComboFood {
-//     id: number;
-//     name: string,
-//     description: string,
-//     price: number,
-//     comboFoods: Food[];
-//   }
-
 // selectgroupoption props
 export interface SelectGroupProps {
     options: number[] ,
     selectedValue: number,
     onSelect: (value: number) => void
+}
+
+export interface OrderDetailProps {
+    id: number, 
+    visible: boolean,
+    setVisible: (visible: boolean) => void
 }

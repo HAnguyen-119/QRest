@@ -8,7 +8,7 @@ import { createGlobalStyles } from "@/assets/styles/Global.styles";
 import { createModalTableViewStyles } from "@/assets/styles/table/ModalTableView.styles";
 import { createOrderListStyles } from "@/assets/styles/waiter/OrderList.styles";
 import { useFetch } from "@/hooks/useFetch";
-import { OrderItemProps, OrderProps, TableProps } from "@/constants/types";
+import { OrderItemProps, PostOrderProps, TableProps } from "@/constants/types";
 import TableItemOrders from "../table/TableItemOrders";
 import { useState } from "react";
 import { usePostByData } from "@/hooks/usePostByData";
@@ -45,7 +45,7 @@ export default function ModalTableView({ visible, setVisible, orderList, note }:
         return 0
     })
 
-    const data: OrderProps = {
+    const data: PostOrderProps = {
         note: note,
         foodOrderItems: orderList,
         comboOrderItems: null,

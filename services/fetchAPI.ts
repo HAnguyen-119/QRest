@@ -1,4 +1,4 @@
-import {AdminTableProps, MenuItemProps, OrderProps, StaffInfoProps, TableProps, TableStatus} from "@/constants/types";
+import {AdminTableProps, MenuItemProps, PostOrderProps, StaffInfoProps, TableProps, TableStatus} from "@/constants/types";
 import axiosClient from "./axiosClient";
 
 export const fetchAPI = {
@@ -26,7 +26,7 @@ export const fetchAPI = {
         return axiosClient.get('categories')
     },
 
-    postOrder: (data: OrderProps | null) => {
+    postOrder: (data: PostOrderProps | null) => {
         return axiosClient.post('orders', data)
     },
 
@@ -72,6 +72,12 @@ export const fetchAPI = {
 
     putTableStatusByID: (id: number, status: TableStatus) => {
         return axiosClient.put(`restaurant_tables/${id}/status/${status}`)
+    },
+    getReservations: () => {
+        return axiosClient.get('reservations')
+    },
+    getOrderByID: (id: number) => {
+        return axiosClient.get(`orders/${id}`)
     }
 
 }
