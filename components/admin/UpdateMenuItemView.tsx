@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {Image, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {useThemeContext} from "@/contexts/ThemeContext";
 import {createAdminStyles} from "@/assets/styles/admin/Admin.styles";
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -6,6 +6,8 @@ import {useState} from "react";
 import {CategoryProps, MenuItemProps} from "@/constants/types";
 import {COLORS} from "@/constants/colors";
 import {fetchAPI} from "@/services/fetchAPI";
+import * as ImagePicker from 'expo-image-picker';
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default function UpdateMenuItemView({item, isAdding, handleCancel, handleRefresh, categories}:
 {item: any, isAdding: boolean,
@@ -21,6 +23,21 @@ export default function UpdateMenuItemView({item, isAdding, handleCancel, handle
     const [price, setPrice] = useState<string>(isAdding ? "" : item.price.toString());
     const [image, setImage] = useState<string>(isAdding ? "" : item.imageUrl);
     const [category, setCategory] = useState<any>(isAdding ? null : item.category);
+
+
+    const pickImageAsync = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ['images'],
+            allowsEditing: true,
+            quality: 1,
+        });
+
+        if (!result.canceled) {
+            setImage(result.assets[0].uri);
+        } else {
+            alert('You did not select any image.');
+        }
+    };
 
     const isValid =
             name.trim().length > 0
@@ -63,7 +80,7 @@ export default function UpdateMenuItemView({item, isAdding, handleCancel, handle
     };
 
     return (
-        <View style={adminStyles.updating}>
+        <View style={adminStyles.menuUpdating}>
             <Text style={styles.header}>{isAdding ? "ADD NEW ITEM" : "EDIT ITEM"}</Text>
             <View style={styles.inputContainer}>
                 <Text style={styles.inputText}>Name </Text>
@@ -95,13 +112,18 @@ export default function UpdateMenuItemView({item, isAdding, handleCancel, handle
                 ></TextInput>
             </View>
             <View style={styles.inputContainer}>
-                <Text style={styles.inputText}>Image URL </Text>
-                <TextInput
-                    value={image}
-                    style={styles.input}
-                    placeholder="Item image url"
-                    onChangeText={(text) => setImage(text)}
-                ></TextInput>
+                <Text style={styles.inputText}>Image </Text>
+                <View style={{width: "70%"}}>
+                <TouchableOpacity style={{display: "flex", flexDirection:"row", alignItems: "center", gap: 5, marginBottom: 5}} onPress={pickImageAsync}>
+                    <Icon name="file-image-plus-outline" size={30}></Icon>
+                    <Text style={styles.text}>Choose image</Text>
+                </TouchableOpacity>
+                <View style={styles.imageContainer}>
+                    <Image
+                        source={{uri: image}}
+                        style={styles.image}/>
+                </View>
+                </View>
             </View>
             <View style={styles.inputContainer}>
                 <Text style={styles.inputText}>Category</Text>
@@ -213,5 +235,21 @@ const styles = StyleSheet.create({
     buttonText: {
         fontFamily: "Josefin-Sans",
         color: "white",
+    },
+
+    imageContainer: {
+        width: "100%",
+        height: 200,
+        borderRadius: 15,
+        borderColor: COLORS.dark,
+        borderStyle: "solid",
+        borderWidth: 2,
+        overflow: "hidden",
+    },
+
+    image: {
+        width: "100%",
+        height: "100%",
+        resizeMode: "cover",
     }
 })
