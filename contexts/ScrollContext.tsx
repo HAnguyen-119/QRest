@@ -17,9 +17,12 @@ export const ScrollProvider = ({ children }: { children: React.ReactNode }) => {
           lastScrollY.value = offsetY;
       },
   });
+  const onClick = (isOpen: boolean) => {
+    translateY.value = !isOpen ? withTiming(0, { duration: 300 }) : withTiming(100, { duration: 300 }) 
+  }
 
   return (
-    <ScrollContext.Provider value={{ translateY, scrollHandler }}>
+    <ScrollContext.Provider value={{ translateY, scrollHandler, onClick }}>
       {children}
     </ScrollContext.Provider>
   );

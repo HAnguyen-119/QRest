@@ -46,7 +46,7 @@ export default function Menu() {
     const menuStyles = createMenuStyles(isDark)
 
     const left = useSharedValue<string>("100%")
-    const { scrollHandler } = useScrollAnimated()
+    const { scrollHandler, onClick } = useScrollAnimated()
 
     // @ts-ignore
     const animatedStyle = useAnimatedStyle(() => {
@@ -75,6 +75,7 @@ export default function Menu() {
 
     const handleAddItem = () => {
         setisAdding(true);
+        onClick(true)
     }
 
     const handleEdit = () => {
@@ -95,6 +96,7 @@ export default function Menu() {
     const handleCancel = () => {
         setisAdding(false);
         setIsEdit(false);
+        onClick(false)
     }
 
     if (!menuData || !categoryData) {

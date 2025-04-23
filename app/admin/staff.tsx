@@ -28,7 +28,7 @@ export default function Staff() {
     const { isDark } = useThemeContext()
     const adminStyles = createAdminStyles(isDark)
 
-    const { scrollHandler } = useScrollAnimated()
+    const { scrollHandler, onClick } = useScrollAnimated()
 
     const positions = ["Waiter", "Cashier", "Chef", "Security", "Dishwasher", "Cleaner"]
 
@@ -58,16 +58,16 @@ export default function Staff() {
     const renderItem = ({item}) => {
         return (
         <StaffInfo id={item.id}
-                  fullName={item.fullName}
-                   imageUrl={item.imageUrl}
-                   dob={item.dob}
-                   address={item.address}
-                   phoneNumber={item.phoneNumber}
-                  position={item.position}
-                    salary={item.salary}
-                   handleEdit={handleEdit}
-                   handleDelete={handleDeleteConfirmView}
-                   setCurrentStaffId={setCurrentStaffId}
+            fullName={item.fullName}
+            imageUrl={item.imageUrl}
+            dob={item.dob}
+            address={item.address}
+            phoneNumber={item.phoneNumber}
+            position={item.position}
+            salary={item.salary}
+            handleEdit={handleEdit}
+            handleDelete={handleDeleteConfirmView}
+            setCurrentStaffId={setCurrentStaffId}
         >
         </StaffInfo>)
     }
@@ -82,6 +82,7 @@ export default function Staff() {
 
     const handleAdd = () => {
         setIsAdd(true);
+        onClick(true)
     }
 
     const handleEdit = () => {
@@ -92,6 +93,7 @@ export default function Staff() {
         setIsAdd(false);
         setIsEdit(false);
         setIsDelete(false);
+        onClick(false)
     }
 
     const handleDeleteConfirmView = () => {
