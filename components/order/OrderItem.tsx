@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { fetchAPI } from "@/services/fetchAPI";
 import { createOrderListStyles } from "@/assets/styles/waiter/OrderList.styles";
 import { OrderStatus } from "@/constants/types";
+import { opacity } from "react-native-reanimated/lib/typescript/Colors";
 export default function OrderItem({ orderID, foodOrders, comboOrders, orderTime, orderStatus, onClick }) {
 
   //const { isDark } = useThemeContext()
@@ -29,7 +30,7 @@ export default function OrderItem({ orderID, foodOrders, comboOrders, orderTime,
   }
 
   return (
-    <View style={container(taken)}>
+    <View style={takenStyles(taken).container}>
       <View style={styles.content}>
         <Text style={styles.orderID}>
           Order ID: {orderID}
@@ -61,19 +62,25 @@ export default function OrderItem({ orderID, foodOrders, comboOrders, orderTime,
       {expanded && (
         <View style={styles.buttonContainer}>
           <TouchableOpacity
-            style={styles.completeButton}
+            style={[
+              takenStyles(taken).completeButton,
+            ]}
             onPress={() => chefCompleteOrder(orderID)}
+            disabled={!taken}
           >
             <Text style={styles.completeButtonText}>Complete Order</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.completeButton}
+            style={[
+              takenStyles(taken).takeButton,
+            ]}
             onPress={() => chefTakeOrder(orderID)}
           >
             <Text style={styles.completeButtonText}>Take Order</Text>
           </TouchableOpacity>
         </View>
-      )}
+      )
+      }
 
       <TouchableOpacity
         style={styles.toggleButton}
@@ -83,21 +90,50 @@ export default function OrderItem({ orderID, foodOrders, comboOrders, orderTime,
           {expanded ? 'Hide Orders ▲' : 'Show Orders ▼'}
         </Text>
       </TouchableOpacity>
-    </View>
+    </View >
   );
 }
 
-const container = (taken: boolean) => ({
-  backgroundColor: taken ? COLORS.orderActive : COLORS.primary,
-  borderRadius: 12,
-  margin: 8,
-  padding: 17,
-  shadowColor: '#000',
-  shadowOffset: { width: 0, height: 4 },
-  shadowOpacity: 0.3,
-  shadowRadius: 4.65,
-  elevation: 8,
-  position: 'relative',
+const takenStyles = (taken: boolean) => ({
+  container: {
+    backgroundColor: taken ? COLORS.orderActive : COLORS.primary,
+    borderRadius: 12,
+    margin: 8,
+    padding: 17,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+    elevation: 8,
+    position: 'relative',
+  },
+  completeButton: {
+    backgroundColor: taken ? COLORS.orderActive : COLORS.primary,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    opacity: taken ? 1 : 0.5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    elevation: 5,
+    margin: 5,
+  },
+
+  takeButton: {
+    backgroundColor: taken ? COLORS.orderActive : COLORS.primary,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    elevation: 5,
+    margin: 5,
+  }
+
 });
 export const styles = StyleSheet.create({
   content: {
@@ -144,18 +180,6 @@ export const styles = StyleSheet.create({
     bottom: 10,
     flexDirection: "row",
     //margin: 5,
-  },
-  completeButton: {
-    backgroundColor: COLORS.primary,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
-    elevation: 5,
-    margin: 5,
   },
   completeButtonText: {
     color: COLORS.dark,
