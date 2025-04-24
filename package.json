@@ -54,7 +54,8 @@
     "react-native-web": "~0.19.13",
     "react-native-webview": "13.12.5",
     "rive-react-native": "^9.2.1",
-    "styled-components": "^6.1.17"
+    "styled-components": "^6.1.17",
+    "expo-image-picker": "~16.0.6"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
