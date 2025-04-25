@@ -5,9 +5,9 @@ export interface ReservationProps {
     bookingTime: Date,
     arrivalTime: Date,
     numberOfGuests: number,
-    deposit: number, 
+    deposit: number,
     customerName: string,
     customerPhone: string,
-    tableReservations: [{id: number, restaurantTable: RestaurantTableProps}],
+    tableReservations: [{ id: number, restaurantTable: RestaurantTableProps }],
     confirmed: boolean,
 }

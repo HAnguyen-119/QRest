@@ -68,10 +68,10 @@ export interface OrderProps {
         }
     ];
     reservation: any | null;
-} 
+}
 
 export interface OrderDetailProps {
-    id: number, 
+    id: number,
     data: OrderProps[],
     visible: boolean,
     setVisible: (visible: boolean) => void
@@ -96,7 +96,7 @@ export interface OrderListViewProps {
     comboList: OrderItemProps[],
     menuData: MenuItemIDProps[],
     combosData: ComboItemProps[],
-    handleChange: (id: number, isAdd: boolean, isDelete: boolean, category: string) => void, 
+    handleChange: (id: number, isAdd: boolean, isDelete: boolean, category: string) => void,
 
 }
 
