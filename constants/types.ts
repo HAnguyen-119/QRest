@@ -6,8 +6,9 @@ import { ReactNode } from "react";
 
 export type TableStatus = 'RESERVED' | 'OCCUPIED' | 'AVAILABLE'
 export type CustomerTitle = 'MR' | 'MRS'
-export type GetData = 'orders' | 'foods' | 'categories' | 'tables' | 'combos' | 'reservations'
-export type OrderStatus = 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'CANCELED'
+export type GetData = 'orders' | 'foods' | 'categories' | 'tables' | 'combos' 
+                    | 'reservations' | 'completed_orders' | 'pending_orders'
+export type OrderStatus = 'PENDING' | 'PROCESSING' | 'PROCESSED' | 'COMPLETED' | 'CANCELED'
 
 export interface Children {
     children: ReactNode
@@ -241,6 +242,13 @@ export interface SelectGroupProps {
 
 export interface OrderDetailProps {
     id: number, 
+    data: OrderProps[],
     visible: boolean,
     setVisible: (visible: boolean) => void
+}
+
+export interface CashierOrderComponentProps {
+    data: OrderProps[],
+    setVisible: (visible: boolean) => void,
+    setCurrentID: (id: number) => void
 }

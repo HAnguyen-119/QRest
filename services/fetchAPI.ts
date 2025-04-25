@@ -78,6 +78,12 @@ export const fetchAPI = {
     },
     getOrderByID: (id: number) => {
         return axiosClient.get(`orders/${id}`)
+    },
+    getCompletedOrders: () => {
+        return axiosClient.get('orders/completed')
+    },
+    getPendingOrders: () => {
+        return axiosClient.get('orders/completed/without-payment')
     }
 
 }

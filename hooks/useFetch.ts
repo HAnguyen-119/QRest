@@ -27,6 +27,12 @@ export const useFetch = (type: GetData) => {
                     case 'reservations': 
                         response = await fetchAPI.getReservations()
                         break
+                    case 'completed_orders':
+                        response = await fetchAPI.getCompletedOrders()
+                        break
+                    case 'pending_orders':
+                        response = await fetchAPI.getPendingOrders()
+                        break
                     default:
                         console.error(`Error, type not found, add '${type}' to constants/types.ts and try again`)
                 }

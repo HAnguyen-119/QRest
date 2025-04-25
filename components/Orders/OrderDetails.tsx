@@ -9,11 +9,14 @@ import Icon from '../Icon/Icon';
 import closeButton from '@/assets/images/close.png'
 import { BUTTONSIZE } from '@/constants/size';
 
-export default function OrderDetailScreen({ id, visible, setVisible }: OrderDetailProps) {
+export default function OrderDetailScreen({ id, data, visible, setVisible }: OrderDetailProps) {
+    if (!data) {
+        return null
+    }
 
-    const { data: order } = useFetchByID('orders', id)
+    const selectedOrder = data.find((order) => order.id === id)
 
-    if (!order) {
+    if (!selectedOrder) {
         return null
     }
 
@@ -33,7 +36,7 @@ export default function OrderDetailScreen({ id, visible, setVisible }: OrderDeta
                         <Text style={styles.sectionTitle}>Order Information</Text>
                         <View style={styles.infoRow}>
                             <Text style={styles.label}>Order ID:</Text>
-                            <Text style={styles.value}>#{order.id}</Text>
+                            <Text style={styles.value}>#{selectedOrder.id}</Text>
                         </View>
                         <View style={styles.infoRow}>
                             <Text style={styles.label}>Table:</Text>
@@ -42,23 +45,23 @@ export default function OrderDetailScreen({ id, visible, setVisible }: OrderDeta
                         <View style={styles.infoRow}>
                             <Text style={styles.label}>Order Time:</Text>
                             {/* <Text style={styles.value}>{formatDateTime(order.orderTime)}</Text> */}
-                            <Text style={styles.value}>{order.orderTime.toString()}</Text>
+                            <Text style={styles.value}>{selectedOrder.orderTime.toString()}</Text>
                         </View>
                         <View style={styles.infoRow}>
                             <Text style={styles.label}>Status:</Text>
-                            <Text style={[styles.value, styles.status]}>{order.orderStatus}</Text>
+                            <Text style={[styles.value, styles.status]}>{selectedOrder.orderStatus}</Text>
                         </View>
-                        {order.note && (
+                        {selectedOrder.note && (
                             <View style={styles.infoRow}>
                                 <Text style={styles.label}>Note:</Text>
-                                <Text style={styles.value}>{order.note}</Text>
+                                <Text style={styles.value}>{selectedOrder.note}</Text>
                             </View>
                         )}
                     </View>
 
                     <View style={styles.section}>
                         <Text style={styles.sectionTitle}>Food Items</Text>
-                        {order.foodOrders.map((foodOrder, index) => (
+                        {selectedOrder.foodOrders.map((foodOrder, index) => (
                             <View key={index} style={styles.itemContainer}>
                                 <View style={styles.itemHeader}>
                                     <Text style={styles.itemName}>{foodOrder.food.name}</Text>
@@ -71,7 +74,7 @@ export default function OrderDetailScreen({ id, visible, setVisible }: OrderDeta
 
                     <View style={styles.section}>
                         <Text style={styles.sectionTitle}>Combo Items</Text>
-                        {order.comboOrders.map((comboOrder, index) => (
+                        {selectedOrder.comboOrders.map((comboOrder, index) => (
                             <View key={index} style={styles.itemContainer}>
                                 <View style={styles.itemHeader}>
                                     <Text style={styles.itemName}>{comboOrder.combo.name}</Text>
@@ -91,7 +94,7 @@ export default function OrderDetailScreen({ id, visible, setVisible }: OrderDeta
 
                     <View style={styles.section}>
                         <Text style={styles.sectionTitle}>Total</Text>
-                        <Text style={styles.totalPrice}>${order.totalPrice}</Text>
+                        <Text style={styles.totalPrice}>${selectedOrder.totalPrice}</Text>
                     </View>
                 </ScrollView>
             </View>
