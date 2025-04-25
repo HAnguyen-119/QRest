@@ -12,9 +12,9 @@ import { createMenuItemStyles } from "@/assets/styles/menu/MenuItemOrders.styles
 
 import { GestureHandlerRootView, Swipeable } from "react-native-gesture-handler";
 
-export default function MenuItemOrders( { data, quantity, handleChange }: MenuItemOrderProps ) {
-    const { isDark } = useThemeContext()
-    const menuItemOrderStyles = createMenuItemStyles(isDark)
+export default function MenuItemOrders({ data, quantity, handleChange }: MenuItemOrderProps) {
+  const { isDark } = useThemeContext()
+  const menuItemOrderStyles = createMenuItemStyles(isDark)
 
     const renderDeleteButton = () => (
         <View style={menuItemOrderStyles.deleteContainer}>

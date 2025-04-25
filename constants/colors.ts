@@ -22,5 +22,6 @@ export const COLORS = {
     available: '#c8ffa9',
     reserved: '#fffd70',
     occupied: '#ffb0b0',
-    shadow: '#000000'
+    shadow: '#000000',
+    orderActive: '#EBBE4D',
 }

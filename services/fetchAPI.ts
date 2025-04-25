@@ -1,4 +1,4 @@
-import {AdminTableProps, MenuItemProps, PostOrderProps, StaffInfoProps, TableProps, TableStatus} from "@/constants/types";
+import { AdminTableProps, MenuItemProps, PostOrderProps, OrderStatus, StaffInfoProps, TableProps, TableStatus } from "@/constants/types";
 import axiosClient from "./axiosClient";
 
 export const fetchAPI = {
@@ -6,19 +6,23 @@ export const fetchAPI = {
         return axiosClient.get('orders')
     },
 
+    editOrderStatus: (id: number, status: OrderStatus) => {
+        return axiosClient.patch(`orders/${id}/status`, status)
+    },
+
     getFood: () => {
         return axiosClient.get('foods')
     },
 
-    addMenuItem:(data: MenuItemProps) => {
+    addMenuItem: (data: MenuItemProps) => {
         return axiosClient.post('foods', data);
     },
 
-    editMenuItem:(id: number, data: MenuItemProps) => {
+    editMenuItem: (id: number, data: MenuItemProps) => {
         return axiosClient.put(`foods/${id}`, data);
     },
 
-    deleteMenuItem:(id: number) => {
+    deleteMenuItem: (id: number) => {
         return axiosClient.delete(`foods/${id}`);
     },
 
@@ -57,7 +61,6 @@ export const fetchAPI = {
     editTable: (id: number, data: AdminTableProps) => {
         return axiosClient.put(`restaurant_tables/${id}`, data);
     },
-
     deleteTable: (id: number) => {
         return axiosClient.delete(`restaurant_tables/${id}`);
     },
@@ -85,5 +88,6 @@ export const fetchAPI = {
     getPendingOrders: () => {
         return axiosClient.get('orders/completed/without-payment')
     }
+
 
 }

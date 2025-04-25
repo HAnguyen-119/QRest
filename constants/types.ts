@@ -11,24 +11,24 @@ export type GetData = 'orders' | 'foods' | 'categories' | 'tables' | 'combos'
 export type OrderStatus = 'PENDING' | 'PROCESSING' | 'PROCESSED' | 'COMPLETED' | 'CANCELED'
 
 export interface Children {
-    children: ReactNode
+  children: ReactNode
 }
 
 export interface Route {
-    name: string;
-    title: string;
-    icon: keyof typeof Ionicons.glyphMap;
+  name: string;
+  title: string;
+  icon: keyof typeof Ionicons.glyphMap;
 }
 
 export interface Login {
-    username: string,
-    password: string,
+  username: string,
+  password: string,
 }
 
 export interface Authentication {
-    username: string,
-    password: string,
-    role: role
+  username: string,
+  password: string,
+  role: role
 }
 
 export type role = 'admin' | 'waiter' | 'cashier' | 'chef'
@@ -36,55 +36,55 @@ export type role = 'admin' | 'waiter' | 'cashier' | 'chef'
 export type UserDashboard = '/admin/dashboard' | '/cashier/dashboard' | '/chef/dashboard' | '/waiter/dashboard'
 
 export interface ButtonNav {
-    onPress: (event: GestureResponderEvent) => void;
-    onLongPress?: (event: GestureResponderEvent) => void;
-    isFocused: boolean;
-    label: string;
-    icon: JSX.Element;
+  onPress: (event: GestureResponderEvent) => void;
+  onLongPress?: (event: GestureResponderEvent) => void;
+  isFocused: boolean;
+  label: string;
+  icon: JSX.Element;
 }
 
 export interface ToggleType {
-    src: ImageSourcePropType,
-    width: number,
-    height: number,
-    count: number | null,
+  src: ImageSourcePropType,
+  width: number,
+  height: number,
+  count: number | null,
 }
 
 //theme context
 export interface ThemeContextProps {
-    isDark: boolean,
-    toggle: () => void
+  isDark: boolean,
+  toggle: () => void
 }
 
 export interface TextContextProps {
-    fontFamily: string
+  fontFamily: string
 }
 
 //category props
 
 export interface CategoryProps {
-    description: string,
-    id: number,
-    name: string
+  description: string,
+  id: number,
+  name: string
 }
 
 export interface MenuItemProps {
-    category: CategoryProps,
-    description: string,
-    imageUrl: string,
-    name: string,
-    price: number,
-    quantity: number // sucks
+  category: CategoryProps,
+  description: string,
+  imageUrl: string,
+  name: string,
+  price: number,
+  quantity: number // sucks
 }
 
 export interface MenuItemIDProps {
-    id: number
-    category: CategoryProps,
-    description: string,
-    imageUrl: string,
-    name: string,
-    price: number,
-    quantity: number // sucks
+  id: number
+  category: CategoryProps,
+  description: string,
+  imageUrl: string,
+  name: string,
+  price: number,
+  quantity: number // sucks
 }
 
  // payment cua Luong
@@ -153,8 +153,8 @@ export interface OrderProps {
 
 
 export interface ScrollContextType {
-    scrollY: Animated.Value
-    translateY: Animated.AnimatedInterpolation<string | number>;
+  scrollY: Animated.Value
+  translateY: Animated.AnimatedInterpolation<string | number>;
 }
 
 // export interface AnimationProps {
@@ -162,21 +162,21 @@ export interface ScrollContextType {
 // }
 
 export interface OrderItemProps {
-    id: number,
-    quantity: number,
+  id: number,
+  quantity: number,
 }
 
 export interface TableProps {
-    capacity: number,
-    id: number,
-    name: string,
-    status: string
+  capacity: number,
+  id: number,
+  name: string,
+  status: string
 }
 
 export interface AdminTableProps {
-    capacity: number,
-    name: string,
-    status: string
+  capacity: number,
+  name: string,
+  status: string
 }
 
 export interface RestaurantTableProps {
@@ -184,6 +184,14 @@ export interface RestaurantTableProps {
     name: string,
     capacity: number,
     status: TableStatus
+}
+
+export interface CustomerOrderProps {
+    id: number,
+    customerTitle: CustomerTitle,
+    firstname: string,
+    lastname: string,
+    phone: string,
 }
 
 export interface ReservationProps {
@@ -236,13 +244,13 @@ export interface ComboItemProps {
 }
 
 export interface StaffInfoProps {
-    fullName: string
-    dob: string
-    phoneNumber: string
-    address: string
-    salary: number
-    position: string,
-    imageUrl: string,
+  fullName: string
+  dob: string
+  phoneNumber: string
+  address: string
+  salary: number
+  position: string,
+  imageUrl: string,
 }
 
 export interface MenuItemOrderProps {
@@ -253,9 +261,9 @@ export interface MenuItemOrderProps {
 
 // selectgroupoption props
 export interface SelectGroupProps {
-    options: number[] ,
-    selectedValue: number,
-    onSelect: (value: number) => void
+  options: number[],
+  selectedValue: number,
+  onSelect: (value: number) => void
 }
 
 export interface OrderDetailProps {
