@@ -2,7 +2,8 @@ import { createOrderListStyles } from "@/assets/styles/cashier/OrderList.styles"
 import CashierOrderList from "@/components/Cashier/CashierOrderList";
 import Searcher from "@/components/menu/Searcher";
 import OrderDetailScreen from "@/components/Orders/OrderDetails";
-import { OrderProps, OrderStatus, ReservationProps } from "@/constants/types";
+import { ReservationProps } from "@/constants/Types/reservation";
+import { OrderStatus, OrderProps } from "@/constants/Types/order";
 import { useThemeContext } from "@/contexts/ThemeContext";
 import { useFetch } from "@/hooks/useFetch";
 import { useState } from "react";

@@ -1,4 +1,4 @@
-import { MenuItemOrderProps } from "@/constants/types";
+import { MenuItemOrderProps } from "@/constants/Types/order";
 import { useThemeContext } from "@/contexts/ThemeContext";
 import { Image, View, Text, TouchableOpacity, StyleSheet } from "react-native";
 

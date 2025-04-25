@@ -9,7 +9,7 @@ import {createAdminStyles} from "@/assets/styles/admin/Admin.styles";
 import TableCategory from "@/components/table/TableCategory";
 import { useThemeContext } from "@/contexts/ThemeContext";
 import { useFetch } from "@/hooks/useFetch";
-import { TableProps, TableStatus } from "@/constants/types";
+import { TableProps, TableStatus } from "@/constants/Types/table";
 import { fetchAPI } from "@/services/fetchAPI";
 
 

@@ -4,7 +4,7 @@ import { useRouter } from "expo-router";
 import React, {useState} from "react";
 import {View, Text, TextInput, StyleSheet, Alert, TouchableOpacity} from "react-native";
 
-import { role } from "@/constants/types";
+import { role } from "@/constants/Types/authentication";
 
 export default function Login() {
     const [username, setUsername] = useState<string>("")

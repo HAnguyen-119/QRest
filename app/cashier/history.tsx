@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { OrderProps } from '../../constants/types';
+import { OrderProps } from '../../constants/Types/order';
 import { COLORS } from '../../constants/colors';
 import { formatDateTime } from './_format';
 import { useScrollAnimated } from '@/contexts/ScrollContext';

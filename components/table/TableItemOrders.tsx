@@ -1,7 +1,7 @@
 import { useThemeContext } from "@/contexts/ThemeContext";
 import { View, Image, Text, TouchableOpacity, ScrollView, ImageSourcePropType } from "react-native";
 
-import { TableProps } from "@/constants/types";
+import { TableProps } from "@/constants/Types/table";
 import { createTableItemStyles } from "@/assets/styles/table/TableItemOrders.styles";
 
 import doubleTable from '@/assets/images/table-2.png'

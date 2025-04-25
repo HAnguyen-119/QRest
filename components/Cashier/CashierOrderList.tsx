@@ -1,5 +1,5 @@
 import { createOrderListStyles } from "@/assets/styles/cashier/OrderList.styles";
-import { CashierOrderComponentProps, OrderProps } from "@/constants/types";
+import { CashierOrderComponentProps, OrderProps } from "@/constants/Types/order";
 import { useScrollAnimated } from "@/contexts/ScrollContext";
 import { useThemeContext } from "@/contexts/ThemeContext";
 import { TouchableOpacity, Text, View } from "react-native";

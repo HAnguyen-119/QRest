@@ -1,4 +1,5 @@
-import { ComboItemProps, MenuItemIDProps, MenuItemProps, OrderListViewProps } from "@/constants/types";
+import { ComboItemProps, OrderListViewProps } from "@/constants/Types/order";
+import { MenuItemIDProps, MenuItemProps } from "@/constants/Types/menuitem";
 import { View, Text, TouchableOpacity } from "react-native";
 import Icon from "../Icon/Icon";
 

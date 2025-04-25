@@ -1,4 +1,4 @@
-import { ButtonNav } from "@/constants/types";
+import { ButtonNav } from "@/constants/Types/types2";
 import { Pressable, Text, TouchableOpacity, View } from "react-native";
 import { styles } from '@/assets/styles/button/BottomNav.styles';
 import Animated, { FadeIn, FadeOut, interpolate, LinearTransition, useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";

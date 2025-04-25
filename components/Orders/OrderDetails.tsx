@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Modal, TouchableOpacity } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
-import { OrderDetailProps, OrderProps } from '../../constants/types';
+import { OrderDetailProps, OrderProps } from '../../constants/Types/order';
 import { COLORS } from '../../constants/colors';
 import { useFetchByID } from '@/hooks/useFetchByID';
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SelectGroupProps } from "@/constants/types";
+import { SelectGroupProps } from "@/constants/Types/function";
 import { useThemeContext } from "@/contexts/ThemeContext";
 import { TouchableOpacity, View, Text, StyleSheet, Modal, FlatList } from "react-native";
 import { createGlobalStyles } from "@/assets/styles/Global.styles";

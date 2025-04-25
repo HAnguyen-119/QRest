@@ -10,7 +10,7 @@ import Note  from '@/assets/images/note.png'
 import closeButton from '@/assets/images/close.png'
 
 import { BUTTONSIZE, MINIBUTTON } from "@/constants/size";
-import { OrderItemProps, OrderListViewProps } from "@/constants/types";
+import { OrderItemProps, OrderListViewProps } from "@/constants/Types/order";
 import { getOrderPrice } from "@/utils/GetTotalPrice";
 import { createGlobalStyles } from "@/assets/styles/Global.styles";
 import SelectGroup from "../Input/Select";

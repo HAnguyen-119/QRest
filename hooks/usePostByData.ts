@@ -1,4 +1,5 @@
-import { GetData, PostOrderProps } from "@/constants/types";
+import { GetData } from "@/constants/Types/function";
+import { PostOrderProps } from "@/constants/Types/order";
 import { fetchAPI } from "@/services/fetchAPI";
 import { useEffect, useState } from "react";
 

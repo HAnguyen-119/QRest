@@ -1,5 +1,6 @@
 import { ROUTES } from "@/constants/routes";
-import { Authentication, UserDashboard } from "@/constants/types";
+import { UserDashboard } from "@/constants/Types/navigation";
+import { Authentication } from "@/constants/Types/authentication";
 import { getUserPage } from "@/utils/GetDashboardRoute";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";

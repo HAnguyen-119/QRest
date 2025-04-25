@@ -4,7 +4,8 @@ import {COLORS} from "@/constants/colors";
 import {useThemeContext} from "@/contexts/ThemeContext";
 import {createAdminStyles} from "@/assets/styles/admin/Admin.styles";
 import {useState} from "react";
-import {AdminTableProps, StaffInfoProps, TableProps} from "@/constants/types";
+import {AdminTableProps} from "@/constants/Types/table";
+import { TableProps } from "@/constants/Types/table";
 import {fetchAPI} from "@/services/fetchAPI";
 import {format} from "date-fns";
 

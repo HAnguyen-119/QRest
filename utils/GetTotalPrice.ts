@@ -1,4 +1,6 @@
-import { ComboItemProps, MenuItemIDProps, MenuItemProps, OrderItemProps, UtilsPriceProps } from "@/constants/types";
+import { UtilsPriceProps } from "@/constants/Types/function";
+import { ComboItemProps, OrderItemProps } from "@/constants/Types/order";
+import { MenuItemIDProps } from "@/constants/Types/menuitem";
 
 export const getTotalPrice = ({ data, id, quantity}: UtilsPriceProps) => {
     let price = 0

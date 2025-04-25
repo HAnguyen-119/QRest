@@ -1,4 +1,8 @@
-import { AdminTableProps, MenuItemProps, PostOrderProps, OrderStatus, StaffInfoProps, TableProps, TableStatus } from "@/constants/types";
+import { StaffInfoProps } from "@/constants/Types/staff";
+import { TableProps, TableStatus, AdminTableProps } from "@/constants/Types/table";
+import { PostOrderProps } from "@/constants/Types/order";
+import { OrderStatus } from "@/constants/Types/order";
+import { MenuItemProps } from "@/constants/Types/menuitem";
 import axiosClient from "./axiosClient";
 
 export const fetchAPI = {

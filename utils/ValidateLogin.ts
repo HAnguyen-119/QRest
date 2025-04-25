@@ -1,4 +1,4 @@
-import { Login } from "@/constants/types"
+import { Login } from "@/constants/Types/authentication"
 
 import users from '../constants/users.json'
 

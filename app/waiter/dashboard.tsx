@@ -6,7 +6,7 @@ import Searcher from "@/components/menu/Searcher";
 import { useState } from "react";
 import Animated from "react-native-reanimated";
 import { useScrollAnimated } from "@/contexts/ScrollContext";
-import { OrderItemProps } from "@/constants/types";
+import { OrderItemProps } from "@/constants/Types/order";
 import { useFetch } from "@/hooks/useFetch";
 import Icon from "@/components/Icon/Icon";
 import { BUTTONSIZE } from "@/constants/size";

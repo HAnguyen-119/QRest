@@ -1,4 +1,4 @@
-import { TextContextProps } from '@/constants/types'
+import { TextContextProps } from '@/constants/Types/context'
 import React, { createContext, useContext, ReactNode } from 'react'
 
 const TextContext = createContext<TextContextProps | undefined>(undefined)

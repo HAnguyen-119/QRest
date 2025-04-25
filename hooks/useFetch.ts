@@ -1,4 +1,4 @@
-import { GetData } from "@/constants/types";
+import { GetData } from "@/constants/Types/function";
 import { fetchAPI } from "@/services/fetchAPI";
 import { useEffect, useState, useCallback } from "react";
 

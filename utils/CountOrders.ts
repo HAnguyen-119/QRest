@@ -1,4 +1,4 @@
-import { OrderItemProps } from "@/constants/types";
+import { OrderItemProps } from "@/constants/Types/order";
 
 export const CountOrders = (orderList: OrderItemProps[], comboList: OrderItemProps[]) => {
     if (orderList.length === 0 && comboList.length === 0) {

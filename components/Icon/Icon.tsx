@@ -1,6 +1,6 @@
 // import { ToggleType } from "@/constants/types";
 import { IconStyles } from "@/assets/styles/IconCount.styles";
-import { ToggleType } from "@/constants/types";
+import { ToggleType } from "@/constants/Types/function";
 import { View, Text } from "react-native";
 import Animated from "react-native-reanimated";
 

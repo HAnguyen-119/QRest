@@ -2,7 +2,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native"; import 
 import { useEffect, useState } from "react";
 import { fetchAPI } from "@/services/fetchAPI";
 import { createOrderListStyles } from "@/assets/styles/waiter/OrderList.styles";
-import { OrderStatus } from "@/constants/types";
+import { OrderStatus } from "@/constants/Types/order";
 import { opacity } from "react-native-reanimated/lib/typescript/Colors";
 export default function OrderItem({ orderID, foodOrders, comboOrders, orderTime, orderStatus, onClick }) {
 

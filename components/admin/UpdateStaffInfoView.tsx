@@ -4,7 +4,7 @@ import {COLORS} from "@/constants/colors";
 import {useThemeContext} from "@/contexts/ThemeContext";
 import {createAdminStyles} from "@/assets/styles/admin/Admin.styles";
 import {useState} from "react";
-import {StaffInfoProps} from "@/constants/types";
+import {StaffInfoProps} from "@/constants/Types/staff";
 import {fetchAPI} from "@/services/fetchAPI";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {format} from "date-fns";
