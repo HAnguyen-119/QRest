@@ -1,6 +1,4 @@
-
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { COLORS } from "@/constants/colors";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native"; import { COLORS } from "@/constants/colors";
 import { useEffect, useState } from "react";
 import { fetchAPI } from "@/services/fetchAPI";
 import { createOrderListStyles } from "@/assets/styles/waiter/OrderList.styles";

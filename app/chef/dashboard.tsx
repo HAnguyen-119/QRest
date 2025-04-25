@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Text, ScrollView, StyleSheet, RefreshControl } from "react-native";
-import OrderItem from "@/components/order/OrderItem"; // if using Expo, or use any custom checkbox
+import OrderItem from "@/components/OrdersChef/OrderItem"; // if using Expo, or use any custom checkbox
 import { useFetch } from "@/hooks/useFetch";
 import { OrderStatus } from "@/constants/orderstatus";
 

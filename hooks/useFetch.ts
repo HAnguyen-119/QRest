@@ -47,4 +47,5 @@ export const useFetch = (type: GetData) => {
 
   // Return the data, loading, error, and refetch function
   return { data, loading, refetch: fetchData };
+
 };
