@@ -1,77 +1,81 @@
-import {AdminTableProps, MenuItemProps, OrderProps, StaffInfoProps, TableProps, TableStatus} from "@/constants/types";
+import { AdminTableProps, MenuItemProps, OrderProps, OrderStatus, StaffInfoProps, TableProps, TableStatus } from "@/constants/types";
 import axiosClient from "./axiosClient";
 
 export const fetchAPI = {
-    getOrders: () => {
-        return axiosClient.get('orders')
-    },
+  getOrders: () => {
+    return axiosClient.get('orders')
+  },
 
-    getFood: () => {
-        return axiosClient.get('foods')
-    },
+  editOrderStatus: (id: number, status: OrderStatus) => {
+    return axiosClient.patch(`orders/${id}/status`, status)
+  },
 
-    addMenuItem:(data: MenuItemProps) => {
-        return axiosClient.post('foods', data);
-    },
+  getFood: () => {
+    return axiosClient.get('foods')
+  },
 
-    editMenuItem:(id: number, data: MenuItemProps) => {
-        return axiosClient.put(`foods/${id}`, data);
-    },
+  addMenuItem: (data: MenuItemProps) => {
+    return axiosClient.post('foods', data);
+  },
 
-    deleteMenuItem:(id: number) => {
-        return axiosClient.delete(`foods/${id}`);
-    },
+  editMenuItem: (id: number, data: MenuItemProps) => {
+    return axiosClient.put(`foods/${id}`, data);
+  },
 
-    getCategories: () => {
-        return axiosClient.get('categories')
-    },
+  deleteMenuItem: (id: number) => {
+    return axiosClient.delete(`foods/${id}`);
+  },
 
-    postOrder: (data: OrderProps | null) => {
-        return axiosClient.post('orders', data)
-    },
+  getCategories: () => {
+    return axiosClient.get('categories')
+  },
 
-    getStaff: () => {
-        return axiosClient.get('staffs')
-    },
+  postOrder: (data: OrderProps | null) => {
+    return axiosClient.post('orders', data)
+  },
 
-    addStaff: (data: StaffInfoProps) => {
-        return axiosClient.post('staffs', data);
-    },
+  getStaff: () => {
+    return axiosClient.get('staffs')
+  },
 
-    editStaff: (id: number, data: StaffInfoProps) => {
-        return axiosClient.put(`staffs/${id}`, data);
-    },
+  addStaff: (data: StaffInfoProps) => {
+    return axiosClient.post('staffs', data);
+  },
 
-    deleteStaff: (id: number) => {
-        return axiosClient.delete(`staffs/${id}`);
-    },
+  editStaff: (id: number, data: StaffInfoProps) => {
+    return axiosClient.put(`staffs/${id}`, data);
+  },
 
-    getTables: () => {
-        return axiosClient.get('restaurant_tables')
-    },
+  deleteStaff: (id: number) => {
+    return axiosClient.delete(`staffs/${id}`);
+  },
 
-    addTable: (data: AdminTableProps) => {
-        return axiosClient.post('restaurant_tables', data);
-    },
+  getTables: () => {
+    return axiosClient.get('restaurant_tables')
+  },
 
-    editTable: (id: number, data: AdminTableProps) => {
-        return axiosClient.put(`restaurant_tables/${id}`, data);
-    },
+  addTable: (data: AdminTableProps) => {
+    return axiosClient.post('restaurant_tables', data);
+  },
 
-    deleteTable: (id: number) => {
-        return axiosClient.delete(`restaurant_tables/${id}`);
-    },
+  editTable: (id: number, data: AdminTableProps) => {
+    return axiosClient.put(`restaurant_tables/${id}`, data);
+  },
+  deleteTable: (id: number) => {
+    return axiosClient.delete(`restaurant_tables/${id}`);
+  },
 
-    getCombos: () => {
-        return axiosClient.get('combos')
-    },
+  getCombos: () => {
+    return axiosClient.get('combos')
+  },
 
-    putTableByID: (id: number) => {
-        return axiosClient.put(`restaurant_tables/${id}`)
-    },
+  putTableByID: (id: number) => {
+    return axiosClient.put(`restaurant_tables/${id}`)
+  },
 
-    putTableStatusByID: (id: number, status: TableStatus) => {
-        return axiosClient.put(`restaurant_tables/${id}/status/${status}`)
-    }
+  putTableStatusByID: (id: number, status: TableStatus) => {
+    return axiosClient.put(`restaurant_tables/${id}/status/${status}`)
+  }
+
 
 }
