@@ -14,7 +14,7 @@ export default function TableInfo({id, name, capacity, status, handleChangeStatu
             <View style={tableInfoStyles.nameContainer}>
                 <Text style={tableInfoStyles.text}>{name}</Text>
             </View>
-            { handleEdit &&
+            { handleEdit ?
                 <View style={tableInfoStyles.infoContainer}>
                     <Text style={tableInfoStyles.text}>Capacity : {capacity}</Text>
                     <TouchableOpacity onPress={() => {setCurrentTableId(id); handleEdit()}}>
@@ -23,6 +23,10 @@ export default function TableInfo({id, name, capacity, status, handleChangeStatu
                     <TouchableOpacity onPress={() => {setCurrentTableId(id); handleDelete()}}>
                         <Text>Delete</Text>
                     </TouchableOpacity>
+                </View>
+                :
+                <View style={tableInfoStyles.infoContainer}>
+                    <Text style={tableInfoStyles.text}>Capacity : {capacity}</Text>
                 </View>
             }
             {handleChangeStatus && status !== 'AVAILABLE' 

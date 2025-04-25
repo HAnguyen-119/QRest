@@ -3,10 +3,15 @@ import { StyleSheet } from "react-native"
 export const createModalTableViewStyles = (isDark: boolean) => {
     return StyleSheet.create({
         container: {
-            height: '100%'
+            flex: 1,
+            padding: 20,
         },
-        tableView: {
-            height: 600,
-        }
+        scrollViewContainer: {
+            flexGrow: 1,
+            paddingVertical: 10,
+        },
+        tableGrid: {
+            gap: 10, 
+        },
     })
 }

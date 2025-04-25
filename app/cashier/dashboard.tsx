@@ -25,7 +25,7 @@ export default function Dashboard() {
         return null
     }
 
-    const processedOrders = orders.filter((order: OrderProps) => order.orderStatus === 'PENDING')
+    const processedOrders = orders.filter((order: OrderProps) => order.orderStatus === 'PROCESSED')
 
     if (!processedOrders) {
         return null
@@ -42,7 +42,7 @@ export default function Dashboard() {
                 Pending Orders
             </Text>
             <CashierOrderList data={processedOrders} setVisible={setVisible} setCurrentID={setCurrentID}/>
-            {/* {currentID && <OrderDetailScreen id={currentID} data={processedOrders} visible={visible} setVisible={setVisible}/>} */}
+            {currentID && <OrderDetailScreen id={currentID} data={processedOrders} visible={visible} setVisible={setVisible}/>}
         </View>
     )
 }
