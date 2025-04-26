@@ -34,7 +34,7 @@ export default function OrderListView({ orderList, comboList, menuData, combosDa
                     const menuItem = menuData.find((menu: MenuItemIDProps) => menu.id === item.id)
                     if (!menuItem) return null
                     return (
-                        <MenuItemOrders key={item.id} data={menuItem} quantity={item.quantity} handleChange={handleChange}/>
+                        <MenuItemOrders key={item.id} data={menuItem} quantity={item.quantity} handleChange={handleChange} isComboItem={false}/>
                     )
                 })}
             </Animated.ScrollView>

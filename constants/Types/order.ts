@@ -102,7 +102,8 @@ export interface CustomerOrderProps {
 export interface MenuItemOrderProps {
     data: MenuItemIDProps | ComboItemProps,
     quantity: number,
-    handleChange: ((id: number, isAdd: boolean, isDelete: boolean, category: string) => void) | null
+    handleChange: ((id: number, isAdd: boolean, isDelete: boolean, category: string) => void) | null,
+    isComboItem: boolean
 }
 
 export interface ComboViewProps {

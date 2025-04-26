@@ -1,6 +1,5 @@
-import React from "react"
-import { View, TouchableOpacity } from "react-native"
-import Animated, { useAnimatedStyle, withTiming, useSharedValue } from "react-native-reanimated"
+import React, { useRef } from "react"
+import { View, TouchableOpacity, Text, Animated } from "react-native"
 import Icon from "../Icon/Icon"
 import MenuItemOrders from "../menu/MenuItemOrders"
 import { MINIBUTTON } from "@/constants/size"
@@ -11,31 +10,36 @@ import { useThemeContext } from "@/contexts/ThemeContext"
 import { createOrderListStyles } from "@/assets/styles/waiter/OrderList.styles"
 
 export default function ComboItem({ item, menuItem, handleChange }: ComboViewProps) {
-    const heightValue = useSharedValue(0)
+    const heightValue = useRef(new Animated.Value(0)).current 
     const [isExpanded, setIsExpanded] = React.useState(false)
 
     const { isDark } = useThemeContext()
     const OrderListStyles = createOrderListStyles(isDark)
 
-    const animatedStyle = useAnimatedStyle(() => ({
-        height: heightValue.value,
-        overflow: "hidden",
-    }))
-
     const numberOfItems = menuItem.comboFoods.length
+
+    console.log(menuItem)
 
     const toggleExpand = () => {
         if (isExpanded) {
-            heightValue.value = withTiming(0, { duration: 300 })
+            Animated.timing(heightValue, {
+                toValue: 0,
+                duration: 300,
+                useNativeDriver: false, 
+            }).start()
         } else {
-            heightValue.value = withTiming(numberOfItems * 136, { duration: 300 })
+            Animated.timing(heightValue, {
+                toValue: numberOfItems * 136, 
+                duration: 300,
+                useNativeDriver: false,
+            }).start()
         }
         setIsExpanded(!isExpanded)
     }
 
     return (
-        <View style={isExpanded ? OrderListStyles.comboContainer : null}>
-            <MenuItemOrders data={menuItem} quantity={item.quantity} handleChange={handleChange} />
+        <View style={[isExpanded ? OrderListStyles.comboContainer : {}]}>
+            <MenuItemOrders data={menuItem} quantity={item.quantity} handleChange={handleChange} isComboItem={false}/>
             <TouchableOpacity onPress={toggleExpand} style={OrderListStyles.expandButton}>
                 <Icon
                     src={isExpanded ? minimizeButton : dropdownButton}
@@ -44,9 +48,10 @@ export default function ComboItem({ item, menuItem, handleChange }: ComboViewPro
                     count={null}
                 />
             </TouchableOpacity>
-            <Animated.View style={[animatedStyle]}>
+
+            <Animated.View style={{ height: heightValue, overflow: "hidden" }}>
                 {menuItem.comboFoods.map((item, index) => (
-                    <MenuItemOrders key={index} data={item.food} quantity={item.food.quantity} handleChange={null} />
+                    <MenuItemOrders key={index} data={item.food} quantity={item.food.quantity} handleChange={null} isComboItem={true}/>
                 ))}
             </Animated.View>
         </View>

@@ -12,7 +12,7 @@ import { createMenuItemStyles } from "@/assets/styles/menu/MenuItemOrders.styles
 
 import { GestureHandlerRootView, Swipeable } from "react-native-gesture-handler";
 
-export default function MenuItemOrders({ data, quantity, handleChange }: MenuItemOrderProps) {
+export default function MenuItemOrders({ data, quantity, handleChange, isComboItem }: MenuItemOrderProps) {
   const { isDark } = useThemeContext()
   const menuItemOrderStyles = createMenuItemStyles(isDark)
 
@@ -66,12 +66,15 @@ export default function MenuItemOrders({ data, quantity, handleChange }: MenuIte
                                 <Image source={{uri: data.imageUrl}} style={menuItemOrderStyles.image}/>
                             </View>
                             <View style={menuItemOrderStyles.detailContainer}>
-                                <Text style={menuItemOrderStyles.nameText}>
+                                <Text style={menuItemOrderStyles.nameText} numberOfLines={1} ellipsizeMode="tail">
                                     {data.name}
                                 </Text>
                                 <Text style={{fontFamily: 'Josefin-Sans'}}>
                                     {data.description}
                                 </Text>
+                                {!isComboItem && <Text style={menuItemOrderStyles.priceText}>
+                                    ${(data.price * quantity).toFixed(2)}
+                                </Text>}
                             </View>
                             <View style={menuItemOrderStyles.buttonContainer}>
                                 <Text style={menuItemOrderStyles.quantityText}>x{quantity}</Text>

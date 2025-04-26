@@ -67,6 +67,21 @@ export const createOrderListStyles = (isDark: boolean) => {
             alignSelf: 'center',
             position: 'absolute',
             top: 12,
-        }
+        },
+        foodItemContainer: {
+            padding: 8,
+            borderBottomWidth: 1,
+            borderBottomColor: "lightgray",
+        },
+        foodName: {
+            fontSize: 16,
+            fontWeight: "bold",
+            color: isDark ? "white" : "black",
+        },
+        foodDescription: {
+            fontSize: 14,
+            color: isDark ? "lightgray" : "gray",
+            marginTop: 4,
+        },
     })
 }
