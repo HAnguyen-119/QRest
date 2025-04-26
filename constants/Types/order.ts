@@ -27,16 +27,7 @@ export interface ComboOrder {
     id: number;
     quantity: number;
     price: number;
-    combo: Combo;
-}
-
-export interface Combo {
-    id: number;
-    name: string;
-    description: string;
-    price: number;
-    imageUrl: string;
-    comboFoods: ComboFood[];
+    combo: ComboItemProps;
 }
 
 export interface ComboItemProps {
@@ -96,7 +87,7 @@ export interface OrderListViewProps {
     comboList: OrderItemProps[],
     menuData: MenuItemIDProps[],
     combosData: ComboItemProps[],
-    handleChange: (id: number, isAdd: boolean, isDelete: boolean, category: string) => void,
+    handleChange: ((id: number, isAdd: boolean, isDelete: boolean, category: string) => void) | null,
 
 }
 
@@ -111,5 +102,11 @@ export interface CustomerOrderProps {
 export interface MenuItemOrderProps {
     data: MenuItemIDProps | ComboItemProps,
     quantity: number,
-    handleChange: (id: number, isAdd: boolean, isDelete: boolean, category: string) => void
+    handleChange: ((id: number, isAdd: boolean, isDelete: boolean, category: string) => void) | null
+}
+
+export interface ComboViewProps {
+    item: OrderItemProps,
+    menuItem: ComboItemProps,
+    handleChange: ((id: number, isAdd: boolean, isDelete: boolean, category: string) => void) | null 
 }

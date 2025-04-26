@@ -17,6 +17,7 @@ export const createMenuItemStyles = (isDark: boolean) => {
             // elevation: 16,
             borderWidth: 2,
             margin: 12,
+            height: 120,
         },
 
         overlay: {

@@ -8,6 +8,8 @@ import { useFetchByID } from '@/hooks/useFetchByID';
 import Icon from '../Icon/Icon';
 import closeButton from '@/assets/images/close.png'
 import { BUTTONSIZE } from '@/constants/size';
+import OrderListView from './OrderListView';
+import { MenuItemIDProps } from '@/constants/Types/menuitem';
 
 export default function OrderDetailScreen({ id, data, visible, setVisible }: OrderDetailProps) {
     if (!data) {
@@ -19,6 +21,21 @@ export default function OrderDetailScreen({ id, data, visible, setVisible }: Ord
     if (!selectedOrder) {
         return null
     }
+
+    const foodOrders = selectedOrder.foodOrders
+    const comboOrders = selectedOrder.comboOrders
+    const menuData = foodOrders.map((food) => (food.food))
+    const comboData = comboOrders.map((combo) => combo.combo)
+
+    const foodList = foodOrders.map((food) => ({
+        id: food.food.id,
+        quantity: food.quantity,
+    }))
+
+    const comboList = comboOrders.map((combo) => ({
+        id: combo.combo.id,
+        quantity: combo.quantity
+    }))
 
     return (
         <Modal 
@@ -59,7 +76,15 @@ export default function OrderDetailScreen({ id, data, visible, setVisible }: Ord
                         )}
                     </View>
 
-                    <View style={styles.section}>
+                    <OrderListView 
+                        orderList={foodList} 
+                        comboList={comboList} 
+                        menuData={menuData} 
+                        combosData={comboData} 
+                        handleChange={null} 
+                    />
+
+                    {/* <View style={styles.section}>
                         <Text style={styles.sectionTitle}>Food Items</Text>
                         {selectedOrder.foodOrders.map((foodOrder, index) => (
                             <View key={index} style={styles.itemContainer}>
@@ -90,7 +115,7 @@ export default function OrderDetailScreen({ id, data, visible, setVisible }: Ord
                                 </View>
                             </View>
                         ))}
-                    </View>
+                    </View> */}
 
                     <View style={styles.section}>
                         <Text style={styles.sectionTitle}>Total</Text>

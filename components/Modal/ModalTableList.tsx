@@ -15,8 +15,7 @@ import { useState } from "react";
 import { usePostByData } from "@/hooks/usePostByData";
 
 import nextButton from '@/assets/images/next.png'
-import { router } from "expo-router";
-import { ROUTES } from "@/constants/routes";
+
 
 interface ModalTableViewProps {
     visible: boolean,
@@ -25,7 +24,6 @@ interface ModalTableViewProps {
     note: string | null,
     preModal: (visible: boolean) => void
     setOrderList: (list: OrderItemProps[]) => void,
-    combosData: ComboItemProps[],
     comboList: OrderItemProps[],
     setComboList: (list: OrderItemProps[]) => void
 }

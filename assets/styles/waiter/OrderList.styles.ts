@@ -5,6 +5,10 @@ export const createOrderListStyles = (isDark: boolean) => {
     return StyleSheet.create({
         container: {
         },
+        comboContainer: {
+            backgroundColor: isDark ? COLORS.gray : COLORS.containerBackground,
+            borderBottomWidth: 2
+        },
         scrollView: {
             height: 540,
             flexGrow: 1
@@ -58,6 +62,11 @@ export const createOrderListStyles = (isDark: boolean) => {
             alignItems: 'center',
             marginHorizontal: 32,
             padding: 8,
+        },
+        expandButton: {
+            alignSelf: 'center',
+            position: 'absolute',
+            top: 12,
         }
     })
 }
