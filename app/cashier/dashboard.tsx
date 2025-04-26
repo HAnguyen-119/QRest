@@ -27,7 +27,6 @@ export default function Dashboard() {
     }
 
     const processedOrders = orders.filter((order: OrderProps) => order.orderStatus === 'PROCESSED')
-
     if (!processedOrders) {
         return null
     }
