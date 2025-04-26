@@ -1,10 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { OrderProps } from '../../constants/Types/order';
-import { COLORS } from '../../constants/colors';
-import { formatDateTime } from './_format';
-import { useScrollAnimated } from '@/contexts/ScrollContext';
-import Animated from 'react-native-reanimated';
+import React, { useState } from 'react';
+import { View, Text } from 'react-native';
 import { useFetch } from '@/hooks/useFetch';
 import OrderDetailScreen from '@/components/Orders/OrderDetails';
 import { useThemeContext } from '@/contexts/ThemeContext';

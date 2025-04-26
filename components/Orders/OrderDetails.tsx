@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Modal, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, Modal, TouchableOpacity, Image } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { OrderDetailProps, OrderProps } from '../../constants/Types/order';
 import { COLORS } from '../../constants/colors';
@@ -9,9 +9,12 @@ import Icon from '../Icon/Icon';
 import closeButton from '@/assets/images/close.png'
 import { BUTTONSIZE } from '@/constants/size';
 import OrderListView from './OrderListView';
-import { MenuItemIDProps } from '@/constants/Types/menuitem';
+import nextButton from '@/assets/images/next.png'
+import { convertUSDtoVND } from '@/utils/ChangeMoney';
 
 export default function OrderDetailScreen({ id, data, visible, setVisible }: OrderDetailProps) {
+    const [paymentVisible, setPaymentVisible] = useState<boolean>(false)
+
     if (!data) {
         return null
     }
@@ -38,92 +41,74 @@ export default function OrderDetailScreen({ id, data, visible, setVisible }: Ord
     }))
 
     return (
-        <Modal 
-            visible={visible}
-            animationType='slide'
-            transparent={true}
-            onRequestClose={() => setVisible(false)}
-        >
-            <View style={styles.container}>
-                <TouchableOpacity onPress={() => setVisible(false)}>
-                    <Icon src={closeButton} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null}/>
-                </TouchableOpacity>
-                <ScrollView>
-                    <View style={styles.section}>
-                        <Text style={styles.sectionTitle}>Order Information</Text>
-                        <View style={styles.infoRow}>
-                            <Text style={styles.label}>Order ID:</Text>
-                            <Text style={styles.value}>#{selectedOrder.id}</Text>
-                        </View>
-                        <View style={styles.infoRow}>
-                            <Text style={styles.label}>Table:</Text>
-                            {/* <Text style={styles.value}>{order.restaurantTable.name}</Text> */}
-                        </View>
-                        <View style={styles.infoRow}>
-                            <Text style={styles.label}>Order Time:</Text>
-                            {/* <Text style={styles.value}>{formatDateTime(order.orderTime)}</Text> */}
-                            <Text style={styles.value}>{selectedOrder.orderTime.toString()}</Text>
-                        </View>
-                        <View style={styles.infoRow}>
-                            <Text style={styles.label}>Status:</Text>
-                            <Text style={[styles.value, styles.status]}>{selectedOrder.orderStatus}</Text>
-                        </View>
-                        {selectedOrder.note && (
+        <View>
+            <Modal 
+                visible={visible}
+                animationType='slide'
+                transparent={true}
+                onRequestClose={() => setVisible(false)}
+            >
+                <View style={styles.container}>
+                    <TouchableOpacity onPress={() => setVisible(false)}>
+                        <Icon src={closeButton} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null}/>
+                    </TouchableOpacity>
+                    <ScrollView>
+                        <View style={styles.section}>
+                            <Text style={styles.sectionTitle}>Order Information</Text>
                             <View style={styles.infoRow}>
-                                <Text style={styles.label}>Note:</Text>
-                                <Text style={styles.value}>{selectedOrder.note}</Text>
+                                <Text style={styles.label}>Order ID:</Text>
+                                <Text style={styles.value}>#{selectedOrder.id}</Text>
                             </View>
-                        )}
-                    </View>
-
-                    <OrderListView 
-                        orderList={foodList} 
-                        comboList={comboList} 
-                        menuData={menuData} 
-                        combosData={comboData} 
-                        handleChange={null} 
-                    />
-
-                    {/* <View style={styles.section}>
-                        <Text style={styles.sectionTitle}>Food Items</Text>
-                        {selectedOrder.foodOrders.map((foodOrder, index) => (
-                            <View key={index} style={styles.itemContainer}>
-                                <View style={styles.itemHeader}>
-                                    <Text style={styles.itemName}>{foodOrder.food.name}</Text>
-                                    <Text style={styles.itemPrice}>${foodOrder.price}</Text>
-                                </View>
-                                <Text style={styles.itemQuantity}>Quantity: {foodOrder.quantity}</Text>
+                            <View style={styles.infoRow}>
+                                <Text style={styles.label}>Table:</Text>
+                                {/* <Text style={styles.value}>{order.restaurantTable.name}</Text> */}
                             </View>
-                        ))}
-                    </View>
-
-                    <View style={styles.section}>
-                        <Text style={styles.sectionTitle}>Combo Items</Text>
-                        {selectedOrder.comboOrders.map((comboOrder, index) => (
-                            <View key={index} style={styles.itemContainer}>
-                                <View style={styles.itemHeader}>
-                                    <Text style={styles.itemName}>{comboOrder.combo.name}</Text>
-                                    <Text style={styles.itemPrice}>${comboOrder.price}</Text>
-                                </View>
-                                <Text style={styles.itemQuantity}>Quantity: {comboOrder.quantity}</Text>
-                                <View style={styles.comboItems}>
-                                    {comboOrder.combo.comboFoods.map((comboFood, foodIndex) => (
-                                        <Text key={foodIndex} style={styles.comboFoodItem}>
-                                            • {comboFood.food.name} (x{comboFood.quantity})
-                                        </Text>
-                                    ))}
-                                </View>
+                            <View style={styles.infoRow}>
+                                <Text style={styles.label}>Order Time:</Text>
+                                {/* <Text style={styles.value}>{formatDateTime(order.orderTime)}</Text> */}
+                                <Text style={styles.value}>{selectedOrder.orderTime.toString()}</Text>
                             </View>
-                        ))}
-                    </View> */}
+                            <View style={styles.infoRow}>
+                                <Text style={styles.label}>Status:</Text>
+                                <Text style={[styles.value, styles.status]}>{selectedOrder.orderStatus}</Text>
+                            </View>
+                            {selectedOrder.note && (
+                                <View style={styles.infoRow}>
+                                    <Text style={styles.label}>Note:</Text>
+                                    <Text style={styles.value}>{selectedOrder.note}</Text>
+                                </View>
+                            )}
+                        </View>
 
-                    <View style={styles.section}>
-                        <Text style={styles.sectionTitle}>Total</Text>
-                        <Text style={styles.totalPrice}>${selectedOrder.totalPrice}</Text>
-                    </View>
-                </ScrollView>
-            </View>
-        </Modal>
+                        <OrderListView 
+                            orderList={foodList} 
+                            comboList={comboList} 
+                            menuData={menuData} 
+                            combosData={comboData} 
+                            handleChange={null} 
+                        />
+
+                        <View style={styles.section}>
+                            <Text style={styles.sectionTitle}>Total</Text>
+                            <Text style={styles.totalPrice}>${selectedOrder.totalPrice}</Text>
+                            <TouchableOpacity onPress={() => setPaymentVisible(true)}>
+                                <Icon src={nextButton} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={0}/>
+                            </TouchableOpacity>
+                        </View>
+                    </ScrollView>
+                </View>
+            </Modal>
+            <Modal
+                visible={paymentVisible}
+                transparent={true}
+                animationType='slide'
+                onRequestClose={() => setPaymentVisible(false)}
+            >   
+                <View style={styles.container}>
+                    <Image source={{ uri: `https://img.vietqr.io/image/BIDV-4506483070-print.jpg?amount=${convertUSDtoVND(selectedOrder.totalPrice)}&addInfo=donate%20di&accountName=Do%20Dinh%20Dung%20` }} style={{ flex: 1, alignSelf: 'center', width: '80%', height: 'auto', resizeMode: 'contain' }} />
+                </View>
+            </Modal>
+        </View>
     );
 }
 
