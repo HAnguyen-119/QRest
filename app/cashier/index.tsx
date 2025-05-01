@@ -53,13 +53,14 @@ export default class CashierScreen extends React.Component<{}, CashierScreenStat
         // Transform snake_case to camelCase for backward compatibility
         const formattedOrders = response.map((order: Order) => ({
           ...order,
-          totalPrice: order.total_price,
-          orderStatus: order.order_status,
-          orderTime: order.order_time,
-          foodOrders: order.food_orders,
-          comboOrders: order.combo_orders,
-          restaurantTable: order.restaurant_table
+          totalPrice: order.totalPrice,
+          orderStatus: order.orderStatus,
+          orderTime: order.orderTime,
+          foodOrders: order.foodOrders,
+          comboOrders: order.comboOrders,
+          restaurantTable: order.restaurantTable
         }));
+        console.log("formatter:", formattedOrders);
         
         this.setState({ orders: formattedOrders, loading: false, error: null });
       } else {

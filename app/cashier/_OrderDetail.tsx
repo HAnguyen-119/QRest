@@ -50,6 +50,7 @@ export default function OrderDetail({ order, visible, onClose }: OrderDetailProp
   const comboOrders = order.comboOrders || order.combo_orders || [];
   const restaurantTable = order.restaurantTable || order.restaurant_table;
 
+  console.log(orderStatus,orderTime,totalPrice, foodOrders, comboOrders, restaurantTable);
   return (
     <Modal
       visible={visible}

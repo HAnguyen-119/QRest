@@ -27,7 +27,7 @@ export default function PaymentSuccessScreen() {
       global.__NEEDS_REFRESH__ = true;
       
       // Chuyển về trang chính
-      router.replace('/cashier');
+      router.replace('/index');
       
     } catch (error) {
       console.error('Error navigating back:', error);
