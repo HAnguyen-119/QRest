@@ -4,7 +4,7 @@ import { fetchAPI } from "@/services/fetchAPI";
 import { createOrderListStyles } from "@/assets/styles/waiter/OrderList.styles";
 import { OrderStatus } from "@/constants/Types/order";
 import { opacity } from "react-native-reanimated/lib/typescript/Colors";
-export default function OrderItem({ orderID, foodOrders, comboOrders, orderTime, orderStatus, onClick }) {
+export default function OrderItem({ orderID, foodOrders, orderNotes, comboOrders, orderTime, orderStatus, onClick }) {
 
   //const { isDark } = useThemeContext()
   //const OrderItemStyles = createOrderListStyles(isDark)
@@ -49,6 +49,10 @@ export default function OrderItem({ orderID, foodOrders, comboOrders, orderTime,
                 </Text>
               ))
             ))}
+
+            <Text style={styles.noteText}>
+              {orderNotes?.length > 0 && `Notes: ${orderNotes}`}
+            </Text>
           </View>
         )}
 
@@ -94,7 +98,7 @@ export default function OrderItem({ orderID, foodOrders, comboOrders, orderTime,
 
 const takenStyles = (taken: boolean) => ({
   container: {
-    backgroundColor: taken ? COLORS.orderActive : COLORS.primary,
+    backgroundColor: taken ? COLORS.orderActive : COLORS.orderNotTaken,
     borderRadius: 12,
     margin: 8,
     padding: 17,
@@ -106,7 +110,7 @@ const takenStyles = (taken: boolean) => ({
     position: 'relative',
   },
   completeButton: {
-    backgroundColor: taken ? COLORS.orderActive : COLORS.primary,
+    backgroundColor: taken ? COLORS.orderActive : COLORS.orderNotTaken,
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 8,
@@ -120,7 +124,7 @@ const takenStyles = (taken: boolean) => ({
   },
 
   takeButton: {
-    backgroundColor: taken ? COLORS.orderActive : COLORS.primary,
+    backgroundColor: taken ? COLORS.orderActive : COLORS.orderNotTaken,
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 8,
@@ -173,16 +177,17 @@ export const styles = StyleSheet.create({
     fontWeight: '600',
   },
   buttonContainer: {
-    position: "absolute",
-    right: 10,
-    bottom: 10,
     flexDirection: "row",
-    //margin: 5,
+    justifyContent: "flex-end",
   },
   completeButtonText: {
     color: COLORS.dark,
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: '600',
     textAlign: 'center',
   },
+  noteText: {
+    fontFamily: 'monospace',
+    fontSize: 14,
+  }
 });
