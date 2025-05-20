@@ -2,6 +2,7 @@ import { createOrderListStyles } from "@/assets/styles/cashier/OrderList.styles"
 import { CashierOrderComponentProps, OrderProps } from "@/constants/Types/order";
 import { useScrollAnimated } from "@/contexts/ScrollContext";
 import { useThemeContext } from "@/contexts/ThemeContext";
+import { getDate } from "@/utils/FormatTime";
 import { TouchableOpacity, Text, View } from "react-native";
 import Animated from "react-native-reanimated";
 
@@ -28,7 +29,7 @@ export default function CashierOrderList({ data, setVisible, setCurrentID }: Cas
                 )}
                 <View style={styles.orderHeader}>
                     <Text style={styles.orderId}>Order #{item.id}</Text>
-                    <Text style={styles.orderTime}>{item.orderTime.toString()}</Text>
+                    <Text style={styles.orderTime}>{getDate(item.orderTime)}</Text>
                 </View>
                 <View style={styles.orderDetails}>
                     <Text style={styles.totalPrice}>Total: ${Number(item.totalPrice).toFixed(2) || "0.00"}</Text>

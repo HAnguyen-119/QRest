@@ -11,6 +11,7 @@ import { BUTTONSIZE } from '@/constants/size';
 import OrderListView from './OrderListView';
 import nextButton from '@/assets/images/next.png'
 import { convertUSDtoVND } from '@/utils/ChangeMoney';
+import { getDate, getTime } from '@/utils/FormatTime';
 
 export default function OrderDetailScreen({ id, data, visible, setVisible }: OrderDetailProps) {
     const [paymentVisible, setPaymentVisible] = useState<boolean>(false)
@@ -61,12 +62,14 @@ export default function OrderDetailScreen({ id, data, visible, setVisible }: Ord
                             </View>
                             <View style={styles.infoRow}>
                                 <Text style={styles.label}>Table:</Text>
-                                {/* <Text style={styles.value}>{order.restaurantTable.name}</Text> */}
+                            </View>
+                            <View style={styles.infoRow}>
+                                <Text style={styles.label}>Order Date:</Text>
+                                <Text style={styles.value}>{getDate(selectedOrder.orderTime)}</Text>
                             </View>
                             <View style={styles.infoRow}>
                                 <Text style={styles.label}>Order Time:</Text>
-                                {/* <Text style={styles.value}>{formatDateTime(order.orderTime)}</Text> */}
-                                <Text style={styles.value}>{selectedOrder.orderTime.toString()}</Text>
+                                <Text style={styles.value}>{getTime(selectedOrder.orderTime)}</Text>
                             </View>
                             <View style={styles.infoRow}>
                                 <Text style={styles.label}>Status:</Text>

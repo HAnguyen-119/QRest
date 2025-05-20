@@ -28,15 +28,15 @@ export const useFetch = (type: GetData) => {
                 case 'combos':
                     response = await fetchAPI.getCombos();
                     break;
-                    case 'reservations': 
-                        response = await fetchAPI.getReservations()
-                        break
-                    case 'completed_orders':
-                        response = await fetchAPI.getCompletedOrders()
-                        break
-                    case 'pending_orders':
-                        response = await fetchAPI.getPendingOrders()
-                        break
+                case 'reservations': 
+                    response = await fetchAPI.getReservations()
+                    break
+                case 'completed_orders':
+                    response = await fetchAPI.getCompletedOrders()
+                    break
+                case 'pending_orders':
+                    response = await fetchAPI.getPendingOrders()
+                    break
                 default:
                     console.error(`Error: Type '${type}' not found.`);
                     return;
