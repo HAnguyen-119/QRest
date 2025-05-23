@@ -65,6 +65,7 @@ export interface OrderDetailProps {
     id: number,
     data: OrderProps[],
     visible: boolean,
+    isPayment: boolean,
     setVisible: (visible: boolean) => void
 }
 

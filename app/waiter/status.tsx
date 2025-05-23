@@ -32,7 +32,7 @@ export default function Status() {
     return (
         <View style={styles.container}>
             <CashierOrderList data={filter} setCurrentID={setCurrentID} setVisible={setVisible}/>
-            {currentID && <OrderDetailScreen id={currentID} data={filter} visible={visible} setVisible={setVisible}/>}
+            {currentID && <OrderDetailScreen id={currentID} data={filter} visible={visible} isPayment={false} setVisible={setVisible}/>}
         </View>
     )
 }

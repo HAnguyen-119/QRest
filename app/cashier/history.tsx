@@ -24,7 +24,7 @@ export default function CashierScreen() {
         <View style={styles.container}>
             <Text style={styles.title}>Completed Orders</Text>
             <CashierOrderList data={orders} setVisible={setVisible} setCurrentID={setCurrentID}/>
-            {currentID && <OrderDetailScreen id={currentID} data={orders} visible={visible} setVisible={setVisible}/>}
+            {currentID && <OrderDetailScreen id={currentID} data={orders} visible={visible} isPayment={true} setVisible={setVisible}/>}
         </View>
     );
 }

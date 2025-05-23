@@ -13,7 +13,7 @@ import nextButton from '@/assets/images/next.png'
 import { convertUSDtoVND } from '@/utils/ChangeMoney';
 import { getDate, getTime } from '@/utils/FormatTime';
 
-export default function OrderDetailScreen({ id, data, visible, setVisible }: OrderDetailProps) {
+export default function OrderDetailScreen({ id, data, visible, isPayment, setVisible }: OrderDetailProps) {
     const [paymentVisible, setPaymentVisible] = useState<boolean>(false)
 
     if (!data) {
@@ -94,9 +94,9 @@ export default function OrderDetailScreen({ id, data, visible, setVisible }: Ord
                         <View style={styles.section}>
                             <Text style={styles.sectionTitle}>Total</Text>
                             <Text style={styles.totalPrice}>${selectedOrder.totalPrice}</Text>
-                            <TouchableOpacity onPress={() => setPaymentVisible(true)}>
+                            {isPayment && <TouchableOpacity onPress={() => setPaymentVisible(true)}>
                                 <Icon src={nextButton} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={0}/>
-                            </TouchableOpacity>
+                            </TouchableOpacity>}
                         </View>
                     </ScrollView>
                 </View>
