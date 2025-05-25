@@ -13,7 +13,7 @@ export const createToggleStyles = (isDark: boolean) =>
         track: {
             width: "100%",
             height: 46,
-            backgroundColor: !isDark ? COLORS.trackLight : COLORS.trackDark,
+            backgroundColor: isDark ? COLORS.dark : COLORS.light,
             borderRadius: 23,
             position: "absolute",
             borderWidth: 3

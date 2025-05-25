@@ -49,19 +49,19 @@ export const createMenuItemStyles = (isDark: boolean) => {
     },
 
     details: {
-      flex: 1,
+      width: "50%",
       borderRadius: 10,
-      backgroundColor: isDark ? COLORS.light : COLORS.dark,
+      backgroundColor: COLORS.secondary,
       alignItems: 'center',
       justifyContent: 'center',
-      height: 40
+      height: 40,
     },
 
     buttonText: {
       fontFamily: 'Josefin-Sans',
       padding: 0,
       margin: 0,
-      color: isDark ? COLORS.dark : COLORS.light
+      color: COLORS.light
 
     },
     priceContainer: {

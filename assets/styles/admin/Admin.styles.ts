@@ -46,7 +46,7 @@ export const createAdminStyles = ( isDark: boolean ) => {
             borderRadius: 10,
             borderWidth: 2,
             borderColor: isDark ? COLORS.light : COLORS.dark,
-            margin: 5
+            margin: 5,
         },
     
         searcher: {
@@ -157,6 +157,11 @@ export const createAdminStyles = ( isDark: boolean ) => {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center'
-        }
+        },
+
+        switchMode: {
+            color: isDark ? COLORS.light : COLORS.dark,
+        },
+
     })
 } 
