@@ -13,6 +13,17 @@ export const createAdminStyles = ( isDark: boolean ) => {
             width: '100%',
             backgroundColor: isDark ? COLORS.dark : COLORS.light,
         },
+
+        toolBar: {
+            display: 'flex',
+            flexDirection: 'row',
+            alignSelf: 'center',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 10,
+            marginTop: 10,
+            width: '100%',
+        },
     
         menuItemsContainer: {
             marginTop: 0,
@@ -39,17 +50,17 @@ export const createAdminStyles = ( isDark: boolean ) => {
         },
     
         searcher: {
-            flexDirection: 'row',
-            gap: 20,
-            marginVertical: 12,
             justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            marginVertical: 10,
+            width: '70%',
         },
     
         text: {
             fontFamily: "Josefin-Sans",
             color: isDark ? COLORS.light : COLORS.dark
         },
+
         textInput: {
             fontFamily: 'Josefin-Sans',
             borderWidth: 2,
@@ -69,13 +80,12 @@ export const createAdminStyles = ( isDark: boolean ) => {
         staffPositions: {
             display: "flex",
             flexDirection: "row",
-            marginBottom: 10,
-            marginTop: 10,
             alignSelf: "center",
+            paddingBottom: 20,
         },
     
         staffPosition: {
-            width: 70,
+            width: 80,
             height: 30,
             alignItems: "center",
             justifyContent: "center",
@@ -86,9 +96,67 @@ export const createAdminStyles = ( isDark: boolean ) => {
         },
     
         staffInfoContainer: {
-            width: '100%',
-            alignSelf: 'center',
+            height: '100%',
+            marginTop: 10
         },
-    
+
+        updatingContainer: {
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            width: '100%',
+            height: '100%',
+            zIndex: 7,
+        },
+
+        blur: {
+            width: '100%',
+            height: '100%',
+            backgroundColor: COLORS.dark,
+            opacity: 0.7,
+            zIndex: 7,
+        },
+
+        menuUpdating: {
+            position: 'absolute',
+            width: '80%',
+            height: '85%',
+            alignSelf: 'center',
+            top: "7%",
+            borderRadius: 20,
+            backgroundColor: "white",
+            zIndex: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+        },
+
+        staffUpdating: {
+            position: 'absolute',
+            width: '90%',
+            height: '98%',
+            top: "1%",
+            alignSelf: 'center',
+            borderRadius: 20,
+            backgroundColor: "white",
+            zIndex: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center'
+        },
+
+        tableUpdating: {
+            position: 'absolute',
+            width: '80%',
+            height: '40%',
+            top: "30%",
+            alignSelf: 'center',
+            borderRadius: 20,
+            backgroundColor: "white",
+            zIndex: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center'
+        }
     })
 } 

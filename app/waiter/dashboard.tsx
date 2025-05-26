@@ -6,45 +6,97 @@ import Searcher from "@/components/menu/Searcher";
 import { useState } from "react";
 import Animated from "react-native-reanimated";
 import { useScrollAnimated } from "@/contexts/ScrollContext";
-import { OrderItemProps } from "@/constants/types";
+import { OrderItemProps } from "@/constants/Types/order";
 import { useFetch } from "@/hooks/useFetch";
-import { createOrderListStyles} from "@/assets/styles/waiter/OrderList.styles";
-import closeButton from '@/assets/images/close.png'
 import Icon from "@/components/Icon/Icon";
 import { BUTTONSIZE } from "@/constants/size";
 import { CountOrders } from "@/utils/CountOrders";
 
 import Cart from '@/assets/images/shopping-bag.png'
-import OrderListView from "@/components/Orders/OrderListView";
 import { useThemeContext } from "@/contexts/ThemeContext";
+import { MenuSearcherStyles } from "@/assets/styles/menu/MenuSearcher.styles";
+import { createGlobalStyles } from "@/assets/styles/Global.styles";
+import OrderView from "@/components/Modal/ModalOrderList";
 
 export default function Menu() {
     const [category, setCategory] = useState<string>("All")
     const [search, setSearch] = useState<string>("")
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
-    const [orderList, setOrderList] = useState<OrderItemProps[] | null>(null)
+    const [orderList, setOrderList] = useState<OrderItemProps[]>([])
+    const [comboList, setComboList] = useState<OrderItemProps[]>([])
 
     const { isDark } = useThemeContext()
     const adminStyles = createAdminStyles(isDark)
-    const OrderListStyles = createOrderListStyles(isDark)
+    const globalStyles = createGlobalStyles(isDark)
 
     const { scrollHandler } = useScrollAnimated()
 
-    const handleAdd = (id: number) => {
-        setOrderList((prevList) => {
-            if (prevList) {
-                const isExisting = prevList.find((item) => item.id === id)
+    const { data: menuData } = useFetch('foods')
+    const { data: categoryData } = useFetch('categories')
+    const { data: combosData } = useFetch('combos')
 
-                if (isExisting) {
-                    return prevList.map((item) => (
-                        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-                    ))
-                }
+    if (!menuData || !categoryData || !combosData || !menuData) {
+        return null;
+    }
 
-                return [...prevList, { id, quantity: 1 }]
+    const items = (category === "Combo" ? Object.values(combosData) : Object.values(menuData)).filter(
+        (item: any) =>
+            (category === "All" || item.category.name === category) &&
+            item.name.toLowerCase().includes(search.toLowerCase())
+    );
+
+    const handleChange = (id: number, isAdd: boolean, isDelete: boolean, category: string) => {
+        if (category == 'Combo') {
+            try {
+                setComboList((prevList) => {
+                    if (prevList && prevList.length > 0) {
+                        const isExisting = prevList.find((item) => item.id === id)
+        
+                        if (isDelete) {
+                            prevList = prevList.filter((item) => item.id !== id)
+                            return prevList
+                        }
+        
+                        if (isExisting) {
+                            return prevList.map((item) => (
+                                item.id === id ? { ...item, quantity: isAdd ? item.quantity + 1 : item.quantity - 1} : item
+                            ))
+                        }
+        
+                        return [...prevList, { id, quantity: 1}]
+                    }
+                    return [...prevList, { id, quantity: 1}]
+                })
+            } catch(error) {
+                console.log('error while adding combo: ', error)
             }
-            return [{ id, quantity: 1 }]
-        })
+            
+        } else {
+            try {
+                setOrderList((prevList) => {
+                    if (prevList && prevList.length > 0) {
+                        const isExisting = prevList.find((item) => item.id === id)
+        
+                        if (isDelete) {
+                            prevList = prevList.filter((item) => item.id !== id)
+                            return prevList
+                        }
+        
+                        if (isExisting) {
+                            return prevList.map((item) => (
+                                item.id === id ? { ...item, quantity: isAdd ? item.quantity + 1 : item.quantity - 1} : item
+                            ))
+                        }
+        
+                        return [...prevList, { id, quantity: 1}]
+                    }
+                    return [{ id, quantity: 1}]
+                })
+            } catch(error) {
+                console.log('error while adding food: ', error)
+            }
+        }
+            
     }
 
     const handleCategory = (cat: string) => {
@@ -54,19 +106,6 @@ export default function Menu() {
     const handleSearch = (search: string) => {
         setSearch(search);
     };
-
-    const { data: menuData } = useFetch('foods')
-    const { data: categoryData } = useFetch('categories')
-
-    if (!menuData || !categoryData) {
-        return null;
-    }
-
-    const items = Object.values(menuData).filter(
-        (item) =>
-            (category === "All" || item.category.name === category) &&
-            item.name.toLowerCase().includes(search.toLowerCase())
-    );
 
     const renderItem = ({ item }: { item: any }) => {
         return (
@@ -78,43 +117,36 @@ export default function Menu() {
                 price={item.price}
                 description={item.description}
                 handleDetails={null}
-                handleAdd={handleAdd}
+                handleAdd={handleChange}
             />
         );
     };
 
-    const renderCart = () => {
-        return (
-            <TouchableOpacity onPress={() => setIsModalVisible(true)}>
-                <Icon src={Cart} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={CountOrders(orderList)}/>
-            </TouchableOpacity>
-        )
-    }
-
     return (
         <View style={adminStyles.menuContainer}>
-            <Searcher onSearch={handleSearch} children={renderCart()}/>
+            <View style={MenuSearcherStyles.searchContainer}>
+                <TouchableOpacity onPress={() => setIsModalVisible(true)}>
+                    <Icon src={Cart} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={CountOrders(orderList, comboList)}/>
+                </TouchableOpacity>
+                <Searcher onSearch={handleSearch}/>
+            </View>
             <MenuCategories data={categoryData} handleCategory={handleCategory}/>
-            <Modal
-                visible={isModalVisible}
-                animationType="slide"
-                transparent={true}
-                onRequestClose={() => setIsModalVisible(false)}
-            >
-                <View style={OrderListStyles.modalContainer}>
-                    <Animated.ScrollView style={OrderListStyles.modalContent} contentContainerStyle={{ flexGrow: 1 }}>
-                        <TouchableOpacity onPress={() => setIsModalVisible(false)}>
-                            <Icon src={closeButton} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null}/>
-                        </TouchableOpacity>
-                        <OrderListView orderList={orderList} menuData={menuData}/>
-                    </Animated.ScrollView>
-                </View>
-            </Modal>
+            <OrderView 
+                orderList={orderList} 
+                setOrderList={setOrderList} 
+                comboList={comboList}
+                setComboList={setComboList}
+                menuData={menuData} 
+                combosData={combosData} 
+                handleChange={handleChange} 
+                isModalVisible={isModalVisible} 
+                setIsModalVisible={setIsModalVisible}
+            />
             <Animated.FlatList
                 style={adminStyles.menuItemsContainer}
                 data={items}
                 renderItem={renderItem}
-                keyExtractor={(item) => item.id.toString()}
+                keyExtractor={(item: any) => item.id.toString()}
                 numColumns={2}
                 onScroll={scrollHandler} 
                 scrollEventThrottle={16} 

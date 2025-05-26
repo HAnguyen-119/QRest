@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { COLORS } from '../../constants/colors';
 import axiosClient from '../../services/axiosClient'; // Giả định bạn có file constants định nghĩa COLORS
-import { formatDateTime } from './_format';
+import { StaffDTO } from '@/constants/Types/staff';
 
 // Giả định các style được định nghĩa giống đoạn code bạn cung cấp
 const styles = {
@@ -18,14 +18,7 @@ const styles = {
 
 const formatCurrency = (amount: number) => {
     return amount ? `$${amount.toFixed(2)}` : '$0.00';
-  };
-
-// Interface cho StaffDTO dựa trên API response
-interface StaffDTO {
-  id: number;
-  fullName: string;
-  salary: number;
-}
+};
 
 export default function Salary() {
   const [staffSalaries, setStaffSalaries] = useState<StaffDTO[]>([]);

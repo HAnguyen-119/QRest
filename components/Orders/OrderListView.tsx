@@ -1,41 +1,43 @@
-import { OrderListViewProps } from "@/constants/types";
-import { getOrderPrice, getTotalPrice } from "@/utils/GetTotalPrice";
+import { ComboItemProps, OrderListViewProps } from "@/constants/Types/order";
+import { MenuItemIDProps, MenuItemProps } from "@/constants/Types/menuitem";
 import { View, Text, TouchableOpacity } from "react-native";
 import Icon from "../Icon/Icon";
 
-import Note  from '@/assets/images/note.png'
-import Next from '@/assets/images/next.png'
 import { createOrderListStyles} from "@/assets/styles/waiter/OrderList.styles";
-import { BUTTONSIZE } from "@/constants/size";
-import Animated from "react-native-reanimated";
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { useThemeContext } from "@/contexts/ThemeContext";
-import { COLORS } from "@/constants/colors";
+import MenuItemOrders from "../menu/MenuItemOrders";
+import { createGlobalStyles } from "@/assets/styles/Global.styles";
 
-export default function OrderListView({ orderList, menuData }: OrderListViewProps) {
+import ComboItem from "../Combo/ComboItem";
+
+export default function OrderListView({ orderList, comboList, menuData, combosData, handleChange }: OrderListViewProps & { handleChange: ((id: number, isAdd: boolean, isDelete: boolean, category: string) => void) | null }) {    
     const { isDark } = useThemeContext()
     const OrderListStyles = createOrderListStyles(isDark)
-    if (!orderList || orderList.length === 0) {
-        return <Text style={[{ textAlign: 'center', marginTop: 16 }, { color: isDark ? COLORS.light : COLORS.dark }]}>No items in the order list</Text>
+    const globalStyles = createGlobalStyles(isDark)
+
+    if (orderList.length === 0 && comboList.length === 0) {
+        return <Text style={[{ textAlign: 'center', marginTop: 16 }, globalStyles.text]}>No items in the order list</Text>
     }
 
     return (
         <View style={OrderListStyles.container}>
-            <TouchableOpacity>
-                <Icon src={Note} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null}/>
-            </TouchableOpacity>
-            <Animated.ScrollView style={OrderListStyles.scrollView}>
-                {orderList.map((item, index) => (
-                    <Text key={index} style={[{ fontSize: 16, marginVertical: 4 }, { color: isDark ? COLORS.light : COLORS.dark }]}>
-                        Item ID: {item.id}, Quantity: {item.quantity}, total: ${getTotalPrice({data: menuData, id: item.id, quantity: item.quantity})}
-                    </Text>
-                ))}
+            <Animated.ScrollView style={OrderListStyles.scrollView} nestedScrollEnabled={true}>
+                {comboList.length > 0 && comboList.map((item) => {
+                    const menuItem = combosData.find((combo: ComboItemProps) => combo.id === item.id)
+                    if (!menuItem) return null
+                    return (
+                        <ComboItem key={item.id} item={item} menuItem={menuItem} handleChange={handleChange}/>
+                    )
+                })}
+                {orderList.length > 0 && orderList.map((item) => {
+                    const menuItem = menuData.find((menu: MenuItemIDProps) => menu.id === item.id)
+                    if (!menuItem) return null
+                    return (
+                        <MenuItemOrders key={item.id} data={menuItem} quantity={item.quantity} handleChange={handleChange} isComboItem={false}/>
+                    )
+                })}
             </Animated.ScrollView>
-            <Text style={{ color: isDark ? COLORS.light : COLORS.dark }}>
-                Total price: {getOrderPrice(orderList, menuData)}
-            </Text>
-            <TouchableOpacity>
-                <Icon src={Next} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null}/>
-            </TouchableOpacity>
         </View>
     )
 }

@@ -1,4 +1,4 @@
-import { ThemeContextProps } from "@/constants/types";
+import { ThemeContextProps } from "@/constants/Types/context";
 import React, { createContext, useContext, useState } from "react";
 
 const ThemeContext = createContext<ThemeContextProps | undefined>(undefined)

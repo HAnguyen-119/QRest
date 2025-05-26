@@ -1,7 +1,7 @@
 import {Tabs} from "expo-router";
 import {Ionicons} from '@expo/vector-icons'
 import BottomNav from "@/components/Button/BottomNav";
-import { Route } from "@/constants/types";
+import { Route } from "@/constants/Types/navigation";
 import Header from "@/components/Header";
 import { ScrollProvider } from "@/contexts/ScrollContext";
 

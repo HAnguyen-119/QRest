@@ -3,21 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'rea
 import { useNavigation } from '@react-navigation/native';
 import { COLORS } from '../../constants/colors';
 import axiosClient from '../../services/axiosClient';
-
-// Định nghĩa interface cho dữ liệu từ backend
-interface BackendRevenueData {
-  startDate: string;
-  endDate: string;
-  totalRevenue: number;
-  periodType: string;
-}
-
-// Định nghĩa interface cho dữ liệu frontend sử dụng
-interface RevenueData {
-  totalAmount: number;
-  periodStart: string;
-  periodEnd: string;
-}
+import { RevenueData, BackendRevenueData } from '@/constants/Types/revenue';
 
 export default function Revenue() {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());

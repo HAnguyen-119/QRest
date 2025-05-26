@@ -15,29 +15,19 @@ import DatePicker from 'react-native-date-picker';
 import { LineChart, BarChart } from 'react-native-chart-kit';
 import { COLORS } from '../../constants/colors';
 import axiosClient from '../../services/axiosClient';
-
-interface RevenueData {
-  totalAmount: number;
-  periodStart: string;
-  periodEnd: string;
-}
+import { RevenueData } from '@/constants/Types/revenue';
+import { Payment } from '@/constants/Types/payment';
+import { fetchAPI } from '@/services/fetchAPI';
 
 interface RouteParams {
   type: 'daily' | 'monthly' | 'quarterly' | 'yearly';
   data: RevenueData | null;
 }
 
-interface Payment {
-  id: string;
-  orderId: string;
-  amount: number;
-  createdAt: string;
-}
-
 export default function RevenueDetails() {
   const navigation = useNavigation();
   const route = useRoute();
-  const { type, data } = route.params as RouteParams;
+  const { type = 'daily', data = null } = (route.params || {}) as Partial<RouteParams>;
 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
@@ -65,9 +55,7 @@ export default function RevenueDetails() {
       setLoading(true);
       const isoDate = selectedDate.toISOString();
       console.log('Fetching daily payments for date:', isoDate);
-      const response = await axiosClient.get('/payments/revenue/paymentList', {
-        params: { date: isoDate },
-      });
+      const response = await fetchAPI.getDailyPayment(isoDate);
       console.log(response);
       setPayments(response);
       setError(null);
@@ -86,9 +74,7 @@ export default function RevenueDetails() {
       setLoading(true);
       const date = new Date(selectedYear, selectedMonth, 1).toISOString();
       console.log('Fetching monthly data for date:', date);
-      const response = await axiosClient.get('/payments/revenue/monthly', {
-        params: { date },
-      });
+      const response = await fetchAPI.getMonthlyData(date);
       console.log('Monthly response:', response);
       setMonthlyData(response);
       setError(null);
@@ -107,9 +93,7 @@ export default function RevenueDetails() {
       setLoading(true);
       const date = new Date(selectedYear, (selectedQuarter ) * 3, 1).toISOString();
       console.log('Fetching quarterly data for date:', date);
-      const response = await axiosClient.get('/payments/revenue/quarterly', {
-        params: { date },
-      });
+      const response = await fetchAPI.getQuarterlyData(date);
       console.log('Quarterly response:', response);
       setQuarterlyData(response);
       setError(null);
@@ -128,9 +112,7 @@ export default function RevenueDetails() {
       setLoading(true);
       const date = new Date(selectedYear, 0, 1).toISOString();
       console.log('Fetching yearly data for date:', date);
-      const response = await axiosClient.get('/payments/revenue/yearly', {
-        params: { date },
-      });
+      const response = await fetchAPI.getYearlyData(date);
       console.log('Yearly response:', response);
       setYearlyData(response);
       setError(null);
@@ -436,7 +418,7 @@ export default function RevenueDetails() {
         style={styles.backButton}
         onPress={() => {
           console.log('Navigating to Revenue');
-          navigation.navigate('Revenue');
+          navigation.navigate('revenue');
         }}
       >
         <Text style={styles.backButtonText}>Quay lại</Text>

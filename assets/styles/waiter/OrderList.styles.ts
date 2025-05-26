@@ -4,14 +4,13 @@ import { StyleSheet } from "react-native"
 export const createOrderListStyles = (isDark: boolean) => {
     return StyleSheet.create({
         container: {
-            margin: 12,
-            paddingHorizontal: 20,
-            
+        },
+        comboContainer: {
+            backgroundColor: isDark ? COLORS.gray : COLORS.containerBackground,
+            borderBottomWidth: 2
         },
         scrollView: {
-            margin: 12,
-            height: 120,
-            paddingHorizontal: 20,
+            height: 540,
             flexGrow: 1
         },
         modalContainer: {
@@ -25,6 +24,64 @@ export const createOrderListStyles = (isDark: boolean) => {
             backgroundColor: isDark ? COLORS.dark : COLORS.light,
             alignSelf: 'center',
             width: '100%'
-        }
+        },
+        noteContainer: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            borderWidth: 1,
+            borderRadius: 20,
+            paddingLeft: 12,
+            gap: 8,
+            marginHorizontal: 16,
+            flexWrap: 'wrap'
+        },
+        textInput: {
+            fontFamily: 'Josefin-Sans'
+        },
+        closeButton: {
+            margin: 12,
+            alignSelf: 'flex-end'
+        },
+        nextButton: {
+            alignSelf: 'flex-end',
+            justifyContent: 'center',
+            marginBottom: 12,
+        },
+        summary: {
+            fontSize: 24,
+            fontWeight: 'bold',
+        },
+        total: {
+            textAlign: 'center',
+            fontSize: 20,
+            fontWeight: 'bold',
+        },
+        details: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginHorizontal: 32,
+            padding: 8,
+        },
+        expandButton: {
+            alignSelf: 'center',
+            position: 'absolute',
+            top: 12,
+        },
+        foodItemContainer: {
+            padding: 8,
+            borderBottomWidth: 1,
+            borderBottomColor: "lightgray",
+        },
+        foodName: {
+            fontSize: 16,
+            fontWeight: "bold",
+            color: isDark ? "white" : "black",
+        },
+        foodDescription: {
+            fontSize: 14,
+            color: isDark ? "lightgray" : "gray",
+            marginTop: 4,
+        },
     })
 }

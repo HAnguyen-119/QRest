@@ -1,40 +1,33 @@
-import { useState } from 'react';
-import axiosClient from '../services/axiosClient';
+import { GetData } from "@/constants/Types/function";
+import { PostOrderProps } from "@/constants/Types/order";
+import { fetchAPI } from "@/services/fetchAPI";
+import { useEffect, useState } from "react";
 
-interface PostResponse {
-  success: boolean;
-  message?: string;
-  id?: number;
-}
+export const usePostByData = (type: GetData) => {
+    const [loading, setLoading] = useState<boolean>(false); 
+    const [error, setError] = useState<string | null>(null); 
+    const [response, setResponse] = useState<any>(null); 
 
-export function usePostByData() {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+    const postData = async (data : PostOrderProps | null) => {
+        setLoading(true);
+        setError(null);
+        let result
 
-  const post = async (url: string, data: any): Promise<PostResponse> => {
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await axiosClient.post(url, data);
-      if (response && typeof response === 'object' && 'id' in response) {
-        return { 
-          success: true, 
-          id: typeof response.id === 'number' ? response.id : undefined 
-        };
-      }
-      return { success: true };
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'An error occurred';
-      setError(message);
-      return { success: false, message };
-    } finally {
-      setLoading(false);
-    }
-  };
+        try {
+            switch(type) {
+                case 'orders':
+                    result = await fetchAPI.postOrder(data); 
+                    break
+                default:
+                    console.error(`Error while pushing data to ${type}, check valid type!`)
+            }
+            setResponse(result); 
+        } catch (err: any) {
+            setError(err.message || "An error occurred"); 
+        } finally {
+            setLoading(false); 
+        }
+    };
 
-  return {
-    post,
-    loading,
-    error
-  };
-}
+    return { loading, error, response, postData };
+};
