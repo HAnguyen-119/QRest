@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { COLORS } from '../../constants/colors';
 import axiosClient from '../../services/axiosClient';
 import { RevenueData, BackendRevenueData } from '@/constants/Types/revenue';
+import RevenueDetails from './RevenueDetails';
 
 export default function Revenue() {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
@@ -11,6 +12,7 @@ export default function Revenue() {
   const [currentMonthRevenue, setMonthRevenue] = useState<RevenueData | null>(null);
   const [currentQuarterRevenue, setQuarterRevenue] = useState<RevenueData | null>(null);
   const [currentYearRevenue, setYearRevenue] = useState<RevenueData | null>(null);
+  const [visible, setVisible] = useState<boolean>(false)
 
   const [loading, setLoading] = useState({
     currentDate: false,
@@ -149,6 +151,9 @@ export default function Revenue() {
     const date = new Date(dateString);
     return date.toLocaleDateString('vi-VN');
   };
+  const navigateRevenue = () => {
+    setVisible(true)
+  }
 
   // Hàm render nút doanh thu
   const renderRevenueButton = (
@@ -161,8 +166,9 @@ export default function Revenue() {
     return (
       <TouchableOpacity
         style={styles.card}
-        onPress={() => navigation.navigate('RevenueDetails', { type, data })}
+        onPress={() => setVisible(true)}
       >
+        <RevenueDetails type={type} data={data} visible={visible} setVisible={setVisible}/>
         <Text style={styles.cardTitle}>{title}</Text>
         {isLoading ? (
           <ActivityIndicator size="small" color={COLORS.primary} />
@@ -178,7 +184,7 @@ export default function Revenue() {
         ) : (
           <Text style={styles.errorText}>Không có dữ liệu</Text>
         )}
-      </TouchableOpacity>
+       </TouchableOpacity>
     );
   };
 

@@ -39,14 +39,16 @@ export const createAdminStyles = ( isDark: boolean ) => {
         },
     
         menuCategory: {
-            width: 80,
-            height: 30,
+            flexDirection: 'row',
+            width: 132,
+            height: 40,
             alignItems: "center",
             justifyContent: "center",
             borderRadius: 10,
             borderWidth: 2,
             borderColor: isDark ? COLORS.light : COLORS.dark,
-            margin: 5
+            margin: 5,
+            gap: 8
         },
     
         searcher: {
@@ -58,6 +60,7 @@ export const createAdminStyles = ( isDark: boolean ) => {
     
         text: {
             fontFamily: "Josefin-Sans",
+            fontSize: 16,
             color: isDark ? COLORS.light : COLORS.dark
         },
 

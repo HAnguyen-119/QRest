@@ -1,3 +1,5 @@
+import { withDecay } from "react-native-reanimated"
+
 export const ICONSIZE = {
     width: 40,
     height: 40
@@ -11,6 +13,11 @@ export const BUTTONSIZE = {
 export const LARGEBUTTON = {
     width: 60,
     height: 60
+}
+
+export const CATEICON = {
+    width: 36,
+    height: 36
 }
 
 export const MINIBUTTON = {
