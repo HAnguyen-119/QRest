@@ -91,6 +91,26 @@ export const fetchAPI = {
     },
     getPendingOrders: () => {
         return axiosClient.get('orders/completed/without-payment')
+    },
+    getDailyPayment: (date) => {
+        return axiosClient.get('/payments/revenue/paymentList', {
+        params: { date }
+      });
+    },
+    getMonthlyData: (date) => {
+        return axiosClient.get('/payments/revenue/monthly', {
+        params: { date },
+      });
+    },
+    getQuarterlyData: (date) => {
+        return axiosClient.get('/payments/revenue/quarterly', {
+        params: { date },
+      });
+    },
+    getYearlyData: (date) => {
+        return axiosClient.get('/payments/revenue/yearly', {
+        params: { date },
+      });
     }
 
 

@@ -62,6 +62,7 @@ export default function OrderDetailScreen({ id, data, visible, isPayment, setVis
                             </View>
                             <View style={styles.infoRow}>
                                 <Text style={styles.label}>Table:</Text>
+                                <Text style={styles.value}>{selectedOrder.tableOrders.map(it=>it.restaurantTable.name + " ")}</Text>
                             </View>
                             <View style={styles.infoRow}>
                                 <Text style={styles.label}>Order Date:</Text>

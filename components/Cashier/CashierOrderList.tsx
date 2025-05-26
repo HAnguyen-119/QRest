@@ -32,6 +32,7 @@ export default function CashierOrderList({ data, setVisible, setCurrentID }: Cas
                     <Text style={styles.orderTime}>{getDate(item.orderTime)}</Text>
                 </View>
                 <View style={styles.orderDetails}>
+                    <Text style={styles.tableId}>Table: {item.tableOrders.map(it=>it.restaurantTable.name + " ")}</Text>
                     <Text style={styles.totalPrice}>Total: ${Number(item.totalPrice).toFixed(2) || "0.00"}</Text>
                 </View>
             </TouchableOpacity>
