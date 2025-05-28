@@ -1,6 +1,6 @@
 import { StaffInfoProps } from "@/constants/Types/staff";
 import { TableProps, TableStatus, AdminTableProps } from "@/constants/Types/table";
-import { PostOrderProps } from "@/constants/Types/order";
+import { PostOrderProps, PostPayment } from "@/constants/Types/order";
 import { OrderStatus } from "@/constants/Types/order";
 import { MenuItemProps } from "@/constants/Types/menuitem";
 import axiosClient from "./axiosClient";
@@ -36,6 +36,10 @@ export const fetchAPI = {
 
     postOrder: (data: PostOrderProps | null) => {
         return axiosClient.post('orders', data)
+    },
+
+    postPayment: (data: PostPayment | null) => {
+        return axiosClient.post('/payments', data)
     },
 
     getStaff: () => {

@@ -83,6 +83,11 @@ export interface PostOrderProps {
     reservationId: number | null,
 }
 
+export interface PostPayment {
+    orderId: number,
+    paymentMethod: 'BANK_TRANSFER' | 'IN_CASH'
+}
+
 export interface OrderListViewProps {
     orderList: OrderItemProps[],
     comboList: OrderItemProps[],

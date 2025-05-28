@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, Modal } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { COLORS } from '../../constants/colors';
 import axiosClient from '../../services/axiosClient';
 import { RevenueData, BackendRevenueData } from '@/constants/Types/revenue';
-import RevenueDetails from './RevenueDetails';
+import RevenueDetails from '../../components/Cashier/RevenueDetails';
 
 export default function Revenue() {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
@@ -14,6 +14,7 @@ export default function Revenue() {
   const [currentYearRevenue, setYearRevenue] = useState<RevenueData | null>(null);
   const [visible, setVisible] = useState<boolean>(false)
 
+  const [type, setType] = useState<'daily'| 'monthly' | 'quarterly' | 'yearly' | null>(null)
   const [loading, setLoading] = useState({
     currentDate: false,
     currentMonth: false,
@@ -151,8 +152,11 @@ export default function Revenue() {
     const date = new Date(dateString);
     return date.toLocaleDateString('vi-VN');
   };
-  const navigateRevenue = () => {
-    setVisible(true)
+
+  const handleRevenueButton = (type) => {
+    setType(type);
+    setVisible(true);
+    console.log("type trong handle ", type)
   }
 
   // Hàm render nút doanh thu
@@ -161,14 +165,13 @@ export default function Revenue() {
     data: RevenueData | null,
     isLoading: boolean,
     errorMsg: string | null,
-    type: 'daily' | 'monthly' | 'quarterly' | 'yearly'
+    type: string | null
   ) => {
     return (
       <TouchableOpacity
         style={styles.card}
-        onPress={() => setVisible(true)}
+        onPress={() => handleRevenueButton(type)}
       >
-        <RevenueDetails type={type} data={data} visible={visible} setVisible={setVisible}/>
         <Text style={styles.cardTitle}>{title}</Text>
         {isLoading ? (
           <ActivityIndicator size="small" color={COLORS.primary} />
@@ -184,8 +187,23 @@ export default function Revenue() {
         ) : (
           <Text style={styles.errorText}>Không có dữ liệu</Text>
         )}
-       </TouchableOpacity>
+      </TouchableOpacity>
     );
+  };
+
+  const getRevenueData = () => {
+    switch (type) {
+      case 'daily':
+        return currentDateRevenue;
+      case 'monthly':
+        return currentMonthRevenue;
+      case 'quarterly':
+        return currentQuarterRevenue;
+      case 'yearly':
+        return currentYearRevenue;
+      default:
+        return null;
+    }
   };
 
   return (
@@ -201,6 +219,14 @@ export default function Revenue() {
         {renderRevenueButton('Doanh thu quý', currentQuarterRevenue, loading.currentQuarter, error.currentQuarter, 'quarterly')}
         {renderRevenueButton('Doanh thu năm', currentYearRevenue, loading.currentYear, error.currentYear, 'yearly')}
       </View>
+      {visible && type && (
+        <RevenueDetails
+          type={type}
+          data={getRevenueData()}
+          visible={visible}
+          setVisible={setVisible}
+        />
+      )}
 
       <TouchableOpacity style={styles.refreshButton} onPress={fetchAllRevenue}>
         <Text style={styles.refreshButtonText}>Làm mới dữ liệu</Text>

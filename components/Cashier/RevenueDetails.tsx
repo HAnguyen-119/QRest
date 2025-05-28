@@ -20,16 +20,9 @@ import { RevenueData } from '@/constants/Types/revenue';
 import { Payment } from '@/constants/Types/payment';
 import { fetchAPI } from '@/services/fetchAPI';
 
-interface RouteParams {
-    type: 'daily' | 'monthly' | 'quarterly' | 'yearly';
-    data: RevenueData | null;
-}
-
 export default function RevenueDetails({ type, data, visible, setVisible }) {
-    const navigation = useNavigation();
     const route = useRoute();
-    // const { type = 'daily', data = null } = (route.params || {}) as Partial<RouteParams>;
-
+    console.log("revenue details nhan duoc: ", type)
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
     const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
@@ -51,7 +44,7 @@ export default function RevenueDetails({ type, data, visible, setVisible }) {
         if (type === 'yearly') fetchYearlyData();
     }, [type, selectedDate, selectedYear, selectedMonth, selectedQuarter]);
 
-    console.log(type)
+    console.log(type+'dm')
 
     const fetchDailyPayments = async () => {
         try {
