@@ -30,6 +30,7 @@ export default function OrderView(
     
     const [guestCount, setGuestCount] = useState<number>(1)
     const [tableModalVisible, setTableModalVisible] = useState<boolean>(false)
+    const [reservationModalVisible, setReservationModalVisible] = useState<boolean>(false)
 
     return (
         <Modal
@@ -40,9 +41,12 @@ export default function OrderView(
         >
             <View style={OrderListStyles.modalContainer}>
                 <View style={OrderListStyles.modalContent}>
-                    <TouchableOpacity onPress={() => setIsModalVisible(false)} style={OrderListStyles.closeButton}>
-                        <Icon src={closeButton} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null}/>
-                    </TouchableOpacity>
+                    <View>
+                        <TouchableOpacity onPress={() => setIsModalVisible(false)} style={OrderListStyles.closeButton}>
+                            <Icon src={closeButton} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null}/>
+                        </TouchableOpacity>
+                        
+                    </View>
                     <View style={OrderListStyles.noteContainer}>
                         <Icon src={Note} width={MINIBUTTON.width} height={MINIBUTTON.height} count={0}/>
                         <TextInput
