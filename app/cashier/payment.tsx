@@ -14,16 +14,8 @@ export default function CashierScreen() {
     const { isDark } = useThemeContext()
     const styles = createOrderListStyles(isDark)
 
-    const { data: orders, refetch } = useFetch('pending_orders')
-
-    // Tự động reload dữ liệu khi quay lại màn hình
-    useFocusEffect(
-        useCallback(() => {
-            console.log("call here")
-            refetch();
-        }, [])
-    );
-
+    const { data: orders } = useFetch('pending_orders')
+    console.log(orders)
     if (!orders) {
         return null;
     }

@@ -16,7 +16,6 @@ export default function Status() {
 
     const { data: OrderData } = useFetch('orders')
     const today = new Date('2024-04-08')
-    console.log(today)
     if (!OrderData) {
         return null
     }
@@ -28,7 +27,6 @@ export default function Status() {
             orderDate.getFullYear() === today.getFullYear()
         )
     })
-    console.log(filter)
     return (
         <View style={styles.container}>
             <CashierOrderList data={filter} setCurrentID={setCurrentID} setVisible={setVisible}/>

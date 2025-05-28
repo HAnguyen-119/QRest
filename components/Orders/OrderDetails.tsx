@@ -242,6 +242,7 @@ export default function OrderDetailScreen({ id, data, visible, isPayment, setVis
                                 {'Back to Orders'}
                             </Text>
                         </TouchableOpacity>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </Modal>

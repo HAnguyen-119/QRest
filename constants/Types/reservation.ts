@@ -11,3 +11,8 @@ export interface ReservationProps {
     tableReservations: [{ id: number, restaurantTable: RestaurantTableProps }],
     confirmed: boolean,
 }
+
+export interface ReservationFormProps {
+    visible: boolean,
+    setVisible: (visible: boolean) => void 
+}
