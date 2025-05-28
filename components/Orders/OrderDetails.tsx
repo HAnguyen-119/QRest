@@ -34,22 +34,22 @@ export default function OrderDetailScreen({ id, data, visible, isPayment, setVis
         return null
     }
 
-    // const handleBackToOrders = async () => {
-    //     try {
-    //         // Thực hiện fetch mới để cập nhật dữ liệu trên server
-    //         await axiosClient.get('/orders/completed/without-payment');
+    const handleBackToOrders = async () => {
+        try {
+            // Thực hiện fetch mới để cập nhật dữ liệu trên server
+            await axiosClient.get('/orders/completed/without-payment');
 
-    //         // Đặt một global flag để trang index biết cần reload khi render
-    //         global.__NEEDS_REFRESH__ = true;
+            // Đặt một global flag để trang index biết cần reload khi render
+            global.__NEEDS_REFRESH__ = true;
 
-    //         // Chuyển về trang chính
-    //         router.replace('/cashier/payment');
+            // Chuyển về trang chính
+            router.replace('/cashier/payment');
 
-    //     } catch (error) {
-    //         console.error('Error navigating back:', error);
-    //         router.replace('/cashier/dashboard');
-    //     }
-    // };
+        } catch (error) {
+            console.error('Error navigating back:', error);
+            router.replace('/cashier/dashboard');
+        }
+    };
 
     const handleConfirmPayment = async () => {
         if (!selectedOrder) {
@@ -227,14 +227,14 @@ export default function OrderDetailScreen({ id, data, visible, isPayment, setVis
                             This QR code contains information about your payment
                         </Text>
 
-                        {/* <TouchableOpacity
-                            style={[styles.button && styles.disabledButton]}
+                        <TouchableOpacity
+                            style={[styles.button]}
                             onPress={handleBackToOrders}
                         >
                             <Text style={styles.buttonText}>
                                 {'Back to Orders'}
                             </Text>
-                        </TouchableOpacity> */}
+                        </TouchableOpacity>
                     </View>
                 </View>
             </Modal>
