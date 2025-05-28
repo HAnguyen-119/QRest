@@ -36,7 +36,7 @@ export default function OrderDetailScreen({ id, data, visible, isPayment, setVis
         setPaymentVisible(false);
         try {
             // Chuyển về trang chính
-            router.replace('/cashier/payment');
+            router.replace('/cashier/dashboard');
 
         } catch (error) {
             console.error('Error navigating back:', error);
