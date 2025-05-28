@@ -16,9 +16,6 @@ import { getDate, getTime } from '@/utils/FormatTime';
 import { fetchAPI } from '@/services/fetchAPI';
 import axiosClient from '@/services/axiosClient';
 
-declare global {
-    var __NEEDS_REFRESH__: boolean;
-}
 type PaymentMethod = 'BANK_TRANSFER' | 'IN_CASH';
 export default function OrderDetailScreen({ id, data, visible, isPayment, setVisible }: OrderDetailProps) {
     const [paymentVisible, setPaymentVisible] = useState<boolean>(false)
@@ -34,22 +31,17 @@ export default function OrderDetailScreen({ id, data, visible, isPayment, setVis
         return null
     }
 
-    // const handleBackToOrders = async () => {
-    //     try {
-    //         // Thực hiện fetch mới để cập nhật dữ liệu trên server
-    //         await axiosClient.get('/orders/completed/without-payment');
+    const handleBackToOrders = async () => {
+        setVisible(false);
+        setPaymentVisible(false);
+        try {
+            // Chuyển về trang chính
+            router.replace('/cashier/payment');
 
-    //         // Đặt một global flag để trang index biết cần reload khi render
-    //         global.__NEEDS_REFRESH__ = true;
-
-    //         // Chuyển về trang chính
-    //         router.replace('/cashier/payment');
-
-    //     } catch (error) {
-    //         console.error('Error navigating back:', error);
-    //         router.replace('/cashier/dashboard');
-    //     }
-    // };
+        } catch (error) {
+            console.error('Error navigating back:', error);
+        }
+    };
 
     const handleConfirmPayment = async () => {
         if (!selectedOrder) {
@@ -187,6 +179,24 @@ export default function OrderDetailScreen({ id, data, visible, isPayment, setVis
                                 ]}>Bank Transfer</Text>
                             </TouchableOpacity>
                         </View>
+                        {paymentMethod === 'BANK_TRANSFER' && (
+                            <View style={styles.container}>
+                                <Image
+                                    source={{
+                                        uri: `https://img.vietqr.io/image/BIDV-4506483070-print.jpg?amount=${convertUSDtoVND(selectedOrder.totalPrice)}&addInfo=donate%20di&accountName=Do%20Dinh%20Dung%20`
+                                    }}
+                                    style={{
+                                        flex: 1,
+                                        alignSelf: 'center',
+                                        width: '80%',
+                                        height: undefined, // tránh dùng 'auto' trong React Native, height undefined sẽ tự động co theo tỉ lệ width
+                                        aspectRatio: 1,    // hoặc tùy tỉ lệ bạn muốn, ví dụ 1 cho vuông, 1.5 cho hình chữ nhật
+                                        resizeMode: 'contain'
+                                    }}
+                                />
+                            </View>
+                        )}
+
                         <TouchableOpacity
                             style={[styles.confirmButton]}
                             onPress={handleConfirmPayment}
@@ -206,9 +216,6 @@ export default function OrderDetailScreen({ id, data, visible, isPayment, setVis
                 onRequestClose={() => setPaymentVisible(false)}
             >
                 <View style={styles.container}>
-                    <Image source={{ uri: `https://img.vietqr.io/image/BIDV-4506483070-print.jpg?amount=${convertUSDtoVND(selectedOrder.totalPrice)}&addInfo=donate%20di&accountName=Do%20Dinh%20Dung%20` }} style={{ flex: 1, alignSelf: 'center', width: '80%', height: 'auto', resizeMode: 'contain' }} />
-                </View>
-                <View style={styles.container}>
                     <View style={styles.card}>
                         <Text style={styles.title}>Payment Successful!</Text>
                         <Text style={styles.subtitle}>Order has been paid successfully</Text>
@@ -227,14 +234,14 @@ export default function OrderDetailScreen({ id, data, visible, isPayment, setVis
                             This QR code contains information about your payment
                         </Text>
 
-                        {/* <TouchableOpacity
-                            style={[styles.button && styles.disabledButton]}
+                        <TouchableOpacity
+                            style={styles.button}
                             onPress={handleBackToOrders}
                         >
                             <Text style={styles.buttonText}>
                                 {'Back to Orders'}
                             </Text>
-                        </TouchableOpacity> */}
+                        </TouchableOpacity>
                     </View>
                 </View>
             </Modal>
