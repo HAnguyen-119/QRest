@@ -26,7 +26,6 @@ export default function OrderDetailScreen({ id, data, visible, isPayment, setVis
     const router = useRouter();
 
     const selectedOrder = data.find((order) => order.id === id)
-    console.log(selectedOrder)
     if (!selectedOrder) {
         return null
     }
@@ -49,13 +48,10 @@ export default function OrderDetailScreen({ id, data, visible, isPayment, setVis
         }
 
         try {
-            console.log(selectedOrder.id);
-            console.log(paymentMethod);
             const response = await axiosClient.post('/payments', {
                 orderId: selectedOrder.id,
                 paymentMethod: paymentMethod
             });
-            console.log('response', response)
             if (response) {
                 setPaymentVisible(true)
             }
@@ -100,7 +96,7 @@ export default function OrderDetailScreen({ id, data, visible, isPayment, setVis
                         </View>
                         <View style={styles.infoRow}>
                             <Text style={styles.label}>Order Time:</Text>
-                            <Text style={styles.value}>{selectedOrder.orderTime}</Text>
+                            <Text style={styles.value}>{selectedOrder.orderTime.toString()}</Text>
                         </View>
                         <View style={styles.infoRow}>
                             <Text style={styles.label}>Status:</Text>
@@ -151,7 +147,7 @@ export default function OrderDetailScreen({ id, data, visible, isPayment, setVis
                         <Text style={styles.sectionTitle}>Total Amount</Text>
                         <Text style={styles.totalPrice}>${selectedOrder.totalPrice}</Text>
                     </View>
-                    <View style={styles.section}>
+                    {isPayment && <View style={styles.section}>
                         <Text style={styles.sectionTitle}>Payment Method</Text>
                         <View style={styles.paymentMethods}>
                             <TouchableOpacity
@@ -205,7 +201,7 @@ export default function OrderDetailScreen({ id, data, visible, isPayment, setVis
                                 {'Confirm Payment'}
                             </Text>
                         </TouchableOpacity>
-                    </View>
+                    </View>}
 
                 </ScrollView>
             </Modal>
@@ -241,7 +237,6 @@ export default function OrderDetailScreen({ id, data, visible, isPayment, setVis
                             <Text style={styles.buttonText}>
                                 {'Back to Orders'}
                             </Text>
-                        </TouchableOpacity>
                         </TouchableOpacity>
                     </View>
                 </View>

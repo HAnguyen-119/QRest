@@ -3,9 +3,10 @@ import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { COLORS } from '../../constants/colors';
 import axiosClient from '../../services/axiosClient'; // Giả định bạn có file constants định nghĩa COLORS
 import { StaffDTO } from '@/constants/Types/staff';
+import { StyleSheet } from 'react-native';
 
 // Giả định các style được định nghĩa giống đoạn code bạn cung cấp
-const styles = {
+const styles = StyleSheet.create({
   container: { flex: 1, padding: 20 },
   totalSalaryContainer: { marginBottom: 20, padding: 10, backgroundColor: '#f0f0f0', borderRadius: 8 },
   totalSalaryText: { fontSize: 18, fontWeight: 'bold', color: '#333' },
@@ -14,7 +15,7 @@ const styles = {
   tableRow: { flexDirection: 'row', padding: 10, borderBottomWidth: 1, borderBottomColor: '#e0e0e0' },
   tableCell: { flex: 1, textAlign: 'center' },
   errorText: { color: 'red', textAlign: 'center', marginTop: 20 },
-};
+});
 
 const formatCurrency = (amount: number) => {
     return amount ? `$${amount.toFixed(2)}` : '$0.00';
@@ -32,9 +33,7 @@ export default function Salary() {
       try {
         setLoading(true);
         setError(null); // Reset lỗi trước khi gọi API
-        const response = await axiosClient.get<StaffDTO[]>('/staffs/getStaffSalaries');
-        console.log('Phản hồi danh sách lương:', response);
-        
+        const response = await axiosClient.get<StaffDTO[]>('/staffs/getStaffSalaries');        
         // Lưu dữ liệu vào state
         setStaffSalaries(response);
 

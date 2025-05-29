@@ -55,7 +55,7 @@ export interface OrderProps {
     tableOrders: [
         {
             id: number,
-            RestaurantTable: RestaurantTableProps
+            restaurantTable: RestaurantTableProps
         }
     ];
     reservation: any | null;

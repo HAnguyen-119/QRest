@@ -43,7 +43,7 @@ export default function Dashboard() {
             </Text>
 
             <CashierOrderList data={processedOrders} setVisible={setVisible} setCurrentID={setCurrentID} />
-            {currentID && <OrderDetailScreen id={currentID} data={processedOrders} visible={visible} setVisible={setVisible} />}
+            {currentID && <OrderDetailScreen id={currentID} data={processedOrders} visible={visible} isPayment={true} setVisible={setVisible} />}
         </View>
     )
 }

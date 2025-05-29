@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'rea
 import { useNavigation } from '@react-navigation/native';
 import { COLORS } from '../../constants/colors';
 import axiosClient from '../../services/axiosClient';
-import { RevenueData, BackendRevenueData } from '@/constants/Types/revenue';
+import { RevenueData, BackendRevenueData, RevenueType } from '@/constants/Types/revenue';
 import RevenueDetails from '../../components/Cashier/RevenueDetails';
 
 export default function Revenue() {
@@ -14,7 +14,7 @@ export default function Revenue() {
   const [currentYearRevenue, setYearRevenue] = useState<RevenueData | null>(null);
   const [visible, setVisible] = useState<boolean>(false)
 
-  const [type, setType] = useState<'daily'| 'monthly' | 'quarterly' | 'yearly' | null>(null)
+  const [type, setType] = useState<RevenueType>(null)
   const [loading, setLoading] = useState({
     currentDate: false,
     currentMonth: false,
@@ -59,7 +59,6 @@ export default function Revenue() {
       setLoading(prev => ({ ...prev, currentDate: true }));
       const isoDate = currentDate.toISOString();
       const response = await axiosClient.get<BackendRevenueData>(`/payments/revenue/daily?date=${isoDate}`);
-      console.log('Phản hồi doanh thu ngày:', response);
       const mappedData = mapBackendToFrontend(response);
       if (mappedData) {
         setCurrentDateRevenue(mappedData);
@@ -81,7 +80,6 @@ export default function Revenue() {
     try {
       setLoading(prev => ({ ...prev, currentMonth: true }));
       const response = await axiosClient.get<BackendRevenueData>(`/payments/revenue/currentMonth`);
-      console.log('Phản hồi doanh thu tháng:', response);
       const mappedData = mapBackendToFrontend(response);
       if (mappedData) {
         setMonthRevenue(mappedData);
@@ -103,7 +101,6 @@ export default function Revenue() {
     try {
       setLoading(prev => ({ ...prev, currentQuarter: true }));
       const response = await axiosClient.get<BackendRevenueData>(`/payments/revenue/currentQuarter`);
-      console.log('Phản hồi doanh thu quý:', response);
       const mappedData = mapBackendToFrontend(response);
       if (mappedData) {
         setQuarterRevenue(mappedData);
@@ -125,7 +122,6 @@ export default function Revenue() {
     try {
       setLoading(prev => ({ ...prev, currentYear: true }));
       const response = await axiosClient.get<BackendRevenueData>(`/payments/revenue/currentYear`);
-      console.log('Phản hồi doanh thu năm:', response);
       const mappedData = mapBackendToFrontend(response);
       if (mappedData) {
         setYearRevenue(mappedData);
@@ -153,10 +149,9 @@ export default function Revenue() {
     return date.toLocaleDateString('vi-VN');
   };
 
-  const handleRevenueButton = (type) => {
+  const handleRevenueButton = (type: RevenueType) => {
     setType(type);
     setVisible(true);
-    console.log("type trong handle ", type)
   }
 
   // Hàm render nút doanh thu
@@ -165,7 +160,7 @@ export default function Revenue() {
     data: RevenueData | null,
     isLoading: boolean,
     errorMsg: string | null,
-    type: string | null
+    type: RevenueType
   ) => {
     return (
       <TouchableOpacity

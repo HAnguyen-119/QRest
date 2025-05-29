@@ -3,7 +3,7 @@ import axios from "axios";
 import { Platform } from "react-native";
 
 const axiosClient = axios.create({
-  baseURL: "http://localhost:8080/api/v1/",
+  baseURL: "http://34.87.113.245:18080/api/v1/",
   headers: {
     "Content-Type": "application/json",
   },

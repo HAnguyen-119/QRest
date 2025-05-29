@@ -1,3 +1,5 @@
+export type RevenueType = 'daily'| 'monthly' | 'quarterly' | 'yearly' | null
+
 // Định nghĩa interface cho dữ liệu từ backend
 export interface BackendRevenueData {
   startDate: string;

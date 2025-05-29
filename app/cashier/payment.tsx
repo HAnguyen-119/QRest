@@ -15,7 +15,6 @@ export default function CashierScreen() {
     const styles = createOrderListStyles(isDark)
 
     const { data: orders } = useFetch('pending_orders')
-    console.log(orders)
     if (!orders) {
         return null;
     }
