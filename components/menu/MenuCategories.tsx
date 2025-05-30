@@ -3,11 +3,15 @@ import {createAdminStyles} from "@/assets/styles/admin/Admin.styles";
 import MenuCategory from "@/components/menu/MenuCategory";
 import { useThemeContext } from "@/contexts/ThemeContext";
 
+import AllCategory from '@/assets/images/combo.png'
+
 // @ts-ignore
 export default function MenuCategories({ data, handleCategory, selectingCategory }) {
     if (!data) {
         return null;
     }
+
+    const url = '@/assets/images/combo.png'
 
     const { isDark } = useThemeContext()
     const adminStyles = createAdminStyles(isDark)

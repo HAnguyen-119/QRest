@@ -4,6 +4,8 @@ import { useThemeContext } from "@/contexts/ThemeContext";
 import { createAdminStyles } from "@/assets/styles/admin/Admin.styles";
 import {useState} from "react";
 import {COLORS} from "@/constants/colors";
+import Icon from "../Icon/Icon";
+import { CATEICON } from "@/constants/size";
 
 // @ts-ignore
 export default function MenuCategory({content, handlePress, selectingCategory}) {

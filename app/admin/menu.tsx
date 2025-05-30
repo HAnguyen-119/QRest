@@ -35,7 +35,7 @@ export default function Menu() {
                 setMenuData(foodResponse);
                 setCategoryData(categoryResponse);
             } catch (error) {
-                console.log({ message: `Error while fetching data: ${error}` });
+                console.error({ message: `Error while fetching data: ${error}` });
             }
         };
         fetchData();

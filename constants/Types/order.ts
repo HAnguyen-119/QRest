@@ -55,7 +55,7 @@ export interface OrderProps {
     tableOrders: [
         {
             id: number,
-            RestaurantTable: RestaurantTableProps
+            restaurantTable: RestaurantTableProps
         }
     ];
     reservation: any | null;
@@ -81,6 +81,11 @@ export interface PostOrderProps {
     comboOrderItems: OrderItemProps[] | null,
     restaurantTableIds: number[],
     reservationId: number | null,
+}
+
+export interface PostPayment {
+    orderId: number,
+    paymentMethod: 'BANK_TRANSFER' | 'IN_CASH'
 }
 
 export interface OrderListViewProps {

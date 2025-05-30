@@ -1,6 +1,6 @@
 import { StaffInfoProps } from "@/constants/Types/staff";
 import { TableProps, TableStatus, AdminTableProps } from "@/constants/Types/table";
-import { PostOrderProps } from "@/constants/Types/order";
+import { PostOrderProps, PostPayment } from "@/constants/Types/order";
 import { OrderStatus } from "@/constants/Types/order";
 import { MenuItemProps } from "@/constants/Types/menuitem";
 import axiosClient from "./axiosClient";
@@ -44,6 +44,10 @@ export const fetchAPI = {
 
     postOrder: (data: PostOrderProps | null) => {
         return axiosClient.post('orders', data)
+    },
+
+    postPayment: (data: PostPayment | null) => {
+        return axiosClient.post('/payments', data)
     },
 
     getStaff: () => {
@@ -107,6 +111,26 @@ export const fetchAPI = {
     },
     getPendingOrders: () => {
         return axiosClient.get('orders/completed/without-payment')
+    },
+    getDailyPayment: (date: Date) => {
+        return axiosClient.get('/payments/revenue/paymentList', {
+            params: { date }
+        });
+    },
+    getMonthlyData: (date: Date) => {
+        return axiosClient.get('/payments/revenue/monthly', {
+            params: { date },
+        });
+    },
+    getQuarterlyData: (date: Date) => {
+        return axiosClient.get('/payments/revenue/quarterly', {
+            params: { date },
+        });
+    },
+    getYearlyData: (date: Date) => {
+        return axiosClient.get('/payments/revenue/yearly', {
+            params: { date },
+        });
     }
 
 

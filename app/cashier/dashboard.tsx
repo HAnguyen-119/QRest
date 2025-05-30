@@ -33,16 +33,17 @@ export default function Dashboard() {
 
     const handleSearch = (value: string) => {
         setSearchValue(value)
-    } 
+    }
 
     return (
         <View style={styles.container}>
-            <Searcher onSearch={handleSearch}/>
-            <Text>
-                Pending Orders
+            <Searcher onSearch={handleSearch} />
+            <Text style={{ fontSize: 24, fontWeight: 'bold' }}>
+                Have a good day, cashier!
             </Text>
-            <CashierOrderList data={processedOrders} setVisible={setVisible} setCurrentID={setCurrentID}/>
-            {currentID && <OrderDetailScreen id={currentID} data={processedOrders} visible={visible} setVisible={setVisible}/>}
+
+            <CashierOrderList data={processedOrders} setVisible={setVisible} setCurrentID={setCurrentID} />
+            {currentID && <OrderDetailScreen id={currentID} data={processedOrders} visible={visible} isPayment={true} setVisible={setVisible} />}
         </View>
     )
 }

@@ -31,7 +31,7 @@ export default function Table() {
                 const response = await fetchAPI.getTables(); 
                 setTableData(Object.values(response)); 
             } catch (error) {
-                console.log("Error fetching tables:", error);
+                console.error("Error fetching tables:", error);
             }
         };
         
@@ -50,7 +50,7 @@ export default function Table() {
             );
             
         } catch(error) {
-            console.log(`Error while changing status of table with id ${id} and status ${status}: ${error}`)
+            console.error(`Error while changing status of table with id ${id} and status ${status}: ${error}`)
         }
     }
 

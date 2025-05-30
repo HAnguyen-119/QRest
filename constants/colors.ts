@@ -7,7 +7,6 @@ export const COLORS = {
     thumbLight: '#68c3e1',
     trackDark: '#3c4145',
     thumbDark: '#cccccc',
-    //payment cua Luong
     background: '#f8f9fa',
     white: '#ffffff',
     black: '#000000',
@@ -15,7 +14,6 @@ export const COLORS = {
     lightGray: '#e9ecef',
     text: '#212529',
     error: '#dc3545',
-    // het payment cua Luong
     modalBackground: 'rgba(0, 0, 0, 0.5)',
     containerBackground: '#e6fff3',
     buttonActive: '#dd6311',
@@ -24,4 +22,11 @@ export const COLORS = {
     occupied: '#ffb0b0',
     shadow: '#000000',
     orderActive: '#EBBE4D',
+    cardContainerLight: '#fffdf2',
+    cardContainerDark: '#2a2f40',
+    dailyLine: '#b2c2a2',
+    monthlyLine: '#a0b4c8',
+    quarterlyLine: '#ddd999',
+    yearlyLine: '#aaaabe',
+    orderNotTaken: '#dc3545',
 }
