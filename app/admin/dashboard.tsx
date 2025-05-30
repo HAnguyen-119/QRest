@@ -9,6 +9,7 @@ import { formatCurrency } from '@/utils/FormatMoney';
 import { useThemeContext } from '@/contexts/ThemeContext';
 import { createAdminDashboardStyles } from '@/assets/styles/admin/AdminDashboard.styles';
 import { formatDateString } from '@/utils/FormatTime';
+import { createGlobalStyles } from '@/assets/styles/Global.styles';
 
 export default function Dashboard() {
     const [currentDateRevenue, setCurrentDateRevenue] = useState<RevenueData | null>(null);
@@ -35,6 +36,7 @@ export default function Dashboard() {
 
     const { isDark } = useThemeContext()
     const styles = createAdminDashboardStyles(isDark)
+    const globalStyles = createGlobalStyles(isDark)
 
     const currentDate = new Date()
 
@@ -163,17 +165,23 @@ export default function Dashboard() {
                 style={styles.card}
                 onPress={() => handleRevenueButton(type)}
             >
-                <Text style={styles.cardTitle}>{title}</Text>
+                <Text style={[styles.cardTitle, globalStyles.textBold]}>{title}</Text>
                 {isLoading ? (
                     <ActivityIndicator size="small" color={COLORS.primary} />
                 ) : errorMsg ? (
                     <Text style={styles.errorText}>{errorMsg}</Text>
                 ) : data ? (
                     <View>
-                        <Text style={styles.revenueAmount}>{formatCurrency(data.totalAmount)}</Text>
-                        <Text style={styles.periodText}>
-                            {formatDateString(data.periodStart)} - {formatDateString(data.periodEnd)}
+                        <Text style={[styles.revenueAmount, globalStyles.textBold]}>{formatCurrency(data.totalAmount)}</Text>
+                        {type === 'daily' ? 
+                        <Text style={[styles.periodText, globalStyles.text]}>
+                            {formatDateString(data.periodStart)}
                         </Text>
+                        :
+                            <Text style={[styles.periodText, globalStyles.text]}>
+                                {formatDateString(data.periodStart)} - {formatDateString(data.periodEnd)}
+                            </Text>
+                        }
                     </View>
                 ) : (
                     <Text style={styles.errorText}>No data</Text>
@@ -210,15 +218,16 @@ export default function Dashboard() {
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
             }
         >
-            <Text style={styles.dateText}>
-                Current Date: {currentDate.toLocaleDateString()} {currentDate.toLocaleTimeString()}
-            </Text>
+            <View style={styles.welcomeSection}>
+                <Text style={[styles.welcomeText, globalStyles.text]}>WELCOME BACK</Text>
+                <Text style={[styles.title, globalStyles.textBold]}>Nguyen Van Muoi</Text>
+            </View>
 
             <View style={styles.cardsContainer}>
-                {renderRevenueButton('Daily Revenue', currentDateRevenue, loading.currentDate, error.currentDate, 'daily')}
-                {renderRevenueButton('Monthly Revenue', currentMonthRevenue, loading.currentMonth, error.currentMonth, 'monthly')}
-                {renderRevenueButton('Quarterly Revenue', currentQuarterRevenue, loading.currentQuarter, error.currentQuarter, 'quarterly')}
-                {renderRevenueButton('Yearly Revenue', currentYearRevenue, loading.currentYear, error.currentYear, 'yearly')}
+                {renderRevenueButton('Today', currentDateRevenue, loading.currentDate, error.currentDate, 'daily')}
+                {renderRevenueButton('Monthly', currentMonthRevenue, loading.currentMonth, error.currentMonth, 'monthly')}
+                {renderRevenueButton('Quarterly', currentQuarterRevenue, loading.currentQuarter, error.currentQuarter, 'quarterly')}
+                {renderRevenueButton('Yearly', currentYearRevenue, loading.currentYear, error.currentYear, 'yearly')}
             </View>
             {visible && type && (
                 <RevenueDetails

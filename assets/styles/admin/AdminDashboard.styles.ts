@@ -6,11 +6,19 @@ export const createAdminDashboardStyles = (isDark: boolean) => {
         container: {
             flex: 1,
             padding: 16,
-            backgroundColor: COLORS.background,
+            backgroundColor: !isDark ? COLORS.light : COLORS.dark,
+        },
+        welcomeSection: {
+            paddingVertical: 16,
+            paddingHorizontal: 12,
+
+        },
+        welcomeText: {
+            color: COLORS.gray,
+            fontSize: 12,
         },
         title: {
             fontSize: 24,
-            fontWeight: 'bold',
             color: COLORS.text,
             marginBottom: 8,
         },
@@ -36,14 +44,12 @@ export const createAdminDashboardStyles = (isDark: boolean) => {
             justifyContent: 'center',
         },
         cardTitle: {
-            fontSize: 16,
-            fontWeight: '600',
+            fontSize: 20,
             color: COLORS.text,
             marginBottom: 12,
         },
         revenueAmount: {
             fontSize: 24,
-            fontWeight: 'bold',
             color: COLORS.primary,
             marginBottom: 8,
         },
@@ -55,18 +61,6 @@ export const createAdminDashboardStyles = (isDark: boolean) => {
         errorText: {
             color: COLORS.error,
             fontSize: 12,
-        },
-        refreshButton: {
-            backgroundColor: COLORS.primary,
-            padding: 16,
-            borderRadius: 8,
-            alignItems: 'center',
-            marginTop: 16,
-        },
-        refreshButtonText: {
-            color: COLORS.white,
-            fontSize: 16,
-            fontWeight: '600',
         },
     });
 } 
