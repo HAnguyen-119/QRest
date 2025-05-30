@@ -5,11 +5,15 @@ import axiosClient from '../../services/axiosClient';
 import { RevenueData, BackendRevenueData, RevenueType } from '@/constants/Types/revenue';
 import RevenueDetails from '../../components/Cashier/RevenueDetails';
 
+import { LineChart } from "react-native-chart-kit";
+import { Dimensions } from "react-native";
+
 import { formatCurrency } from '@/utils/FormatMoney';
 import { useThemeContext } from '@/contexts/ThemeContext';
 import { createAdminDashboardStyles } from '@/assets/styles/admin/AdminDashboard.styles';
 import { formatDateString } from '@/utils/FormatTime';
 import { createGlobalStyles } from '@/assets/styles/Global.styles';
+import RevenueCard from '@/components/Revenue/RevenueCard';
 
 export default function Dashboard() {
     const [currentDateRevenue, setCurrentDateRevenue] = useState<RevenueData | null>(null);
@@ -147,49 +151,6 @@ export default function Dashboard() {
         }
     };
 
-    const handleRevenueButton = (type: RevenueType) => {
-        setType(type);
-        setVisible(true);
-    }
-
-    // Hàm render nút doanh thu
-    const renderRevenueButton = (
-        title: string,
-        data: RevenueData | null,
-        isLoading: boolean,
-        errorMsg: string | null,
-        type: RevenueType
-    ) => {
-        return (
-            <TouchableOpacity
-                style={styles.card}
-                onPress={() => handleRevenueButton(type)}
-            >
-                <Text style={[styles.cardTitle, globalStyles.textBold]}>{title}</Text>
-                {isLoading ? (
-                    <ActivityIndicator size="small" color={COLORS.primary} />
-                ) : errorMsg ? (
-                    <Text style={styles.errorText}>{errorMsg}</Text>
-                ) : data ? (
-                    <View>
-                        <Text style={[styles.revenueAmount, globalStyles.textBold]}>{formatCurrency(data.totalAmount)}</Text>
-                        {type === 'daily' ? 
-                        <Text style={[styles.periodText, globalStyles.text]}>
-                            {formatDateString(data.periodStart)}
-                        </Text>
-                        :
-                            <Text style={[styles.periodText, globalStyles.text]}>
-                                {formatDateString(data.periodStart)} - {formatDateString(data.periodEnd)}
-                            </Text>
-                        }
-                    </View>
-                ) : (
-                    <Text style={styles.errorText}>No data</Text>
-                )}
-            </TouchableOpacity>
-        );
-    };
-
     const getRevenueData = () => {
         switch (type) {
             case 'daily':
@@ -211,23 +172,17 @@ export default function Dashboard() {
         setRefreshing(false)
     }
 
+
     return (
-        <ScrollView 
+        <ScrollView
             style={styles.container}
             refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
         >
             <View style={styles.welcomeSection}>
                 <Text style={[styles.welcomeText, globalStyles.text]}>WELCOME BACK</Text>
                 <Text style={[styles.title, globalStyles.textBold]}>Nguyen Van Muoi</Text>
-            </View>
-
-            <View style={styles.cardsContainer}>
-                {renderRevenueButton('Today', currentDateRevenue, loading.currentDate, error.currentDate, 'daily')}
-                {renderRevenueButton('Monthly', currentMonthRevenue, loading.currentMonth, error.currentMonth, 'monthly')}
-                {renderRevenueButton('Quarterly', currentQuarterRevenue, loading.currentQuarter, error.currentQuarter, 'quarterly')}
-                {renderRevenueButton('Yearly', currentYearRevenue, loading.currentYear, error.currentYear, 'yearly')}
             </View>
             {visible && type && (
                 <RevenueDetails
@@ -237,6 +192,12 @@ export default function Dashboard() {
                     setVisible={setVisible}
                 />
             )}
+            <View style={styles.cardContainer}>
+                <RevenueCard type={'daily'} date={new Date()} setType={setType} setVisible={setVisible}/>
+                <RevenueCard type={'monthly'} date={new Date(2025, 5, 1)} setType={setType} setVisible={setVisible}/>
+                <RevenueCard type={'quarterly'} date={new Date(2025, 5, 1)} setType={setType} setVisible={setVisible}/>
+                <RevenueCard type={'yearly'} date={new Date(2025, 5, 1)} setType={setType} setVisible={setVisible}/>
+            </View>
         </ScrollView>
     );
 }

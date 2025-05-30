@@ -21,3 +21,10 @@ export interface RevenueDetailsProps {
     visible: boolean
     setVisible: (visible: boolean) => void
 }
+
+export interface RevenueCardProps {
+    type: RevenueType
+    date: Date
+    setType: (type: RevenueType) => void
+    setVisible: (visible: boolean) => void
+}

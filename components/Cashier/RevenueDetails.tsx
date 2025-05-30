@@ -22,7 +22,6 @@ import { fetchAPI } from '@/services/fetchAPI';
 import { formatCurrency } from '@/utils/FormatMoney';
 
 export default function RevenueDetails({ type, data, visible, setVisible }: RevenueDetailsProps) {
-
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
     const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);

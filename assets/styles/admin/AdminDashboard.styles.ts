@@ -33,10 +33,8 @@ export const createAdminDashboardStyles = (isDark: boolean) => {
             justifyContent: 'space-between',
         },
         card: {
-            width: '48%',
             backgroundColor: COLORS.white,
             borderRadius: 12,
-            padding: 16,
             marginBottom: 16,
             boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
             elevation: 3,
@@ -62,5 +60,8 @@ export const createAdminDashboardStyles = (isDark: boolean) => {
             color: COLORS.error,
             fontSize: 12,
         },
+        cardContainer: {
+            gap: 20,
+        }
     });
 } 

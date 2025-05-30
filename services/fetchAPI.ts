@@ -98,23 +98,23 @@ export const fetchAPI = {
     },
     getDailyPayment: (date: Date) => {
         return axiosClient.get('/payments/revenue/paymentList', {
-        params: { date }
-      });
+            params: { date }
+        });
     },
     getMonthlyData: (date: Date) => {
         return axiosClient.get('/payments/revenue/monthly', {
-        params: { date },
-      });
+            params: { date },
+        });
     },
     getQuarterlyData: (date: Date) => {
         return axiosClient.get('/payments/revenue/quarterly', {
-        params: { date },
-      });
+            params: { date },
+        });
     },
     getYearlyData: (date: Date) => {
         return axiosClient.get('/payments/revenue/yearly', {
-        params: { date },
-      });
+            params: { date },
+        });
     }
 
 
