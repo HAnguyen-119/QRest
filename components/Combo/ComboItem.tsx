@@ -18,8 +18,6 @@ export default function ComboItem({ item, menuItem, handleChange }: ComboViewPro
 
     const numberOfItems = menuItem.comboFoods.length
 
-    console.log(menuItem)
-
     const toggleExpand = () => {
         if (isExpanded) {
             Animated.timing(heightValue, {

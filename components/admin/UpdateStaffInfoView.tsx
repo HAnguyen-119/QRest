@@ -72,8 +72,7 @@ export default function UpdateStaffInfoView({staff, isAdding, handleCancel, posi
             handleRefresh()
             handleCancel()
         } catch (error) {
-            console.log(error);
-            console.log(newStaff)
+            console.error(error);
         }
     }
 

@@ -38,7 +38,7 @@ export default function Staff() {
                 const staffResponse = await fetchAPI.getStaff();
                 setStaffData(staffResponse);
             } catch (error) {
-                console.log({ message: `Error while fetching data: ${error}` });
+                console.error({ message: `Error while fetching data: ${error}` });
             }
         };
         fetchData();
@@ -107,7 +107,7 @@ export default function Staff() {
             handleCancel();
             setIsDelete(false);
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     }
 

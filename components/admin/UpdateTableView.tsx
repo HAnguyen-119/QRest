@@ -38,7 +38,7 @@ export default function UpdateTableView({table, isAdding, handleCancel, capaciti
             handleRefresh()
             handleCancel()
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     }
 

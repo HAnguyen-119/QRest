@@ -19,7 +19,6 @@ export default function ModalReservationView({ visible, setVisible }: Reservatio
             orderDate.getFullYear() === today.getFullYear()
         )
     })
-    console.log('reservation', filteredReservationList)
     return (
         <Modal
             visible={visible}

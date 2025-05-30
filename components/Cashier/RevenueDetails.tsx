@@ -21,8 +21,7 @@ import { Payment } from '@/constants/Types/payment';
 import { fetchAPI } from '@/services/fetchAPI';
 
 export default function RevenueDetails({ type, data, visible, setVisible }) {
-    const route = useRoute();
-    console.log("revenue details nhan duoc: ", type)
+
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
     const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
@@ -37,22 +36,17 @@ export default function RevenueDetails({ type, data, visible, setVisible }) {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        console.log('useEffect triggered:', { type, selectedDate, selectedYear, selectedMonth, selectedQuarter });
         if (type === 'daily') fetchDailyPayments();
         if (type === 'monthly') fetchMonthlyData();
         if (type === 'quarterly') fetchQuarterlyData();
         if (type === 'yearly') fetchYearlyData();
     }, [type, selectedDate, selectedYear, selectedMonth, selectedQuarter]);
 
-    console.log(type+'dm')
-
     const fetchDailyPayments = async () => {
         try {
             setLoading(true);
             const isoDate = selectedDate.toISOString();
-            console.log('Fetching daily payments for date:', isoDate);
             const response = await fetchAPI.getDailyPayment(isoDate);
-            console.log(response);
             setPayments(response);
             setError(null);
         } catch (err: any) {
@@ -69,9 +63,7 @@ export default function RevenueDetails({ type, data, visible, setVisible }) {
         try {
             setLoading(true);
             const date = new Date(selectedYear, selectedMonth, 1).toISOString();
-            console.log('Fetching monthly data for date:', date);
             const response = await fetchAPI.getMonthlyData(date);
-            console.log('Monthly response:', response);
             setMonthlyData(response);
             setError(null);
         } catch (err: any) {
@@ -88,9 +80,7 @@ export default function RevenueDetails({ type, data, visible, setVisible }) {
         try {
             setLoading(true);
             const date = new Date(selectedYear, (selectedQuarter) * 3, 1).toISOString();
-            console.log('Fetching quarterly data for date:', date);
             const response = await fetchAPI.getQuarterlyData(date);
-            console.log('Quarterly response:', response);
             setQuarterlyData(response);
             setError(null);
         } catch (err: any) {
@@ -107,9 +97,7 @@ export default function RevenueDetails({ type, data, visible, setVisible }) {
         try {
             setLoading(true);
             const date = new Date(selectedYear, 0, 1).toISOString();
-            console.log('Fetching yearly data for date:', date);
             const response = await fetchAPI.getYearlyData(date);
-            console.log('Yearly response:', response);
             setYearlyData(response);
             setError(null);
         } catch (err: any) {
@@ -137,7 +125,6 @@ export default function RevenueDetails({ type, data, visible, setVisible }) {
             <TouchableOpacity
                 style={styles.pickerButton}
                 onPress={() => {
-                    console.log('Opening date picker for daily');
                     setOpenDatePicker(true);
                 }}
             >
@@ -150,12 +137,10 @@ export default function RevenueDetails({ type, data, visible, setVisible }) {
                 mode="date"
                 locale="vi-VN"
                 onConfirm={date => {
-                    console.log('Selected date:', date.toISOString());
                     setOpenDatePicker(false);
                     setSelectedDate(date);
                 }}
                 onCancel={() => {
-                    console.log('Date picker cancelled');
                     setOpenDatePicker(false);
                 }}
             />
@@ -207,7 +192,6 @@ export default function RevenueDetails({ type, data, visible, setVisible }) {
                         onChangeText={text => {
                             const month = parseInt(text);
                             if (!isNaN(month) && month >= 1 && month <= 12) {
-                                console.log('Selected month:', month);
                                 setSelectedMonth(month);
                             }
                         }}
@@ -220,7 +204,6 @@ export default function RevenueDetails({ type, data, visible, setVisible }) {
                         onChangeText={text => {
                             const year = parseInt(text);
                             if (!isNaN(year) && year >= 2023) {
-                                console.log('Selected year:', year);
                                 setSelectedYear(year);
                             }
                         }}
@@ -273,7 +256,6 @@ export default function RevenueDetails({ type, data, visible, setVisible }) {
                         onChangeText={text => {
                             const quarter = parseInt(text);
                             if (!isNaN(quarter) && quarter >= 1 && quarter <= 4) {
-                                console.log('Selected quarter:', quarter);
                                 setSelectedQuarter(quarter);
                             }
                         }}
@@ -286,7 +268,6 @@ export default function RevenueDetails({ type, data, visible, setVisible }) {
                         onChangeText={text => {
                             const year = parseInt(text);
                             if (!isNaN(year) && year >= 2023) {
-                                console.log('Selected year:', year);
                                 setSelectedYear(year);
                             }
                         }}
@@ -305,6 +286,7 @@ export default function RevenueDetails({ type, data, visible, setVisible }) {
                         width={Dimensions.get('window').width - 32}
                         height={220}
                         yAxisLabel="$"
+                        yAxisSuffix=''
                         chartConfig={{
                             backgroundColor: COLORS.white,
                             backgroundGradientFrom: COLORS.white,
@@ -335,7 +317,6 @@ export default function RevenueDetails({ type, data, visible, setVisible }) {
                 <TouchableOpacity
                     style={styles.pickerButton}
                     onPress={() => {
-                        console.log('Opening year picker');
                         setOpenYearPicker(true);
                     }}
                 >
@@ -350,12 +331,10 @@ export default function RevenueDetails({ type, data, visible, setVisible }) {
                     minimumDate={new Date(2023, 0, 1)}
                     maximumDate={new Date()}
                     onConfirm={date => {
-                        console.log('Selected year:', date.getFullYear());
                         setOpenYearPicker(false);
                         setSelectedYear(date.getFullYear());
                     }}
                     onCancel={() => {
-                        console.log('Year picker cancelled');
                         setOpenYearPicker(false);
                     }}
                 />

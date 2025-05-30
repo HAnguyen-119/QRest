@@ -43,7 +43,7 @@ export const useFetch = (type: GetData) => {
             }
             setData(response); // Set the fetched data
         } catch (err) {
-            console.log('Error while fetching data: ', err);
+            console.error('Error while fetching data: ', err);
         } finally {
             setLoading(false); // Turn off the loading state
         }

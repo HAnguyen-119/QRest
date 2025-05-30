@@ -75,8 +75,6 @@ export default function UpdateMenuItemView({item, isAdding, handleCancel, handle
             handleCancel();
         } catch (error) {
             console.error("Edit failed:", error);
-            console.log(item)
-            console.log(newItem);
         }
     };
 

@@ -42,7 +42,7 @@ export default function Table() {
                 const tableResponse = await fetchAPI.getTables();
                 setTableData(tableResponse);
             } catch (error) {
-                console.log({ message: `Error while fetching data: ${error}` });
+                console.error({ message: `Error while fetching data: ${error}` });
             }
         };
         fetchData();
@@ -100,7 +100,7 @@ export default function Table() {
             setIsRefresh(!isRefresh);
             handleCancel()
         } catch (error) {
-            console.log({ message: `Error while deleting table: ${error}` });
+            console.error({ message: `Error while deleting table: ${error}` });
         }
     }
 

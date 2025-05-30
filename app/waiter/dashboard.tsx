@@ -68,7 +68,7 @@ export default function Menu() {
                     return [...prevList, { id, quantity: 1}]
                 })
             } catch(error) {
-                console.log('error while adding combo: ', error)
+                console.error('error while adding combo: ', error)
             }
             
         } else {
@@ -93,7 +93,7 @@ export default function Menu() {
                     return [{ id, quantity: 1}]
                 })
             } catch(error) {
-                console.log('error while adding food: ', error)
+                console.error('error while adding food: ', error)
             }
         }
             

@@ -17,14 +17,12 @@ export default function OrderItem({ orderID, foodOrders, comboOrders, orderTime,
   const chefCompleteOrder = (orderID: number) => {
     // Logic to complete the order
     fetchAPI.editOrderStatus(orderID, "PROCESSED")
-    console.log(`Order ${orderID} completed`);
   };
 
   const chefTakeOrder = (orderID: number) => {
     // Logic to take the order
     fetchAPI.editOrderStatus(orderID, "PROCESSING")
     setTaken(taken => !taken)
-    console.log(`Order ${orderID} taken`);
   }
 
   return (
