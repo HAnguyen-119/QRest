@@ -5,15 +5,18 @@ export const createTableInfoStyles = (isDark: boolean) => {
     return StyleSheet.create({
         nameContainer: {
             flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
+            display: "flex",
+            flexDirection: "row",
             borderBottomWidth: 2,
             borderStyle: "solid",
             borderBottomColor: isDark ? COLORS.light : COLORS.dark,
         },
     
         infoContainer: {
-            flex: 4,
+            flex: 1,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
         },
     
         statusContainer: {
@@ -26,7 +29,7 @@ export const createTableInfoStyles = (isDark: boolean) => {
         },
     
         container: {
-            height: 120,
+            height: 150,
             width: "43%",
             borderRadius: 10,
             borderStyle: "solid",
@@ -40,10 +43,27 @@ export const createTableInfoStyles = (isDark: boolean) => {
     
         text: {
             fontFamily: "Josefin-Sans",
-            color: isDark ? COLORS.light : COLORS.dark
+            color: isDark ? COLORS.light : COLORS.dark,
+            fontSize: 18
         },
         statusText: {
             fontFamily: "Josefin-Sans",
+            fontSize: 18
+        },
+
+        icon: {
+            color: isDark ? COLORS.light : COLORS.dark,
+        },
+
+        button: {
+            flex: 2,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+            borderLeftColor: isDark ? COLORS.light : COLORS.dark,
+            borderLeftWidth: 2,
+            borderStyle: "solid",
         }
     })
 }

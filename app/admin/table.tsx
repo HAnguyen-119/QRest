@@ -51,7 +51,7 @@ export default function Table() {
     if (!tableData) return null;
 
     const items = Object.values(tableData).filter((item : any) =>
-        (status === 'All' || item.status === status)
+        (status === 'All' || item.status === status.toUpperCase())
         && (capacity === 'All' || item.capacity.toString() === capacity)
         && item.name.toLowerCase().includes(search.toLowerCase()));
 
@@ -72,8 +72,8 @@ export default function Table() {
         setCapacity(capacity);
     }
 
-    const handleStatus = (pos: string) => {
-        setStatus(pos);
+    const handleStatus = (status: string) => {
+        setStatus(status);
     }
 
     const handleSearch = (search: string) => {
@@ -113,7 +113,7 @@ export default function Table() {
             <View style={adminStyles.toolBar}>
                 <Searcher onSearch={handleSearch}/>
                 <TouchableOpacity onPress={handleAdd}>
-                    <Icon name={"add-circle-outline"} size={40}/>
+                    <Icon style={adminStyles.switchMode} name={"add-circle-outline"} size={40}/>
                 </TouchableOpacity>
             </View>
             <View style={tableStyles.categories}>

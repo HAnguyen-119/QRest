@@ -22,7 +22,7 @@ export default function Menu() {
 
     const [currentItem, setCurrentItem] = useState<any>(null)
 
-    const [isAdd, setisAdding] = useState<boolean>(false)
+    const [isAdd, setIsAdding] = useState<boolean>(false)
     const [isEdit, setIsEdit] = useState<boolean>(false)
 
     const [isRefresh, setIsRefresh] = useState<boolean>(false)
@@ -59,10 +59,12 @@ export default function Menu() {
         left.value = "0%";
         setMenuItemId(id);
         setCurrentItem(menuData.find((item : any) => item.id === id));
+        onClick(true)
     };
 
     const handleBack = () => {
         left.value = "100%";
+        onClick(false)
     };
 
     const handleCategory = (cat: string) => {
@@ -74,7 +76,7 @@ export default function Menu() {
     };
 
     const handleAddItem = () => {
-        setisAdding(true);
+        setIsAdding(true);
         onClick(true)
     }
 
@@ -94,9 +96,9 @@ export default function Menu() {
     }
 
     const handleCancel = () => {
-        setisAdding(false);
+        setIsAdding(false);
         setIsEdit(false);
-        onClick(false)
+
     }
 
     if (!menuData || !categoryData) {
@@ -133,10 +135,10 @@ export default function Menu() {
             <View style={adminStyles.toolBar}>
                 <Searcher onSearch={handleSearch}/>
                 <TouchableOpacity onPress={handleAddItem}>
-                    <Icon name={"add-circle-outline"} size={40}/>
+                    <Icon style={adminStyles.switchMode} name={"add-circle-outline"} size={40}/>
                 </TouchableOpacity>
             </View>
-            <MenuCategories data={categoryData} handleCategory={handleCategory}/>
+            <MenuCategories data={categoryData} handleCategory={handleCategory} selectingCategory={category}/>
             <Animated.FlatList
                 style={adminStyles.menuItemsContainer}
                 data={items}

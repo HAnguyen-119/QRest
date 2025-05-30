@@ -160,6 +160,11 @@ export const createAdminStyles = ( isDark: boolean ) => {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center'
-        }
+        },
+
+        switchMode: {
+            color: isDark ? COLORS.light : COLORS.dark,
+        },
+
     })
 } 

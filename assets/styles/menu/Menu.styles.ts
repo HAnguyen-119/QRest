@@ -13,12 +13,15 @@ export const createMenuStyles = (isDark: boolean) => {
     
         text: {
             fontFamily: "Josefin-Sans",
+            color: "white"
         },
     
         imageContainer: {
-            width: "100%",
-            height: 400,
+            width: 350,
+            height: 350,
             overflow: "hidden",
+            alignSelf: "center",
+            borderRadius: "100%"
         },
     
         image: {
@@ -28,6 +31,8 @@ export const createMenuStyles = (isDark: boolean) => {
         },
     
         backButton: {
+            marginLeft: 20,
+            marginTop: 20,
             backgroundColor: COLORS.secondary,
             justifyContent: "center",
             alignItems: "center",
@@ -47,12 +52,11 @@ export const createMenuStyles = (isDark: boolean) => {
             alignSelf: "center",
             justifyContent: "center",
             alignItems: "center",
-            width: "70%",
+            width: "85%",
             height: 50,
-            borderRadius: 40,
+            marginVertical: 10,
+            borderRadius: 20,
             backgroundColor: COLORS.buttonActive,
-            position: "relative",
-            bottom: 25,
         },
     
         name: {
@@ -61,7 +65,17 @@ export const createMenuStyles = (isDark: boolean) => {
         },
     
         detailsContainer: {
-            flex: 1
+            flex: 1,
+            backgroundColor: "transparent",
+            width: "85%",
+            marginBottom: 10,
+            borderRadius: 20,
+            borderStyle: "solid",
+            borderWidth: 2,
+            borderColor: COLORS.dark,
+            overflow: "hidden",
+            padding: 10,
+            alignSelf: "center"
         }
     })
 } 

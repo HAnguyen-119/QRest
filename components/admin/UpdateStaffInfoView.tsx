@@ -34,6 +34,8 @@ export default function UpdateStaffInfoView({staff, isAdding, handleCancel, posi
     const [salary, setSalary] = useState(isAdding ? "0" : staff.salary.toString());
     const [image, setImage] = useState<string>(isAdding ? "" : staff.imageUrl);
 
+    const [imageFile, setImageFile] = useState<any>(null);
+
     const pickImageAsync = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ['images'],
@@ -42,7 +44,17 @@ export default function UpdateStaffInfoView({staff, isAdding, handleCancel, posi
         });
 
         if (!result.canceled) {
-            setImage(result.assets[0].uri);
+            const asset = result.assets[0];
+            const fileUri = asset.uri;
+            setImage(fileUri);
+
+            const imageForUpload = {
+                uri: fileUri,
+                name: "image.jpg",
+                type: 'image/jpeg',
+            };
+
+            setImageFile(imageForUpload)
         } else {
             alert('You did not select any image.');
         }
@@ -67,12 +79,19 @@ export default function UpdateStaffInfoView({staff, isAdding, handleCancel, posi
             salary: parseFloat(salary),
             imageUrl: image
         }
+
+        const formData = new FormData();
+        formData.append("staff", JSON.stringify(newStaff));
+        formData.append("imageFile", imageFile);
+
+        console.log(imageFile)
+
         try {
-            await fetchAPI.addStaff(newStaff);
+            await fetchAPI.addStaff(formData);
             handleRefresh()
             handleCancel()
         } catch (error) {
-            console.error(error);
+            console.error("Add failed:", error);
         }
     }
 
@@ -88,8 +107,12 @@ export default function UpdateStaffInfoView({staff, isAdding, handleCancel, posi
             imageUrl: image
         }
 
+        const formData = new FormData();
+        formData.append("staff", JSON.stringify(newStaff));
+        formData.append("imageFile", imageFile);
+
         try {
-            await fetchAPI.editStaff(staff.id, newStaff);
+            await fetchAPI.editStaff(staff.id, formData);
             handleRefresh();
             handleCancel();
         } catch (error) {
@@ -171,7 +194,7 @@ export default function UpdateStaffInfoView({staff, isAdding, handleCancel, posi
                 <TextInput
                     value={salary}
                     style={styles.input}
-                    placeholder="Item Price"
+                    placeholder="Enter Salary"
                     keyboardType="decimal-pad"
                     onChangeText={(text) => setSalary(text)}
                 ></TextInput>
