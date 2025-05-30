@@ -62,6 +62,10 @@ export const createAdminDashboardStyles = (isDark: boolean) => {
         },
         cardContainer: {
             gap: 20,
+        },
+        expandButton: {
+            alignSelf: 'center',
+            paddingBottom: 16,
         }
     });
 } 

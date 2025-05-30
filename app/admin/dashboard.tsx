@@ -1,19 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView, RefreshControl } from 'react-native';
-import { COLORS } from '../../constants/colors';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, RefreshControl, Animated as a, TouchableOpacity } from 'react-native';
 import axiosClient from '../../services/axiosClient';
 import { RevenueData, BackendRevenueData, RevenueType } from '@/constants/Types/revenue';
 import RevenueDetails from '../../components/Cashier/RevenueDetails';
 
-import { LineChart } from "react-native-chart-kit";
-import { Dimensions } from "react-native";
+import Animated from 'react-native-reanimated';
 
-import { formatCurrency } from '@/utils/FormatMoney';
 import { useThemeContext } from '@/contexts/ThemeContext';
 import { createAdminDashboardStyles } from '@/assets/styles/admin/AdminDashboard.styles';
-import { formatDateString } from '@/utils/FormatTime';
 import { createGlobalStyles } from '@/assets/styles/Global.styles';
-import RevenueCard from '@/components/Revenue/RevenueCard';
+import RevenueCard from '@/components/Card/RevenueCard';
+import { useScrollAnimated } from '@/contexts/ScrollContext';
+
+import dropdownButton from '@/assets/images/dropdown.png'
+import minimizeButton from '@/assets/images/minimize.png'
+import Icon from '@/components/Icon/Icon';
+import { BUTTONSIZE } from '@/constants/size';
 
 export default function Dashboard() {
     const [currentDateRevenue, setCurrentDateRevenue] = useState<RevenueData | null>(null);
@@ -41,6 +43,8 @@ export default function Dashboard() {
     const { isDark } = useThemeContext()
     const styles = createAdminDashboardStyles(isDark)
     const globalStyles = createGlobalStyles(isDark)
+
+    const { scrollHandler, onClick } = useScrollAnimated()
 
     const currentDate = new Date()
 
@@ -172,13 +176,35 @@ export default function Dashboard() {
         setRefreshing(false)
     }
 
+    const heightValue = useRef(new a.Value(224)).current
+    const [isExpanded, setIsExpanded] = useState(false)
+    const numberOfItems = 4
+
+    const toggleExpand = () => {
+        if (isExpanded) {
+            a.timing(heightValue, {
+                toValue: 224,
+                duration: 300,
+                useNativeDriver: false,
+            }).start()
+        } else {
+            a.timing(heightValue, {
+                toValue: numberOfItems * 224,
+                duration: 300,
+                useNativeDriver: false,
+            }).start()
+        }
+        setIsExpanded(!isExpanded)
+    }
+
 
     return (
-        <ScrollView
+        <Animated.ScrollView
             style={styles.container}
             refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
+            onScroll={scrollHandler}
         >
             <View style={styles.welcomeSection}>
                 <Text style={[styles.welcomeText, globalStyles.text]}>WELCOME BACK</Text>
@@ -192,12 +218,21 @@ export default function Dashboard() {
                     setVisible={setVisible}
                 />
             )}
-            <View style={styles.cardContainer}>
-                <RevenueCard type={'daily'} date={new Date()} setType={setType} setVisible={setVisible}/>
-                <RevenueCard type={'monthly'} date={new Date(2025, 5, 1)} setType={setType} setVisible={setVisible}/>
-                <RevenueCard type={'quarterly'} date={new Date(2025, 5, 1)} setType={setType} setVisible={setVisible}/>
-                <RevenueCard type={'yearly'} date={new Date(2025, 5, 1)} setType={setType} setVisible={setVisible}/>
-            </View>
-        </ScrollView>
+            <a.View style={[styles.cardContainer, { height: heightValue }]}>
+                {isExpanded ? (
+                    <>
+                        <RevenueCard type={'daily'} date={new Date()} setType={setType} setVisible={setVisible} />
+                        <RevenueCard type={'monthly'} date={new Date(2025, 5, 1)} setType={setType} setVisible={setVisible} />
+                        <RevenueCard type={'quarterly'} date={new Date(2025, 5, 1)} setType={setType} setVisible={setVisible} />
+                        <RevenueCard type={'yearly'} date={new Date(2025, 5, 1)} setType={setType} setVisible={setVisible} />
+                    </>
+                ) : (
+                    <RevenueCard type={'daily'} date={new Date()} setType={setType} setVisible={setVisible} />
+                )}
+            </a.View>
+            <TouchableOpacity onPress={toggleExpand} style={styles.expandButton}>
+                <Icon src={isExpanded ? minimizeButton : dropdownButton} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null} />
+            </TouchableOpacity>
+        </Animated.ScrollView>
     );
 }

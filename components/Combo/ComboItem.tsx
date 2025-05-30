@@ -1,4 +1,4 @@
-import React, { useRef } from "react"
+import React, { useRef, useState } from "react"
 import { View, TouchableOpacity, Text, Animated } from "react-native"
 import Icon from "../Icon/Icon"
 import MenuItemOrders from "../menu/MenuItemOrders"
@@ -11,7 +11,7 @@ import { createOrderListStyles } from "@/assets/styles/waiter/OrderList.styles"
 
 export default function ComboItem({ item, menuItem, handleChange }: ComboViewProps) {
     const heightValue = useRef(new Animated.Value(0)).current 
-    const [isExpanded, setIsExpanded] = React.useState(false)
+    const [isExpanded, setIsExpanded] = useState(false)
 
     const { isDark } = useThemeContext()
     const OrderListStyles = createOrderListStyles(isDark)
