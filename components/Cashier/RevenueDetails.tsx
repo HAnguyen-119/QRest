@@ -16,11 +16,12 @@ import DatePicker from 'react-native-date-picker';
 import { LineChart, BarChart } from 'react-native-chart-kit';
 import { COLORS } from '../../constants/colors';
 import axiosClient from '../../services/axiosClient';
-import { RevenueData } from '@/constants/Types/revenue';
+import { RevenueData, RevenueDetailsProps } from '@/constants/Types/revenue';
 import { Payment } from '@/constants/Types/payment';
 import { fetchAPI } from '@/services/fetchAPI';
+import { formatCurrency } from '@/utils/FormatMoney';
 
-export default function RevenueDetails({ type, data, visible, setVisible }) {
+export default function RevenueDetails({ type, data, visible, setVisible }: RevenueDetailsProps) {
 
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
@@ -45,9 +46,8 @@ export default function RevenueDetails({ type, data, visible, setVisible }) {
     const fetchDailyPayments = async () => {
         try {
             setLoading(true);
-            const isoDate = selectedDate.toISOString();
-            const response = await fetchAPI.getDailyPayment(isoDate);
-            setPayments(response);
+            const response = await fetchAPI.getDailyPayment(selectedDate);
+            setPayments(Object.values(response));
             setError(null);
         } catch (err: any) {
             const errorMessage = err.message || 'Không thể lấy dữ liệu giao dịch';
@@ -62,9 +62,9 @@ export default function RevenueDetails({ type, data, visible, setVisible }) {
     const fetchMonthlyData = async () => {
         try {
             setLoading(true);
-            const date = new Date(selectedYear, selectedMonth, 1).toISOString();
+            const date = new Date(selectedYear, selectedMonth, 1);
             const response = await fetchAPI.getMonthlyData(date);
-            setMonthlyData(response);
+            setMonthlyData(Object.values(response));
             setError(null);
         } catch (err: any) {
             const errorMessage = err.message || 'Không thể lấy dữ liệu tháng';
@@ -79,9 +79,9 @@ export default function RevenueDetails({ type, data, visible, setVisible }) {
     const fetchQuarterlyData = async () => {
         try {
             setLoading(true);
-            const date = new Date(selectedYear, (selectedQuarter) * 3, 1).toISOString();
+            const date = new Date(selectedYear, (selectedQuarter) * 3, 1);
             const response = await fetchAPI.getQuarterlyData(date);
-            setQuarterlyData(response);
+            setQuarterlyData(Object.values(response));
             setError(null);
         } catch (err: any) {
             const errorMessage = err.message || 'Không thể lấy dữ liệu quý';
@@ -96,9 +96,9 @@ export default function RevenueDetails({ type, data, visible, setVisible }) {
     const fetchYearlyData = async () => {
         try {
             setLoading(true);
-            const date = new Date(selectedYear, 0, 1).toISOString();
+            const date = new Date(selectedYear, 0, 1);
             const response = await fetchAPI.getYearlyData(date);
-            setYearlyData(response);
+            setYearlyData(Object.values(response));
             setError(null);
         } catch (err: any) {
             const errorMessage = err.message || 'Không thể lấy dữ liệu năm';
@@ -110,16 +110,6 @@ export default function RevenueDetails({ type, data, visible, setVisible }) {
         }
     };
 
-    const formatCurrency = (amount: number) => {
-        return amount ? `$${amount.toFixed(2)}` : '$0.00';
-    };
-
-    const formatDate = (dateString: string) => {
-        if (!dateString) return '';
-        const date = new Date(dateString);
-        return date.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
-    };
-
     const renderDaily = () => (
         <View>
             <TouchableOpacity
@@ -128,7 +118,7 @@ export default function RevenueDetails({ type, data, visible, setVisible }) {
                     setOpenDatePicker(true);
                 }}
             >
-                <Text style={styles.pickerButtonText}>Chọn ngày: {formatDate(selectedDate.toISOString())}</Text>
+                <Text style={styles.pickerButtonText}>Chọn ngày: {selectedDate.toISOString()}</Text>
             </TouchableOpacity>
             <DatePicker
                 modal
@@ -157,7 +147,7 @@ export default function RevenueDetails({ type, data, visible, setVisible }) {
                             <Text style={styles.tableCell}>{item.id}</Text>
                             <Text style={styles.tableCell}>{item.order.id}</Text>
                             <Text style={styles.tableCell}>{formatCurrency(item.totalPrice)}</Text>
-                            <Text style={styles.tableCell}>{formatDate(item.paymentTime)}</Text>
+                            <Text style={styles.tableCell}>{item.paymentTime.toISOString()}</Text>
                             <Text style={styles.tableCell}>{item.paymentMethod}</Text>
                         </View>
                     )}
@@ -351,6 +341,7 @@ export default function RevenueDetails({ type, data, visible, setVisible }) {
                         width={Dimensions.get('window').width - 32}
                         height={220}
                         yAxisLabel="$"
+                        yAxisSuffix=''
                         chartConfig={{
                             backgroundColor: COLORS.white,
                             backgroundGradientFrom: COLORS.white,
@@ -407,7 +398,7 @@ export default function RevenueDetails({ type, data, visible, setVisible }) {
                     <View style={styles.summary}>
                         <Text style={styles.summaryText}>Tổng doanh thu: {formatCurrency(data.totalAmount)}</Text>
                         <Text style={styles.summaryText}>
-                            Khoảng thời gian: {formatDate(data.periodStart)} - {formatDate(data.periodEnd)}
+                            Khoảng thời gian: {data.periodStart} - {data.periodEnd}
                         </Text>
                     </View>
                 )}
@@ -487,7 +478,7 @@ const styles = StyleSheet.create({
     },
     tableHeader: {
         flexDirection: 'row',
-        backgroundColor: COLORS.grayLight,
+        backgroundColor: COLORS.lightGray,
         padding: 12,
         borderRadius: 8,
         marginBottom: 8,

@@ -1,21 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView, RefreshControl } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { COLORS } from '../../constants/colors';
 import axiosClient from '../../services/axiosClient';
 import { RevenueData, BackendRevenueData, RevenueType } from '@/constants/Types/revenue';
 import RevenueDetails from '../../components/Cashier/RevenueDetails';
 
-import refreshButton from "@/assets/images/refresh.png"
-import Icon from '@/components/Icon/Icon';
-import { ICONSIZE } from '@/constants/size';
 import { formatCurrency } from '@/utils/FormatMoney';
 import { useThemeContext } from '@/contexts/ThemeContext';
 import { createAdminDashboardStyles } from '@/assets/styles/admin/AdminDashboard.styles';
 import { formatDateString } from '@/utils/FormatTime';
 
 export default function Dashboard() {
-    const [currentDate, setCurrentDate] = useState<Date>(new Date());
     const [currentDateRevenue, setCurrentDateRevenue] = useState<RevenueData | null>(null);
     const [currentMonthRevenue, setMonthRevenue] = useState<RevenueData | null>(null);
     const [currentQuarterRevenue, setQuarterRevenue] = useState<RevenueData | null>(null);
@@ -41,6 +36,8 @@ export default function Dashboard() {
     const { isDark } = useThemeContext()
     const styles = createAdminDashboardStyles(isDark)
 
+    const currentDate = new Date()
+
     useEffect(() => {
         fetchAllRevenue();
     }, []);
@@ -52,7 +49,7 @@ export default function Dashboard() {
         fetchCurrentYearRevenue();
     };
 
-    const mapBackendToFrontend = (backendData: BackendRevenueData | null): RevenueData | null => {
+    const mapBackendToFrontend = (backendData: BackendRevenueData): RevenueData | null => {
         if (!backendData) {
             return null;
         }
@@ -68,7 +65,7 @@ export default function Dashboard() {
             setLoading(prev => ({ ...prev, currentDate: true }));
             const isoDate = currentDate.toISOString();
             const response = await axiosClient.get<BackendRevenueData>(`/payments/revenue/daily?date=${isoDate}`);
-            const mappedData = mapBackendToFrontend(response);
+            const mappedData = mapBackendToFrontend(Object(response));
             if (mappedData) {
                 setCurrentDateRevenue(mappedData);
                 setError(prev => ({ ...prev, currentDate: null }));
@@ -89,7 +86,7 @@ export default function Dashboard() {
         try {
             setLoading(prev => ({ ...prev, currentMonth: true }));
             const response = await axiosClient.get<BackendRevenueData>(`/payments/revenue/currentMonth`);
-            const mappedData = mapBackendToFrontend(response);
+            const mappedData = mapBackendToFrontend(Object(response));
             if (mappedData) {
                 setMonthRevenue(mappedData);
                 setError(prev => ({ ...prev, currentMonth: null }));
@@ -110,7 +107,7 @@ export default function Dashboard() {
         try {
             setLoading(prev => ({ ...prev, currentQuarter: true }));
             const response = await axiosClient.get<BackendRevenueData>(`/payments/revenue/currentQuarter`);
-            const mappedData = mapBackendToFrontend(response);
+            const mappedData = mapBackendToFrontend(Object(response));
             if (mappedData) {
                 setQuarterRevenue(mappedData);
                 setError(prev => ({ ...prev, currentQuarter: null }));
@@ -131,7 +128,7 @@ export default function Dashboard() {
         try {
             setLoading(prev => ({ ...prev, currentYear: true }));
             const response = await axiosClient.get<BackendRevenueData>(`/payments/revenue/currentYear`);
-            const mappedData = mapBackendToFrontend(response);
+            const mappedData = mapBackendToFrontend(Object(response));
             if (mappedData) {
                 setYearRevenue(mappedData);
                 setError(prev => ({ ...prev, currentYear: null }));
