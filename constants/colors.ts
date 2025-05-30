@@ -27,5 +27,6 @@ export const COLORS = {
     dailyLine: '#b2c2a2',
     monthlyLine: '#a0b4c8',
     quarterlyLine: '#ddd999',
-    yearlyLine: '#aaaabe'
+    yearlyLine: '#aaaabe',
+    orderNotTaken: '#dc3545',
 }

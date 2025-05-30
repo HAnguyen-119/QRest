@@ -37,9 +37,9 @@ export default function Dashboard() {
       {pendingOrders?.map((task, index) => (
         <OrderItem
           key={index}
-          name={task.name}
           orderID={task.id}
           orderTime={task.orderTime}
+          orderNotes={task.note}
           foodOrders={task.foodOrders}
           comboOrders={task.comboOrders}
           orderStatus={task.orderStatus}
