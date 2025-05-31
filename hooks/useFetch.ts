@@ -37,6 +37,9 @@ export const useFetch = (type: GetData) => {
                 case 'pending_orders':
                     response = await fetchAPI.getPendingOrders()
                     break
+                case 'staff':
+                    response = await fetchAPI.getStaff()
+                    break
                 default:
                     console.error(`Error: Type '${type}' not found.`);
                     return;

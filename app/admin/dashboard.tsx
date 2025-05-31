@@ -16,6 +16,7 @@ import dropdownButton from '@/assets/images/dropdown.png'
 import minimizeButton from '@/assets/images/minimize.png'
 import Icon from '@/components/Icon/Icon';
 import { BUTTONSIZE } from '@/constants/size';
+import StatisticList from '@/components/Card/StatisticList';
 
 export default function Dashboard() {
     const [currentDateRevenue, setCurrentDateRevenue] = useState<RevenueData | null>(null);
@@ -233,6 +234,7 @@ export default function Dashboard() {
             <TouchableOpacity onPress={toggleExpand} style={styles.expandButton}>
                 <Icon src={isExpanded ? minimizeButton : dropdownButton} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null} />
             </TouchableOpacity>
+            <StatisticList/>
         </Animated.ScrollView>
     );
 }
