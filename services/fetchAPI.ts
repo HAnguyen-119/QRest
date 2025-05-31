@@ -131,6 +131,9 @@ export const fetchAPI = {
         return axiosClient.get('/payments/revenue/yearly', {
             params: { date },
         });
+    },
+    getAllPayments: () => {
+        return axiosClient.get('/payments')
     }
 
 

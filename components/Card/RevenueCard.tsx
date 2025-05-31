@@ -4,6 +4,7 @@ import { COLORS } from "@/constants/colors";
 import { RevenueCardProps } from "@/constants/Types/revenue";
 import { useThemeContext } from "@/contexts/ThemeContext";
 import { fetchAPI } from "@/services/fetchAPI";
+import { ChangeMoneyUnit } from "@/utils/ChangeMoneyUnit";
 import { DisplayDataChart } from "@/utils/DisplayDataChart";
 import { getLineColor } from "@/utils/GetLineColor";
 import { GetRevenueTitle } from "@/utils/GetRevenueTitle";
@@ -60,7 +61,7 @@ export default function RevenueCard({ type, date, setType, setVisible }: Revenue
         <TouchableOpacity style={styles.card} onPress={() => {setType(type); setVisible(true)}}>
             <View style={styles.topRow}>
                 <View>
-                    <Text style={styles.amount}>${data.reduce((acc, val) => acc + val, 0)}</Text>
+                    <Text style={styles.amount}>{ChangeMoneyUnit(data.reduce((acc, val) => acc + val, 0))}</Text>
                     <Text style={styles.label}>{GetRevenueTitle(type)}</Text>
                 </View>
             </View>
