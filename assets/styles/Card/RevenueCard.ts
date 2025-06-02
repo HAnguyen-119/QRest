@@ -17,9 +17,8 @@ export const createRevenueCardStyles = (isDark: boolean) => {
             alignItems: 'flex-start',
         },
         amount: {
-            fontSize: 18,
-            fontWeight: 'bold',
-            color: '#000',
+            fontSize: 20,
+            color: isDark ? COLORS.white : COLORS.dark,
         },
         label: {
             fontSize: 12,

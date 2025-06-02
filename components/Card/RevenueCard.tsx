@@ -61,8 +61,8 @@ export default function RevenueCard({ type, date, setType, setVisible }: Revenue
         <TouchableOpacity style={styles.card} onPress={() => {setType(type); setVisible(true)}}>
             <View style={styles.topRow}>
                 <View>
-                    <Text style={styles.amount}>{ChangeMoneyUnit(data.reduce((acc, val) => acc + val, 0))}</Text>
-                    <Text style={styles.label}>{GetRevenueTitle(type)}</Text>
+                    <Text style={[styles.amount, globalStyles.font]}>{ChangeMoneyUnit(data.reduce((acc, val) => acc + val, 0))}</Text>
+                    <Text style={[styles.label, globalStyles.font]}>{GetRevenueTitle(type)}</Text>
                 </View>
             </View>
 

@@ -14,12 +14,10 @@ export const createAdminDashboardStyles = (isDark: boolean) => {
 
         },
         welcomeText: {
-            color: COLORS.gray,
             fontSize: 12,
         },
         title: {
             fontSize: 24,
-            color: COLORS.text,
             marginBottom: 8,
         },
         dateText: {
