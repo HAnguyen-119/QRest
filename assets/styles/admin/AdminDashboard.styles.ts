@@ -27,6 +27,11 @@ export const createAdminDashboardStyles = (isDark: boolean) => {
             color: COLORS.gray,
             marginBottom: 24,
         },
+        cardList: {
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between'
+        },
         cardsContainer: {
             flexDirection: 'row',
             flexWrap: 'wrap',
@@ -66,6 +71,10 @@ export const createAdminDashboardStyles = (isDark: boolean) => {
         expandButton: {
             alignSelf: 'center',
             paddingBottom: 16,
+        },
+        statisticContainer: {
+            paddingHorizontal: 16,
+            paddingVertical: 24,
         }
     });
 } 

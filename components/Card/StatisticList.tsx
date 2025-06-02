@@ -4,16 +4,19 @@ import { useThemeContext } from "@/contexts/ThemeContext";
 import { createGlobalStyles } from "@/assets/styles/Global.styles";
 import { createAdminDashboardStyles } from "@/assets/styles/admin/AdminDashboard.styles";
 
-
 export default function StatisticList() {
     const { isDark } = useThemeContext()
     const globalStyles = createGlobalStyles(isDark)
     const dashboardStyles = createAdminDashboardStyles(isDark)
 
     return (
-        <>
-            <Text style={[globalStyles.text, dashboardStyles.welcomeText]}>STATISTIC</Text>
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+        <>  
+            <View style={dashboardStyles.statisticContainer}>
+                <Text style={[globalStyles.text, dashboardStyles.welcomeText]}>STATISTIC</Text>
+                <Text style={[globalStyles.textBold, dashboardStyles.title]}>Explore real-time updates!</Text>
+            </View>
+            
+            <View style={dashboardStyles.cardList}>
                 <StatisticCard type='food'/>
                 <StatisticCard type='combo'/>
                 <StatisticCard type='order'/>

@@ -10,7 +10,7 @@ export const GetStatisticColor = (type: StatisticType) => {
             darkColor = '#797d62'
             break
         case 'combo':
-            lightColor = '#ffdd00'
+            lightColor = '#fdc74e'
             darkColor = '#9b9b7a'
             break
         case 'order':
@@ -22,7 +22,7 @@ export const GetStatisticColor = (type: StatisticType) => {
             darkColor = '#d08c60'
             break
         case 'payment':
-            lightColor = '#adff02'
+            lightColor = '#97cb5e'
             darkColor = '#997b66'
             break
         case 'staff':

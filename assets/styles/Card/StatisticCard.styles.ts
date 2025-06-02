@@ -16,12 +16,22 @@ export const createStatisticCardStyles = (isDark: boolean, type: StatisticType) 
         cardTitle: {
             fontSize: 20,
             color: !isDark ? COLORS.white : COLORS.black,
-            marginBottom: 8,
         },
         cardValue: {
             fontSize: 36,
+            textAlign: 'center',
+            marginVertical: 12,
             color: !isDark ? COLORS.white : COLORS.black,
         },
+        header: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center'
+        },
+        footer: {
+            fontSize: 12,
+            color: !isDark ? COLORS.white : COLORS.black,
+        }
     });
 }
 
