@@ -124,13 +124,13 @@ export default function Menu() {
 
     return (
         <View style={adminStyles.menuContainer}>
-            <View style={MenuSearcherStyles.searchContainer}>
+            <View style={adminStyles.toolBar}>
+                <Searcher onSearch={handleSearch}/>
                 <TouchableOpacity onPress={() => setIsModalVisible(true)}>
                     <Icon src={Cart} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={CountOrders(orderList, comboList)}/>
                 </TouchableOpacity>
-                <Searcher onSearch={handleSearch}/>
             </View>
-            <MenuCategories data={categoryData} handleCategory={handleCategory}/>
+            <MenuCategories data={categoryData} handleCategory={handleCategory} selectingCategory={category}/>
             <OrderView 
                 orderList={orderList} 
                 setOrderList={setOrderList} 
