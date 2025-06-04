@@ -4,7 +4,8 @@ import { fetchAPI } from "@/services/fetchAPI";
 import { createOrderListStyles } from "@/assets/styles/waiter/OrderList.styles";
 import { OrderStatus } from "@/constants/Types/order";
 import { opacity } from "react-native-reanimated/lib/typescript/Colors";
-export default function OrderItem({ orderID, foodOrders, orderNotes, comboOrders, orderTime, orderStatus, onClick }) {
+import TableItemOrders from "../table/TableItemOrders";
+export default function OrderItem({ tableOrders, foodOrders, orderNotes, comboOrders, orderTime, orderStatus, onClick }) {
 
   //const { isDark } = useThemeContext()
   //const OrderItemStyles = createOrderListStyles(isDark)
@@ -20,7 +21,7 @@ export default function OrderItem({ orderID, foodOrders, orderNotes, comboOrders
     console.log(`Order ${orderID} completed`);
   };
 
-  const chefTakeOrder = (orderID: number) => {
+  const chefTakeOrder = (orderTables: number) => {
     // Logic to take the order
     fetchAPI.editOrderStatus(orderID, "PROCESSING")
     setTaken(taken => !taken)
@@ -31,7 +32,7 @@ export default function OrderItem({ orderID, foodOrders, orderNotes, comboOrders
     <View style={takenStyles(taken).container}>
       <View style={styles.content}>
         <Text style={styles.orderID}>
-          Order ID: {orderID}
+          Order for table {tableOrders?.map((item, index) => item.restaurantTable.name).join(", ")}
         </Text>
 
         {expanded && (

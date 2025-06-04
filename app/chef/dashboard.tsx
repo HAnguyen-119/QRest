@@ -27,6 +27,13 @@ export default function Dashboard() {
     setRefreshing(false);
   };
 
+if (pendingOrders) {
+  pendingOrders.forEach((task, index) => {
+    console.log(`🔍 Pending Order ${index}:`, task);
+  });
+}
+
+
   return (
     <ScrollView contentContainerStyle={styles.container}
       refreshControl={
@@ -34,21 +41,18 @@ export default function Dashboard() {
       }
     >
       <Text style={styles.header}>Chef's To-Do List</Text>
-      {pendingOrders?.map((task, index) => (
+      {pendingOrders?.map((task, index) => 
         <OrderItem
           key={index}
-          orderID={task.id}
+          tableOrders={task.tableOrders}
           orderTime={task.orderTime}
           orderNotes={task.note}
           foodOrders={task.foodOrders}
           comboOrders={task.comboOrders}
           orderStatus={task.orderStatus}
           amount={task.amount}
-        //onClick={() => {
-        //  toggleTask(index);
-        //}}
         />
-      ))}
+      )}
     </ScrollView>
   );
 }
