@@ -16,3 +16,7 @@ export interface ReservationFormProps {
     visible: boolean,
     setVisible: (visible: boolean) => void 
 }
+
+export interface ReservationListProps {
+    data: ReservationProps[]
+}

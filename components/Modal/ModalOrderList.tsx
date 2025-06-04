@@ -8,13 +8,15 @@ import OrderListView from "../Orders/OrderListView";
 import Next from '@/assets/images/next.png'
 import Note  from '@/assets/images/note.png'
 import closeButton from '@/assets/images/close.png'
+import reservationButton from '@/assets/images/reservation.png'
 
-import { BUTTONSIZE, MINIBUTTON } from "@/constants/size";
+import { BUTTONSIZE, ICONSIZE, MINIBUTTON } from "@/constants/size";
 import { OrderItemProps, OrderListViewProps } from "@/constants/Types/order";
 import { getOrderPrice } from "@/utils/GetTotalPrice";
 import { createGlobalStyles } from "@/assets/styles/Global.styles";
 import SelectGroup from "../Input/Select";
 import ModalTableView from "./ModalTableList";
+import ModalReservationView from "../Reservation/ModalReservationView";
 
 export default function OrderView(
     { orderList, setOrderList, comboList, setComboList, menuData, combosData, handleChange, isModalVisible, setIsModalVisible }: OrderListViewProps 
@@ -41,11 +43,13 @@ export default function OrderView(
         >
             <View style={OrderListStyles.modalContainer}>
                 <View style={OrderListStyles.modalContent}>
-                    <View>
+                    <View style={OrderListStyles.headerContainer}>
+                        <TouchableOpacity onPress={() => setReservationModalVisible(true)} style={OrderListStyles.reservationButton}>
+                            <Icon src={reservationButton} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null}/>
+                        </TouchableOpacity>
                         <TouchableOpacity onPress={() => setIsModalVisible(false)} style={OrderListStyles.closeButton}>
                             <Icon src={closeButton} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null}/>
                         </TouchableOpacity>
-                        
                     </View>
                     <View style={OrderListStyles.noteContainer}>
                         <Icon src={Note} width={MINIBUTTON.width} height={MINIBUTTON.height} count={0}/>
@@ -79,9 +83,13 @@ export default function OrderView(
                         orderList={orderList}
                         note={note}
                         preModal={setIsModalVisible}
-                        setOrderList={setOrderList}
+                        setOrderList={setOrderList} 
                         comboList={comboList}
                         setComboList={setComboList}
+                    />
+                    <ModalReservationView
+                        visible={reservationModalVisible}
+                        setVisible={setReservationModalVisible}
                     />
                 </View>
             </View>

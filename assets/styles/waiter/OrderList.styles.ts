@@ -9,6 +9,11 @@ export const createOrderListStyles = (isDark: boolean) => {
             backgroundColor: isDark ? COLORS.gray : COLORS.containerBackground,
             borderBottomWidth: 2
         },
+        headerContainer: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center'
+        },
         scrollView: {
             height: 540,
             flexGrow: 1
@@ -38,9 +43,12 @@ export const createOrderListStyles = (isDark: boolean) => {
         textInput: {
             fontFamily: 'Josefin-Sans'
         },
+        reservationButton: {
+            margin: 12, 
+
+        },
         closeButton: {
             margin: 12,
-            alignSelf: 'flex-end'
         },
         nextButton: {
             alignSelf: 'flex-end',

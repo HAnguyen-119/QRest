@@ -3,12 +3,21 @@ import { ReservationFormProps, ReservationProps } from "@/constants/Types/reserv
 import { useThemeContext } from "@/contexts/ThemeContext";
 import { useFetch } from "@/hooks/useFetch";
 import { Modal, TouchableOpacity, View } from "react-native";
+import Icon from "../Icon/Icon";
+
+import closeButton from '@/assets/images/close.png'
+import { BUTTONSIZE } from "@/constants/size";
+import { ReservationList } from "./ReservationList";
 
 export default function ModalReservationView({ visible, setVisible }: ReservationFormProps) {
     const { isDark } = useThemeContext()
     const styles = createReservationFormStyles(isDark)
 
-    const { data: reservationData } = useFetch('reservations')
+    const { data: reservationData, loading: reservationLoading } = useFetch('reservations')
+
+    if (reservationLoading || !reservationData) {
+        return null
+    }
     
     const today = new Date()
     const filteredReservationList = (Object.values(reservationData) as ReservationProps[]).filter((order: ReservationProps) => {
@@ -27,9 +36,10 @@ export default function ModalReservationView({ visible, setVisible }: Reservatio
             onRequestClose={() => setVisible(false)}
         >
             <View style={styles.container}>
-                <TouchableOpacity>
-                    
+                <TouchableOpacity onPress={() => setVisible(false)}>
+                    <Icon src={closeButton} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null}/>
                 </TouchableOpacity>
+                <ReservationList data={reservationData}/>
             </View>
         </Modal>
     )

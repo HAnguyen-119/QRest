@@ -134,6 +134,9 @@ export const fetchAPI = {
     },
     getAllPayments: () => {
         return axiosClient.get('/payments')
+    },
+    getReservationByID: (id: number) => {
+        return axiosClient.get(`/reservations/${id}`)
     }
 
 
