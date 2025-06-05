@@ -3,38 +3,40 @@ import DropDownPicker from "react-native-dropdown-picker";
 import {COLORS} from "@/constants/colors";
 import {useThemeContext} from "@/contexts/ThemeContext";
 import {createAdminStyles} from "@/assets/styles/admin/Admin.styles";
-import {useState} from "react";
-import {AdminTableProps} from "@/constants/Types/table";
-import { TableProps } from "@/constants/Types/table";
+import {useEffect, useState} from "react";
+import {AccountProps} from "@/constants/Types/account";
 import {fetchAPI} from "@/services/fetchAPI";
 import {format} from "date-fns";
 
-export default function UpdateTableView({table, isAdding, handleCancel, capacities, handleRefresh}:
-                                            {table: any, isAdding: boolean, handleCancel: any, handleRefresh: any, capacities: Array<number>}) {
+export default function UpdateAccountView({account, isAdding, handleCancel, roles, staffs, handleRefresh}:
+                                        {account: any, isAdding: boolean, handleCancel: any, handleRefresh: any, roles: Array<string>, staffs: any}) {
 
     const { isDark } = useThemeContext()
     const adminStyles = createAdminStyles(isDark)
 
-    const [open, setOpen] = useState(false);
-    const [value, setValue] = useState(isAdding ? null : table.capacity);
+    const [openRole, setOpenRole] = useState(false);
+    const [roleValue, setRoleValue] = useState(isAdding ? null : account.role);
 
-    const [name, setName] = useState(isAdding ? "" : table.name);
+    const [openStaff, setOpenStaff] = useState(false);
+    const [staffValue, setStaffValue] = useState(isAdding ? null : account.staff);
 
-    const [capacity, setCapacity] = useState(isAdding ? null : table.capacity);
+    const [username, setUsername] = useState(isAdding ? "" : account.username);
+    const [staff, setStaff] = useState(isAdding ? null : account.staff.fullName);
+    const [role, setRole] = useState(isAdding ? null : account.role);
 
-
-    const isValid = name.trim().length > 0
-        && capacity !== null
+    const isValid = username.trim().length > 0
+        && role !== null
+        && staff.trim().length > 0
 
     const handleAdd = async () => {
         if (!isValid) return;
-        const newTable : AdminTableProps = {
-            name: name,
-            capacity : capacity,
-            status: "AVAILABLE"
+        const newAccount : AccountProps = {
+            username: username,
+            staff: staff,
+            role: role
         }
         try {
-            await fetchAPI.addTable(newTable);
+            await fetchAPI.addAccount(newAccount);
             handleRefresh()
             handleCancel()
         } catch (error) {
@@ -44,13 +46,13 @@ export default function UpdateTableView({table, isAdding, handleCancel, capaciti
 
     const handleEdit = async () => {
         if (!isValid) return;
-        const newTable : AdminTableProps = {
-            name: name,
-            capacity : capacity,
-            status: "AVAILABLE"
+        const newAccount : AccountProps = {
+            username: username,
+            role : role,
+            staff: staff
         }
         try {
-            await fetchAPI.editTable(table.id, newTable);
+            await fetchAPI.editAccount(account.id, newAccount);
             handleRefresh()
             handleCancel()
         } catch (error) {
@@ -59,35 +61,57 @@ export default function UpdateTableView({table, isAdding, handleCancel, capaciti
     }
 
     return (
-        <View style={adminStyles.tableUpdating}>
-            <Text style={styles.header}>{isAdding ? "ADD NEW TABLE" : "EDIT TABLE INFO"}</Text>
+        <View style={adminStyles.accountUpdating}>
+            <Text style={styles.header}>{isAdding ? "ADD NEW ACCOUNT" : "EDIT ACCOUNT"}</Text>
             <View style={styles.inputContainer}>
-                <Text style={styles.inputText}>Name </Text>
+                <Text style={styles.inputText}>Username </Text>
                 <TextInput
-                    value={name}
+                    value={username}
                     style={styles.input}
-                    placeholder="Table Name"
-                    onChangeText={(text) => setName(text)}
+                    placeholder="Enter username"
+                    onChangeText={(text) => setUsername(text)}
                 ></TextInput>
             </View>
             <View style={styles.inputContainer}>
-                <Text style={styles.inputText}>Capacity</Text>
+                <Text style={styles.inputText}>Role</Text>
                 <DropDownPicker
-                    open={open}
-                    value={value}
-                    items={capacities.map(cap => ({
-                        label: cap.toString(),
-                        value: cap,
+                    open={openRole}
+                    value={roleValue}
+                    items={roles.map(r => ({
+                        label: r,
+                        value: r
                     }))}
-                    setOpen={setOpen}
-                    setValue={setValue}
-                    placeholder="Choose Capacity"
+                    setOpen={setOpenRole}
+                    setValue={setRoleValue}
+                    placeholder="Choose Role"
                     style={styles.picker}
                     textStyle={styles.text}
                     dropDownContainerStyle={styles.dropdown}
                     onSelectItem={(cap: any) => {
-                        setCapacity(cap.value)
-                        setValue(cap.value)
+                        setRole(cap.value)
+                        setRoleValue(cap.value)
+                    }}
+                >
+                </DropDownPicker>
+            </View>
+            <View style={styles.inputContainer}>
+                <Text style={styles.inputText}>Staff</Text>
+                <DropDownPicker
+                    open={openStaff}
+                    value={staffValue}
+                    items={staffs.map((staff: any) => ({
+                        label: staff.fullName + "\n(" + staff.position + ")",
+                        value: staff.fullName
+                    }))}
+                    setOpen={setOpenStaff}
+                    setValue={setStaffValue}
+                    placeholder="Choose Staff"
+                    style={styles.picker}
+                    textStyle={styles.text}
+                    dropDownContainerStyle={styles.dropdown}
+                    onSelectItem={(staff: any) => {
+                        setStaff(staff);
+                        setStaffValue(staff.value)
                     }}
                 >
                 </DropDownPicker>

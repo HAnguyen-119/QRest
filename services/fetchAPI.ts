@@ -4,6 +4,7 @@ import { PostOrderProps, PostPayment } from "@/constants/Types/order";
 import { OrderStatus } from "@/constants/Types/order";
 import { MenuItemProps } from "@/constants/Types/menuitem";
 import axiosClient from "./axiosClient";
+import {AccountProps} from "@/constants/Types/account";
 
 export const fetchAPI = {
     getOrders: () => {
@@ -131,7 +132,22 @@ export const fetchAPI = {
         return axiosClient.get('/payments/revenue/yearly', {
             params: { date },
         });
-    }
+    },
+
+    getAccounts: () => {
+        return axiosClient.get('users')
+    },
+
+    addAccount: (data: AccountProps) => {
+        return axiosClient.post('users', data);
+    },
+
+    editAccount: (id: number, data: AccountProps) => {
+        return axiosClient.put(`users/${id}`, data);
+    },
+    deleteAccount: (id: number) => {
+        return axiosClient.delete(`users/${id}`);
+    },
 
 
 }

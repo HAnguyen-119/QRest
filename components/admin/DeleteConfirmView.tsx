@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: "center",
         alignItems: "center",
-        zIndex: 5
+        zIndex: 10
     },
 
     deleteConfirm: {
