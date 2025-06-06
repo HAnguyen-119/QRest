@@ -90,6 +90,13 @@ export default function Reservation() {
             let response = await fetchAPI.postReservation(postData)
             if (response) {
                 console.log('post succesfully, response: ', response)
+                setArrivalDate(new Date())
+                setArrivalTime(new Date())
+                setCustomerName('')
+                setCustomerPhone('')
+                setNumberOfGuests(1)
+                setDeposit('')
+                setRestaurantTableIds([])
             }
         } catch (error) {
             console.error('Error why posting reservation: ', error)

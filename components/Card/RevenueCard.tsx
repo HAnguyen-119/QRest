@@ -13,7 +13,7 @@ import { TouchableOpacity, View, Text, Dimensions } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 
 export default function RevenueCard({ type, date, setType, setVisible }: RevenueCardProps) {
-    const [data, setData] = useState<number[]>([])
+    const [data, setData] = useState<number[]>(Array(30).fill(0))
     const { isDark } = useThemeContext()
     const styles = createRevenueCardStyles(isDark)
     const globalStyles = createGlobalStyles(isDark)
@@ -25,35 +25,32 @@ export default function RevenueCard({ type, date, setType, setVisible }: Revenue
     useEffect(() => {
         const fetchData = async () => {
             try {
-                let response: number[] = []
+                let response: number[] = Array(30).fill(0)
                 switch (type) {
                     case 'daily':
-                        response = Object.values(await fetchAPI.getDailyPayment(date))
+                        let dailyData = Object.values(await fetchAPI.getDailyPayment(date))
+                        response = dailyData.length != 0 ? dailyData : Array(30).fill(0)
                         break
                     case 'monthly':
-                        response = Object.values(await fetchAPI.getMonthlyData(date))
+                        let monthlyData = Object.values(await fetchAPI.getMonthlyData(date))
+                        response = monthlyData.length != 0 ? monthlyData : Array(30).fill(0)
                         break
                     case 'quarterly':
-                        response = Object.values(await fetchAPI.getQuarterlyData(date))
+                        let quarterlyData = Object.values(await fetchAPI.getQuarterlyData(date))
+                        response = quarterlyData.length != 0 ? quarterlyData : Array(30).fill(0)
                         break
                     case 'yearly':
-                        response = Object.values(await fetchAPI.getYearlyData(date))
+                        let yearlyData = Object.values(await fetchAPI.getYearlyData(date))
+                        response = yearlyData.length != 0 ? yearlyData : Array(30).fill(0)
                         break
-                    default:
-                        response = []
                 }
                 setData(Object.values(response))
             } catch (error) {
                 console.error('Error while fetching data: ', error)
-                setData([])
             }
         }
         fetchData()
     }, [type, date])
-
-    if (!data || !Array.isArray(data) || data.length === 0) {
-        setData(Array(30).fill(0))
-    }
 
     const displayData = DisplayDataChart(data)
 
