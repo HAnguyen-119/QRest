@@ -1,3 +1,4 @@
+import { COLORS } from "@/constants/colors"
 import { StyleSheet } from "react-native"
 
 export const createReservationViewStyles = (isDark: boolean) => {
@@ -19,7 +20,7 @@ export const createReservationViewStyles = (isDark: boolean) => {
             backgroundColor: 'rgba(0,0,0,0.3)'
         },
         modalView: {
-            backgroundColor: 'white',
+            backgroundColor: isDark ? COLORS.dark : COLORS.light,
             borderRadius: 12,
             padding: 24,
             minWidth: 220,
@@ -27,18 +28,18 @@ export const createReservationViewStyles = (isDark: boolean) => {
         },
         modalSuccessText: {
             fontSize: 18,
-            color: '#4BB543',
+            color: COLORS.modalSuccessText,
             marginBottom: 12
         },
         modalFailureText:
         {
             fontSize: 18,
-            color: '#D94343',
+            color: COLORS.modalFailureText,
             marginBottom: 12
         },
 
         closeButton: { 
-            color: "#007AFF", 
+            color: COLORS.closeModalReservationButton, 
         }
 
 

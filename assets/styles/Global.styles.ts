@@ -19,7 +19,7 @@ export const createGlobalStyles = (isDark: boolean) => {
             backgroundColor: isDark ? COLORS.dark : COLORS.light
         },
         font: {
-            fontFamily: 'Josefin-Sans-Bold'
+            fontFamily: 'Josefin-Sans'
         },
         bold: {
             fontFamily: 'Josefin-Sans-Bold'

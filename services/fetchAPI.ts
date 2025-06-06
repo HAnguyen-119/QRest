@@ -142,6 +142,10 @@ export const fetchAPI = {
 
     postReservation: (data: ReservationDataPostProps) => {
         return axiosClient.post('/reservations', data)
+    },
+
+    putReservationById: (id: number, data: ReservationProps) => {
+        return axiosClient.put(`/reservations/${id}`, data)
     }
 
 

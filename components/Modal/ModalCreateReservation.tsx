@@ -181,10 +181,10 @@ export default function CreateReservation() {
                 <View style={styles.modalBackground}>
                     <View style={styles.modalView}>
                         <Text style={[modalSuccess ? styles.modalSuccessText : styles.modalFailureText, globalStyles.bold]}>
-                            {modalSuccess ? 'Đặt bàn thành công!' : 'Đặt bàn thất bại, bạn cần nhập đủ các thông tin cần thiết!'}
+                            {modalSuccess ? 'Successfully create Reservation!' : 'Something gone wrong when create a Reservation, please try again!'}
                         </Text>
                         <TouchableOpacity onPress={() => setModalVisible(false)} style={{ marginTop: 8 }}>
-                            <Text style={[styles.closeButton, globalStyles.bold]}>Đóng</Text>
+                            <Text style={[styles.closeButton, globalStyles.bold]}>Close</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

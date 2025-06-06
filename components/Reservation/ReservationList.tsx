@@ -47,6 +47,7 @@ export const ReservationList = ({ data }: ReservationListProps) => {
                 keyExtractor={(reservation) => reservation.id.toString()}
                 onScroll={scrollHandler}
                 scrollEventThrottle={16}
+                style={{ marginBottom: 100 }}
             />
         </View>
     )
