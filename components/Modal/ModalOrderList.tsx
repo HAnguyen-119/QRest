@@ -63,7 +63,7 @@ export default function OrderView(
                     </View>
                     <SelectGroup 
                         options={[1, 2, 3, 4, 5, 6, 7, 8]}
-                        selectedValue={guestCount}
+                        selectedValue={guestCount.toString()}
                         onSelect={setGuestCount}
                     />
                     <OrderListView orderList={orderList} comboList={comboList} combosData={combosData} menuData={menuData} handleChange={handleChange}/>

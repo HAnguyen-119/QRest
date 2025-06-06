@@ -72,7 +72,7 @@ export const createAdminStyles = ( isDark: boolean ) => {
             fontFamily: 'Josefin-Sans',
             paddingLeft: 12,
             height: 40,
-            color: isDark ? COLORS.dark : COLORS.light,
+            color: isDark ? COLORS.light : COLORS.dark,
             borderColor: isDark ? COLORS.light : COLORS.dark,
         },
     

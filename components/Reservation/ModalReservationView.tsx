@@ -8,6 +8,7 @@ import Icon from "../Icon/Icon";
 import closeButton from '@/assets/images/close.png'
 import { BUTTONSIZE } from "@/constants/size";
 import { ReservationList } from "./ReservationList";
+import Loading from "../Loading";
 
 export default function ModalReservationView({ visible, setVisible }: ReservationFormProps) {
     const { isDark } = useThemeContext()
@@ -16,7 +17,7 @@ export default function ModalReservationView({ visible, setVisible }: Reservatio
     const { data: reservationData, loading: reservationLoading } = useFetch('reservations')
 
     if (reservationLoading || !reservationData) {
-        return null
+        return <Loading/>
     }
     
     const today = new Date()

@@ -20,6 +20,9 @@ export const createGlobalStyles = (isDark: boolean) => {
         },
         font: {
             fontFamily: 'Josefin-Sans-Bold'
+        },
+        bold: {
+            fontFamily: 'Josefin-Sans-Bold'
         }
     })
 }
