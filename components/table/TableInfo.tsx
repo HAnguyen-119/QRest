@@ -4,6 +4,7 @@ import {COLORS} from "@/constants/colors";
 import {useSharedValue} from "react-native-reanimated";
 import { useThemeContext } from "@/contexts/ThemeContext";
 import { createTableInfoStyles } from "@/assets/styles/table/TableInfo.styles";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 // @ts-ignore
 export default function TableInfo({id, name, capacity, status, handleChangeStatus, handleEdit, handleDelete, setCurrentTableId}) {
@@ -12,21 +13,27 @@ export default function TableInfo({id, name, capacity, status, handleChangeStatu
     return (
         <View style={tableInfoStyles.container}>
             <View style={tableInfoStyles.nameContainer}>
-                <Text style={tableInfoStyles.text}>{name}</Text>
+                <View style={{flex: 3, alignItems: "center", display: "flex", justifyContent: "center"}}>
+                    <Text style={[tableInfoStyles.text]}>{name}</Text>
+                </View>
+
+                <View style={tableInfoStyles.button}>
+                    <TouchableOpacity onPress={() => {setCurrentTableId(id); handleEdit()}}>
+                        <Icon style={tableInfoStyles.icon} name={"square-edit-outline"} size={30}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => {setCurrentTableId(id); handleDelete()}}>
+                        <Icon style={tableInfoStyles.icon} name={"delete-outline"} size={30}/>
+                    </TouchableOpacity>
+                </View>
             </View>
             { handleEdit ?
                 <View style={tableInfoStyles.infoContainer}>
-                    <Text style={tableInfoStyles.text}>Capacity : {capacity}</Text>
-                    <TouchableOpacity onPress={() => {setCurrentTableId(id); handleEdit()}}>
-                        <Text>Edit</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => {setCurrentTableId(id); handleDelete()}}>
-                        <Text>Delete</Text>
-                    </TouchableOpacity>
+                    <Text style={[tableInfoStyles.text, {margin: 5, fontSize: 18}]}>Capacity : {capacity}</Text>
+
                 </View>
                 :
                 <View style={tableInfoStyles.infoContainer}>
-                    <Text style={tableInfoStyles.text}>Capacity : {capacity}</Text>
+                    <Text style={[tableInfoStyles.text, {margin: 5, fontSize: 18}]}>Capacity : {capacity}</Text>
                 </View>
             }
             {handleChangeStatus && status !== 'AVAILABLE' 

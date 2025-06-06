@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { Platform } from "react-native";
 
 const axiosClient = axios.create({
   baseURL: "http://34.87.113.245:18080/api/v1/",
@@ -38,6 +39,8 @@ axiosClient.interceptors.response.use(
   function(response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
+    console.log('response: ' ,response)
+    console.log('response.data: ' ,response.data)
     return response.data;
   },
   function(error) {

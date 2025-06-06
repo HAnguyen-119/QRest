@@ -1,6 +1,6 @@
 import { StaffInfoProps } from "@/constants/Types/staff";
 import { TableProps, TableStatus, AdminTableProps } from "@/constants/Types/table";
-import { PostOrderProps } from "@/constants/Types/order";
+import { PostOrderProps, PostPayment } from "@/constants/Types/order";
 import { OrderStatus } from "@/constants/Types/order";
 import { MenuItemProps } from "@/constants/Types/menuitem";
 import axiosClient from "./axiosClient";
@@ -18,12 +18,20 @@ export const fetchAPI = {
         return axiosClient.get('foods')
     },
 
-    addMenuItem: (data: MenuItemProps) => {
-        return axiosClient.post('foods', data);
+    addMenuItem: (data: any) => {
+        return axiosClient.post('foods/with-image', data, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
     },
 
-    editMenuItem: (id: number, data: MenuItemProps) => {
-        return axiosClient.put(`foods/${id}`, data);
+    editMenuItem: (id: number, data: any) => {
+        return axiosClient.put(`foods/with-image/${id}`, data, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
     },
 
     deleteMenuItem: (id: number) => {
@@ -38,16 +46,28 @@ export const fetchAPI = {
         return axiosClient.post('orders', data)
     },
 
+    postPayment: (data: PostPayment | null) => {
+        return axiosClient.post('/payments', data)
+    },
+
     getStaff: () => {
         return axiosClient.get('staffs')
     },
 
-    addStaff: (data: StaffInfoProps) => {
-        return axiosClient.post('staffs', data);
+    addStaff: (data: any) => {
+        return axiosClient.post('staffs/with-image', data, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
     },
 
-    editStaff: (id: number, data: StaffInfoProps) => {
-        return axiosClient.put(`staffs/${id}`, data);
+    editStaff: (id: number, data: any) => {
+        return axiosClient.put(`staffs/with-image/${id}`, data, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
     },
 
     deleteStaff: (id: number) => {
@@ -91,6 +111,29 @@ export const fetchAPI = {
     },
     getPendingOrders: () => {
         return axiosClient.get('orders/completed/without-payment')
+    },
+    getDailyPayment: (date: Date) => {
+        return axiosClient.get('/payments/revenue/paymentList', {
+            params: { date }
+        });
+    },
+    getMonthlyData: (date: Date) => {
+        return axiosClient.get('/payments/revenue/monthly', {
+            params: { date },
+        });
+    },
+    getQuarterlyData: (date: Date) => {
+        return axiosClient.get('/payments/revenue/quarterly', {
+            params: { date },
+        });
+    },
+    getYearlyData: (date: Date) => {
+        return axiosClient.get('/payments/revenue/yearly', {
+            params: { date },
+        });
+    },
+    getAllPayments: () => {
+        return axiosClient.get('/payments')
     }
 
 

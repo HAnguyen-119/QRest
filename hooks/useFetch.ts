@@ -28,22 +28,28 @@ export const useFetch = (type: GetData) => {
                 case 'combos':
                     response = await fetchAPI.getCombos();
                     break;
-                    case 'reservations': 
-                        response = await fetchAPI.getReservations()
-                        break
-                    case 'completed_orders':
-                        response = await fetchAPI.getCompletedOrders()
-                        break
-                    case 'pending_orders':
-                        response = await fetchAPI.getPendingOrders()
-                        break
+                case 'reservations': 
+                    response = await fetchAPI.getReservations()
+                    break
+                case 'completed_orders':
+                    response = await fetchAPI.getCompletedOrders()
+                    break
+                case 'pending_orders':
+                    response = await fetchAPI.getPendingOrders()
+                    break
+                case 'staff':
+                    response = await fetchAPI.getStaff()
+                    break
+                case 'payment':
+                    response = await fetchAPI.getAllPayments()
+                    break
                 default:
                     console.error(`Error: Type '${type}' not found.`);
                     return;
             }
             setData(response); // Set the fetched data
         } catch (err) {
-            console.log('Error while fetching data: ', err);
+            console.error('Error while fetching data: ', err);
         } finally {
             setLoading(false); // Turn off the loading state
         }

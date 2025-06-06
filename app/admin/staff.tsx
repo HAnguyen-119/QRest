@@ -38,7 +38,7 @@ export default function Staff() {
                 const staffResponse = await fetchAPI.getStaff();
                 setStaffData(staffResponse);
             } catch (error) {
-                console.log({ message: `Error while fetching data: ${error}` });
+                console.error({ message: `Error while fetching data: ${error}` });
             }
         };
         fetchData();
@@ -87,6 +87,7 @@ export default function Staff() {
 
     const handleEdit = () => {
         setIsEdit(true);
+        onClick(true)
     }
 
     const handleCancel = () => {
@@ -107,7 +108,7 @@ export default function Staff() {
             handleCancel();
             setIsDelete(false);
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     }
 
@@ -116,10 +117,10 @@ export default function Staff() {
             <View style={adminStyles.toolBar}>
                 <Searcher onSearch={handleSearch}/>
                 <TouchableOpacity onPress={handleAdd}>
-                    <Icon name={"add-circle-outline"} size={40}/>
+                    <Icon style={adminStyles.switchMode} name={"add-circle-outline"} size={40}/>
                 </TouchableOpacity>
             </View>
-            <StaffPositions data={positions} handlePosition={handlePosition} />
+            <StaffPositions data={positions} handlePosition={handlePosition} selectingPos={position} />
             <Animated.FlatList
                 style={adminStyles.staffInfoContainer}
                 data={items}

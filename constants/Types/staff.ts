@@ -7,3 +7,8 @@ export interface StaffInfoProps {
     position: string,
     imageUrl: string,
 }
+export interface StaffDTO {
+  id: number;
+  fullName: string;
+  salary: number;
+}

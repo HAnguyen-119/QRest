@@ -1,8 +1,8 @@
 export interface ThemeContextProps {
     isDark: boolean,
     toggle: () => void
-  }
-  
-  export interface TextContextProps {
+}
+
+export interface TextContextProps {
     fontFamily: string
-  }
+}

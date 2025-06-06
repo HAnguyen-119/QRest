@@ -2,7 +2,7 @@
 export type TableStatus = 'RESERVED' | 'OCCUPIED' | 'AVAILABLE'
 
 export interface RestaurantTableProps {
-    id: number, 
+    id: number,
     name: string,
     capacity: number,
     status: TableStatus

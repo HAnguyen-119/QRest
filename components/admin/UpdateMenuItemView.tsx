@@ -25,6 +25,7 @@ export default function UpdateMenuItemView({item, isAdding, handleCancel, handle
     const [image, setImage] = useState<string>(isAdding ? "" : item.imageUrl);
     const [category, setCategory] = useState<any>(isAdding ? null : item.category);
 
+    const [imageFile, setImageFile] = useState<any>(null);
 
     const pickImageAsync = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -34,7 +35,17 @@ export default function UpdateMenuItemView({item, isAdding, handleCancel, handle
         });
 
         if (!result.canceled) {
-            setImage(result.assets[0].uri);
+            const asset = result.assets[0];
+            const fileUri = asset.uri;
+            setImage(fileUri);
+
+            const imageForUpload = {
+                uri: fileUri,
+                name: "image.jpg",
+                type: 'image/jpeg',
+            };
+
+            setImageFile(imageForUpload)
         } else {
             alert('You did not select any image.');
         }
@@ -54,8 +65,12 @@ export default function UpdateMenuItemView({item, isAdding, handleCancel, handle
             name, description, price: parseFloat(price), imageUrl: image, quantity: 0, category
         };
 
+        const formData = new FormData();
+        formData.append("food", JSON.stringify(newItem));
+        formData.append("imageFile", imageFile);
+
         try {
-            await fetchAPI.addMenuItem(newItem);
+            await fetchAPI.addMenuItem(formData);
             handleRefresh();
             handleCancel();
         } catch (error) {
@@ -69,14 +84,16 @@ export default function UpdateMenuItemView({item, isAdding, handleCancel, handle
             name, description, price: parseFloat(price), imageUrl: image, quantity: 0, category
         };
 
+        const formData = new FormData();
+        formData.append("food", JSON.stringify(newItem));
+        formData.append("imageFile", imageFile);
+
         try {
-            await fetchAPI.editMenuItem(item.id, newItem);
+            await fetchAPI.editMenuItem(item.id, formData);
             handleRefresh();
             handleCancel();
         } catch (error) {
             console.error("Edit failed:", error);
-            console.log(item)
-            console.log(newItem);
         }
     };
 

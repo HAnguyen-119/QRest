@@ -17,7 +17,7 @@ export const useFetchByID = (type: GetData, id: number) => {
                 }
                 setData(response)
             } catch (error) {
-                console.log('Error while fetching data: ', error)
+                console.error('Error while fetching data: ', error)
             } 
         }
         fetchData()

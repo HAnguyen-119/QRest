@@ -5,14 +5,15 @@ import { useThemeContext } from "@/contexts/ThemeContext";
 import MenuCategory from "@/components/menu/MenuCategory";
 
 
-export default function StaffPositions({data, handlePosition} : {data: Array<string>, handlePosition: (arg0: string) => void}) {
+export default function StaffPositions({data, handlePosition, selectingPos} :
+{data: Array<string>, handlePosition: (arg0: string) => void, selectingPos: string}) {
     const { isDark } = useThemeContext()
     const adminStyles = createAdminStyles(isDark)
     return (
         <ScrollView style={adminStyles.staffPositions} horizontal showsHorizontalScrollIndicator={false}>
-            <StaffPosition content="All" handlePress={handlePosition} />
+            <StaffPosition content="All" handlePress={handlePosition} selectingPos={selectingPos} />
             {data.map((item : string) => (
-                <StaffPosition key={item} content={item} handlePress={handlePosition} />
+                <StaffPosition key={item} content={item} handlePress={handlePosition} selectingPos={selectingPos} />
             ))}
         </ScrollView>
     )

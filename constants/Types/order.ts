@@ -27,16 +27,7 @@ export interface ComboOrder {
     id: number;
     quantity: number;
     price: number;
-    combo: Combo;
-}
-
-export interface Combo {
-    id: number;
-    name: string;
-    description: string;
-    price: number;
-    imageUrl: string;
-    comboFoods: ComboFood[];
+    combo: ComboItemProps;
 }
 
 export interface ComboItemProps {
@@ -64,16 +55,17 @@ export interface OrderProps {
     tableOrders: [
         {
             id: number,
-            RestaurantTable: RestaurantTableProps
+            restaurantTable: RestaurantTableProps
         }
     ];
     reservation: any | null;
-} 
+}
 
 export interface OrderDetailProps {
-    id: number, 
+    id: number,
     data: OrderProps[],
     visible: boolean,
+    isPayment: boolean,
     setVisible: (visible: boolean) => void
 }
 
@@ -91,12 +83,17 @@ export interface PostOrderProps {
     reservationId: number | null,
 }
 
+export interface PostPayment {
+    orderId: number,
+    paymentMethod: 'BANK_TRANSFER' | 'IN_CASH'
+}
+
 export interface OrderListViewProps {
     orderList: OrderItemProps[],
     comboList: OrderItemProps[],
     menuData: MenuItemIDProps[],
     combosData: ComboItemProps[],
-    handleChange: (id: number, isAdd: boolean, isDelete: boolean, category: string) => void, 
+    handleChange: ((id: number, isAdd: boolean, isDelete: boolean, category: string) => void) | null,
 
 }
 
@@ -111,5 +108,12 @@ export interface CustomerOrderProps {
 export interface MenuItemOrderProps {
     data: MenuItemIDProps | ComboItemProps,
     quantity: number,
-    handleChange: (id: number, isAdd: boolean, isDelete: boolean, category: string) => void
+    handleChange: ((id: number, isAdd: boolean, isDelete: boolean, category: string) => void) | null,
+    isComboItem: boolean
+}
+
+export interface ComboViewProps {
+    item: OrderItemProps,
+    menuItem: ComboItemProps,
+    handleChange: ((id: number, isAdd: boolean, isDelete: boolean, category: string) => void) | null 
 }
