@@ -11,16 +11,13 @@ export default function SelectGroup({ options, selectedValue, onSelect }: Select
     const globalStyles = createGlobalStyles(isDark)
 
     const handleSelect = (option: number) => {
-        onSelect(option); 
-        setIsDropdownVisible(false); 
-    };
+        onSelect(option)
+        setIsDropdownVisible(false)
+    }
 
     return (
         <View>
             <View style={styles.selectContainer}>
-                <Text style={globalStyles.text}>
-                    Select number of guests:
-                </Text>
                 <TouchableOpacity
                     style={[
                         styles.dropdownButton,
@@ -49,14 +46,14 @@ export default function SelectGroup({ options, selectedValue, onSelect }: Select
                                 <TouchableOpacity
                                     style={[
                                         styles.optionButton,
-                                        selectedValue === item && styles.optionButtonSelected,
+                                        styles.optionButtonSelected,
                                     ]}
                                     onPress={() => handleSelect(item)} 
                                 >
                                     <Text
                                         style={[
                                             styles.optionText,
-                                            selectedValue === item && styles.optionTextSelected,
+                                            styles.optionTextSelected,
                                             globalStyles.text
                                         ]}
                                     >

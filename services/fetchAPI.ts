@@ -4,6 +4,7 @@ import { PostOrderProps, PostPayment } from "@/constants/Types/order";
 import { OrderStatus } from "@/constants/Types/order";
 import { MenuItemProps } from "@/constants/Types/menuitem";
 import axiosClient from "./axiosClient";
+import { ReservationDataPostProps, ReservationProps } from "@/constants/Types/reservation";
 
 export const fetchAPI = {
     getOrders: () => {
@@ -42,7 +43,7 @@ export const fetchAPI = {
         return axiosClient.get('categories')
     },
 
-    postOrder: (data: PostOrderProps | null) => {
+    postOrder: (data: PostOrderProps) => {
         return axiosClient.post('orders', data)
     },
 
@@ -137,6 +138,10 @@ export const fetchAPI = {
     },
     getReservationByID: (id: number) => {
         return axiosClient.get(`/reservations/${id}`)
+    },
+
+    postReservation: (data: ReservationDataPostProps) => {
+        return axiosClient.post('/reservations', data)
     }
 
 

@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, ScrollView, Modal, TouchableOpacity, Image } fr
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { OrderDetailProps, OrderProps } from '../../constants/Types/order';
 import { COLORS } from '../../constants/colors';
-import { usePostByData } from '../../hooks/usePostByData';
 
 import Icon from '../Icon/Icon';
 import closeButton from '@/assets/images/close.png'

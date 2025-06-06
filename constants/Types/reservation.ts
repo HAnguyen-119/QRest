@@ -1,5 +1,7 @@
 import { RestaurantTableProps } from "./table";
 
+export type ReservationStatus = 'PENDING' | 'CONFIRMED' | 'COMPLETED' | 'CANCELLED'
+
 export interface ReservationProps {
     id: number,
     bookingTime: Date,
@@ -9,7 +11,17 @@ export interface ReservationProps {
     customerName: string,
     customerPhone: string,
     tableReservations: [{ id: number, restaurantTable: RestaurantTableProps }],
-    confirmed: boolean,
+    reservationStatus: ReservationStatus
+}
+
+export interface ReservationDataPostProps {
+    arrivalTime: Date,
+    numberOfGuests: number,
+    deposit: string,
+    customerName: string,
+    customerPhone: string,
+    restaurantTableIds: number[],
+    reservationStatus: ReservationStatus
 }
 
 export interface ReservationFormProps {

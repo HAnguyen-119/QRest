@@ -15,7 +15,7 @@ export interface UtilsPriceProps {
 // selectgroupoption props
 export interface SelectGroupProps {
     options: number[],
-    selectedValue: number,
+    selectedValue: string,
     onSelect: (value: number) => void
 }
 
