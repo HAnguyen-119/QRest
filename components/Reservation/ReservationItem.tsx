@@ -10,7 +10,7 @@ import { useState } from "react";
 import { Modal, Text, TouchableOpacity, View } from "react-native";
 import NotificationModal from "../Modal/NotificationModal";
 
-export default function ReservationItem({ id }: { id: number }) {
+export default function ReservationItem({ id, isCashier, setReservationId, setReservationListVisible }: { id: number, isCashier: boolean, setReservationId: (id: number | null) => void, setReservationListVisible: (visible: boolean) => void }) {
     const [visible, setVisible] = useState<boolean>(false)
     const [notificationModalVisible, setNotificationModalVisible] = useState<boolean>(false)
     const [isPutSuccess, setIsPutSuccess] = useState<boolean>(false)
@@ -56,13 +56,22 @@ export default function ReservationItem({ id }: { id: number }) {
             </View>
             <View style={styles.reserveContainer}>
                 {isPaid ?
-                    <View style={styles.confirm}>
-                        <Text style={[globalStyles.font, styles.confirmText]}>Confirm</Text>
-                    </View>
+                    (
+                        isCashier ? 
+                        <View style={styles.confirm}>
+                            <Text style={[globalStyles.font, styles.confirmText]}>Confirm</Text>
+                        </View>
+                        :
+                        <TouchableOpacity style={styles.reserveButton} onPress={() => {setReservationId(id); setReservationListVisible(false)}}>
+                            <Text style={[globalStyles.font, styles.confirmText]}>Choose</Text>
+                        </TouchableOpacity>
+                    )
                     :
-                    <TouchableOpacity style={styles.reserveButton} onPress={() => setVisible(true)}>
-                        <Text style={[globalStyles.font, styles.reserveText]}>Reserve</Text>
-                    </TouchableOpacity>
+                    (
+                        <TouchableOpacity style={styles.reserveButton} onPress={() => setVisible(true)}>
+                            <Text style={[globalStyles.font, styles.reserveText]}>Reserve</Text>
+                        </TouchableOpacity>
+                    )
                 }
             </View>
             <Modal

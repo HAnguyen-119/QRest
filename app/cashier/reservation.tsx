@@ -14,7 +14,7 @@ export default function Reservation() {
     const styles = createReservationViewStyles(isDark)
     const globalStyles = createGlobalStyles(isDark)
 
-    const { data: reservationData, loading: reservationDataLoading } = useFetch('reservations')
+    const { data: reservationData, loading: reservationDataLoading, refetch: reservationRefetch } = useFetch('reservations')
 
     if (!reservationData || reservationDataLoading) {
         return <Loading/>
@@ -33,8 +33,7 @@ export default function Reservation() {
 
     return (
         <View style={[styles.container, globalStyles.background]}>
-            {/* <CreateReservation/> */}
-            <ReservationList data={filteredReservationList}/>
+            <ReservationList data={filteredReservationList} refetch={reservationRefetch} isCashier={true} setReservationId={() => null}/>
         </View>
     )
 }

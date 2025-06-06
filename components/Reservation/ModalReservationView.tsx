@@ -10,11 +10,11 @@ import { BUTTONSIZE } from "@/constants/size";
 import { ReservationList } from "./ReservationList";
 import Loading from "../Loading";
 
-export default function ModalReservationView({ visible, setVisible }: ReservationFormProps) {
+export default function ModalReservationView({ visible, setVisible, setReservationId }: ReservationFormProps) {
     const { isDark } = useThemeContext()
     const styles = createReservationFormStyles(isDark)
 
-    const { data: reservationData, loading: reservationLoading } = useFetch('reservations')
+    const { data: reservationData, loading: reservationLoading, refetch: reservationRefetch } = useFetch('reservations')
 
     if (reservationLoading || !reservationData) {
         return <Loading/>
@@ -26,7 +26,8 @@ export default function ModalReservationView({ visible, setVisible }: Reservatio
         return (
             orderDate.getDate() === today.getDate() &&
             orderDate.getMonth() === today.getMonth() &&
-            orderDate.getFullYear() === today.getFullYear()
+            orderDate.getFullYear() === today.getFullYear() && 
+            order.reservationStatus === 'CONFIRMED'
         )
     })
     return (
@@ -40,7 +41,12 @@ export default function ModalReservationView({ visible, setVisible }: Reservatio
                 <TouchableOpacity onPress={() => setVisible(false)}>
                     <Icon src={closeButton} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null}/>
                 </TouchableOpacity>
-                <ReservationList data={reservationData}/>
+                <ReservationList 
+                    data={filteredReservationList} 
+                    refetch={reservationRefetch} isCashier={false}
+                    setReservationId={setReservationId}
+                    setReservationListVisible={setVisible}
+                />
             </View>
         </Modal>
     )

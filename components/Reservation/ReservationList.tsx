@@ -1,25 +1,35 @@
 import { ReservationListProps, ReservationProps } from "@/constants/Types/reservation";
-import { FlatList, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View, Text, RefreshControl } from "react-native";
 import ReservationItem from "./ReservationItem";
 import { useThemeContext } from "@/contexts/ThemeContext";
 import { createReservationCardStyles } from "@/assets/styles/Card/ReservationCard";
-import { createGlobalStyles } from "@/assets/styles/Global.styles";
 import { useScrollAnimated } from "@/contexts/ScrollContext";
 import Animated from "react-native-reanimated";
 import Searcher from "../menu/Searcher";
 import { createAdminStyles } from "@/assets/styles/admin/Admin.styles";
 import { useState } from "react";
+import Icon from "react-native-vector-icons/Ionicons";
+import CreateReservation from "../Modal/ModalCreateReservation";
 
-export const ReservationList = ({ data }: ReservationListProps) => {
+export const ReservationList = ({ data, refetch, isCashier, setReservationId, setReservationListVisible }: ReservationListProps) => {
     const [search, setSearch] = useState<string>("")
+    const [createReservationModal, setCreateReservationModal] = useState<boolean>(false)
+    const [refreshing, setRefreshing] = useState<boolean>(false)
 
     const { isDark } = useThemeContext()
     const styles = createReservationCardStyles(isDark)
     const adminStyles = createAdminStyles(isDark)
 
     const renderReservationItem = (reservation: ReservationProps) => {
+        if (!reservation) {
+            return (
+                <View>
+                    <Text>Oops, there's no Resevation today!</Text>
+                </View>
+            )
+        }
         return (
-            <ReservationItem id={reservation.id} />
+            <ReservationItem id={reservation.id} isCashier={isCashier} setReservationId={setReservationId} setReservationListVisible={setReservationListVisible}/>
         )
     }
 
@@ -33,12 +43,22 @@ export const ReservationList = ({ data }: ReservationListProps) => {
         return reservation.customerName.toLowerCase().startsWith(search.toLowerCase())
     })
 
+    const handleAddReservation = () => {
+        setCreateReservationModal(true)
+    }
+
+    const onRefresh = () => {
+        setRefreshing(true)
+        refetch()
+        setRefreshing(false)
+    }
+
     return (
         <View style={styles.listContainer}>
             <View style={adminStyles.toolBar}>
                 <Searcher onSearch={handleSearch} />
-                <TouchableOpacity >
-                    
+                <TouchableOpacity onPress={handleAddReservation}>
+                    <Icon style={adminStyles.switchMode} name={"add-circle-outline"} size={40}/>
                 </TouchableOpacity>
             </View>
             <Animated.FlatList
@@ -47,7 +67,14 @@ export const ReservationList = ({ data }: ReservationListProps) => {
                 keyExtractor={(reservation) => reservation.id.toString()}
                 onScroll={scrollHandler}
                 scrollEventThrottle={16}
-                style={{ marginBottom: 100 }}
+                style={{ marginBottom: 200 }}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
+                }
+            />
+            <CreateReservation 
+                containerVisible={createReservationModal} 
+                setContainerVisible={setCreateReservationModal}
             />
         </View>
     )

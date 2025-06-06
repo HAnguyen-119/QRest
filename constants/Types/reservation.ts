@@ -27,8 +27,18 @@ export interface ReservationDataPostProps {
 export interface ReservationFormProps {
     visible: boolean,
     setVisible: (visible: boolean) => void 
+    setReservationId: (id: number | null) => void
 }
 
 export interface ReservationListProps {
     data: ReservationProps[]
+    refetch: () => void
+    isCashier: boolean
+    setReservationId: (id: number | null) => void
+    setReservationListVisible: (visible: boolean) => void
+}
+
+export interface CreateReservationProps {
+    containerVisible: boolean,
+    setContainerVisible: (visible: boolean) => void
 }

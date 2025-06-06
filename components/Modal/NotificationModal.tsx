@@ -1,4 +1,4 @@
-import { createReservationViewStyles } from "@/assets/styles/cashier/Reservation.styles";
+import { notificationModalStyles } from "@/assets/styles/cashier/NotificationModal.styles";
 import { createGlobalStyles } from "@/assets/styles/Global.styles";
 import { NotificationModalProps } from "@/constants/Types/modal";
 import { useThemeContext } from "@/contexts/ThemeContext";
@@ -6,7 +6,7 @@ import { Modal, View, Text, TouchableOpacity } from "react-native";
 
 export default function NotificationModal({ notificationSuccessText, notificationFailText, modalVisible, setModalVisible, isSuccess }: NotificationModalProps) {
     const { isDark } = useThemeContext()
-    const styles = createReservationViewStyles(isDark)
+    const styles = notificationModalStyles(isDark)
     const globalStyles = createGlobalStyles(isDark)
 
     return (

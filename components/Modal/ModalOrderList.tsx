@@ -34,6 +34,8 @@ export default function OrderView(
     const [tableModalVisible, setTableModalVisible] = useState<boolean>(false)
     const [reservationModalVisible, setReservationModalVisible] = useState<boolean>(false)
 
+    const [reservationId, setReservationId] = useState<number | null>(null)
+
     return (
         <Modal
             visible={isModalVisible}
@@ -86,10 +88,12 @@ export default function OrderView(
                         setOrderList={setOrderList} 
                         comboList={comboList}
                         setComboList={setComboList}
+                        reservationId={reservationId}
                     />
                     <ModalReservationView
                         visible={reservationModalVisible}
                         setVisible={setReservationModalVisible}
+                        setReservationId={setReservationId}
                     />
                 </View>
             </View>
