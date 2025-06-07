@@ -10,8 +10,6 @@ export const GetStatisticValue = (type: StatisticType) => {
     const { data: paymentData, loading: paymentLoading } = useFetch('payment')
     const { data: staffData, loading: staffLoading } = useFetch('staff')
 
-    console.log('food', foodData.length)
-
     switch (type) {
         case 'food':
             value = { val: Array.isArray(foodData) ? foodData.length : 0, loading: foodLoading }

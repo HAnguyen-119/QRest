@@ -1,5 +1,6 @@
 import { GetData } from "@/constants/Types/function";
 import { PostOrderProps } from "@/constants/Types/order";
+import { ReservationDataPostProps } from "@/constants/Types/reservation";
 import { fetchAPI } from "@/services/fetchAPI";
 import { useEffect, useState } from "react";
 
@@ -8,7 +9,7 @@ export const usePostByData = (type: GetData) => {
     const [error, setError] = useState<string | null>(null); 
     const [response, setResponse] = useState<any>(null); 
 
-    const postData = async (data : PostOrderProps | null) => {
+    const postData = async (data: PostOrderProps) => {
         setLoading(true);
         setError(null);
         let result

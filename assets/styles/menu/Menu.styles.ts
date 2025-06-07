@@ -21,7 +21,10 @@ export const createMenuStyles = (isDark: boolean) => {
             height: 350,
             overflow: "hidden",
             alignSelf: "center",
-            borderRadius: "100%"
+            borderRadius: "100%",
+            borderStyle: "solid",
+            borderWidth: 2,
+            borderColor: isDark ? COLORS.light : COLORS.dark
         },
     
         image: {
@@ -72,10 +75,10 @@ export const createMenuStyles = (isDark: boolean) => {
             borderRadius: 20,
             borderStyle: "solid",
             borderWidth: 2,
-            borderColor: COLORS.dark,
+            borderColor: isDark ? COLORS.light : COLORS.dark,
             overflow: "hidden",
             padding: 10,
             alignSelf: "center"
-        }
+        },
     })
 } 

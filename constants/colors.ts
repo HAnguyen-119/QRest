@@ -30,4 +30,15 @@ export const COLORS = {
     yearlyLine: '#aaaabe',
     orderNotTaken: '#dc3545',
     completeFoodOrder: '#dc3545'
+    reserveButton: '#14ff33',
+    confirmSection: '#d3d3d3',
+    modalSuccessText: '#4BB543',
+    modalFailureText: '#D94343',
+    closeModalReservationButton: "#007AFF",
+    priceColor: '#00af50',
+    selectedTable: '#007aff',
+    admin: '#fffd70',
+    waiter: '#82c5ff',
+    cashier: '#86df56',
+    chef: '#ef7b7b',
 }

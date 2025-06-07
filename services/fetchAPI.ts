@@ -4,6 +4,8 @@ import { PostOrderProps, PostPayment } from "@/constants/Types/order";
 import { OrderStatus } from "@/constants/Types/order";
 import { MenuItemProps } from "@/constants/Types/menuitem";
 import axiosClient from "./axiosClient";
+import { ReservationDataPostProps, ReservationProps } from "@/constants/Types/reservation";
+import {AccountProps} from "@/constants/Types/account";
 
 export const fetchAPI = {
     getOrders: () => {
@@ -45,7 +47,7 @@ export const fetchAPI = {
         return axiosClient.get('categories')
     },
 
-    postOrder: (data: PostOrderProps | null) => {
+    postOrder: (data: PostOrderProps) => {
         return axiosClient.post('orders', data)
     },
 
@@ -115,10 +117,8 @@ export const fetchAPI = {
     getPendingOrders: () => {
         return axiosClient.get('orders/completed/without-payment')
     },
-    getDailyPayment: (date: Date) => {
-        return axiosClient.get('/payments/revenue/paymentList', {
-            params: { date }
-        });
+    getDailyPayment: () => {
+        return axiosClient.get('/payments/revenue/daily');
     },
     getMonthlyData: (date: Date) => {
         return axiosClient.get('/payments/revenue/monthly', {
@@ -137,7 +137,34 @@ export const fetchAPI = {
     },
     getAllPayments: () => {
         return axiosClient.get('/payments')
-    }
+    },
+    getReservationByID: (id: number) => {
+        return axiosClient.get(`/reservations/${id}`)
+    },
 
+    postReservation: (data: ReservationDataPostProps) => {
+        return axiosClient.post('/reservations', data)
+    },
 
+    putReservationById: (id: number, data: ReservationProps) => {
+        return axiosClient.put(`/reservations/${id}`, data)
+    },
+    getAccounts: () => {
+        return axiosClient.get('users')
+    },
+
+    createAccount: (role: any) => {
+        return axiosClient.post('auth/create-account', role)
+    },
+
+    addAccount: (data: any) => {
+        return axiosClient.post('auth/register', data);
+    },
+
+    editAccount: (accountId: number, staffId: number, data: AccountProps) => {
+        return axiosClient.put(`users/${accountId}/staff/${staffId}`, data);
+    },
+    deleteAccount: (id: number) => {
+        return axiosClient.delete(`users/${id}`);
+    },
 }

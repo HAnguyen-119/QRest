@@ -2,9 +2,10 @@ import { validateLogin } from "@/utils/ValidateLogin";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import React, {useState} from "react";
-import {View, Text, TextInput, StyleSheet, Alert, TouchableOpacity} from "react-native";
+import {View, Text, TextInput, StyleSheet, Alert, TouchableOpacity, Image} from "react-native";
 
 import { role } from "@/constants/Types/authentication";
+import {COLORS} from "@/constants/colors";
 
 export default function Login() {
     const [username, setUsername] = useState<string>("")
@@ -24,25 +25,37 @@ export default function Login() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Login</Text>
-            <TextInput 
-                style={styles.input}
-                placeholder="Username"
-                value={username}
-                onChangeText={setUsername}
-                autoCapitalize="none"
+            <View style={styles.background}></View>
+            <Image
+                source={require('@/assets/images/restaurant.png')}
+                resizeMode="contain"
+                style={styles.logo}
             />
-            <TextInput
-                style={styles.input}
-                placeholder="Password"
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry
+            <View style={styles.content}>
+                <Text style={styles.title}>QREST</Text>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Username"
+                    value={username}
+                    onChangeText={setUsername}
+                    autoCapitalize="none"
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Password"
+                    value={password}
+                    onChangeText={setPassword}
+                    secureTextEntry
+                />
+                <TouchableOpacity onPress={handleLogin} style={styles.button}>
+                    <Text style={styles.buttonText}>Login</Text>
+                </TouchableOpacity>
+            </View>
+            <Image
+                source={require('@/assets/images/healthy-food.png')}
+                resizeMode="contain"
+                style={styles.food}
             />
-            <TouchableOpacity onPress={handleLogin} style={styles.button}>
-                <Text style={styles.buttonText}>Login</Text>
-            </TouchableOpacity>
-
         </View>
     )
 }
@@ -50,9 +63,33 @@ export default function Login() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        display: "flex",
+        flexDirection: "column",
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 20
+        backgroundColor: COLORS.primary
+    },
+
+    background: {
+        width: 900,
+        height: 900,
+        position: 'absolute',
+        top: "10%",
+        borderTopStartRadius: "100%",
+        borderTopEndRadius: "100%",
+        backgroundColor: COLORS.dark
+    },
+
+    content: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: "80%",
+        height: "30%",
+        backgroundColor: "white",
+        borderRadius: 20,
+        marginTop: "50%",
+        zIndex: 10,
+        opacity: 0.9
     },
 
     title: {
@@ -63,27 +100,42 @@ const styles = StyleSheet.create({
 
     input: {
         fontFamily: "Josefin-Sans",
-        width: '100%',
+        width: '80%',
         height: 40,
-        borderColor: '#ccc',
-        borderWidth: 1,
-        borderRadius: 5,
+        borderColor: COLORS.dark,
+        borderWidth: 2,
+        borderRadius: 10,
         marginBottom: 15,
         paddingHorizontal: 10
     },
 
     button: {
-        width: 70,
-        height: 30,
-        borderWidth: 1,
-        borderStyle: 'solid',
-        borderRadius: 5,
-        borderColor: 'black',
+        width: 100,
+        height: 40,
+        borderRadius: 10,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: COLORS.secondary,
+    },
+
+    logo: {
+        width: '50%',
+        height: "100%",
+        position: "absolute",
+        alignSelf: "center",
+        bottom: "20%"
+    },
+
+    food: {
+        width: '100%',
+        height: "100%",
+        position: "absolute",
+        bottom: "-40%"
     },
 
     buttonText: {
         fontFamily: "Josefin-Sans",
+        color: "white",
+        fontSize: 18
     }
 })

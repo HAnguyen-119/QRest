@@ -1,73 +1,45 @@
-import { useThemeContext } from "@/contexts/ThemeContext"
-import { View, Text, TextInput } from "react-native"
-import { createReservationViewStyles } from "@/assets/styles/cashier/Reservation.styles"
-import Input from "@/components/Input/Input"
-import { useState } from "react"
-import { createGlobalStyles } from "@/assets/styles/Global.styles"
-import DateTimePicker from '@react-native-community/datetimepicker'
+import { createReservationViewStyles } from "@/assets/styles/cashier/Reservation.styles";
+import { createGlobalStyles } from "@/assets/styles/Global.styles";
+import { createReservationFormStyles } from "@/assets/styles/waiter/Reservation.styles";
+import Loading from "@/components/Loading";
+import CreateReservation from "@/components/Modal/ModalCreateReservation";
+import { ReservationList } from "@/components/Reservation/ReservationList";
+import { ReservationProps } from "@/constants/Types/reservation";
+import { useThemeContext } from "@/contexts/ThemeContext";
+import { useFetch } from "@/hooks/useFetch";
+import { View } from "react-native";
 
 export default function Reservation() {
-    const [arrivalTime, setArrivalTime] = useState<Date>(new Date())
-    const [numberOfGuests, setNumberOfGuests] = useState<number | null>(null)
-    const [deposit, setDeposit] = useState<number | null>(null);
-    const [customerName, setCustomerName] = useState<string>("")
-    const [customerPhone, setCustomerPhone] = useState<string>("")
-    const [restaurantTableIds, setRestaurantTableIds] = useState<number>(1)
-    const [confirmed, setConfirmed] = useState<boolean>(false)
-
-    const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
-
     const { isDark } = useThemeContext()
     const styles = createReservationViewStyles(isDark)
     const globalStyles = createGlobalStyles(isDark)
 
-    return (
-        <View>
-            <Text>
-                Create Reservation Request
-            </Text>
-            <Input 
-                text={'Customer\' Name'} 
-                styles={{ container: styles.container, text: [globalStyles.text, styles.text], input: styles.input }} 
-                value={ customerName } 
-                onChangeText={ setCustomerName } 
-                placeholder="Enter name" keyboard={null} 
-            />
-            <Input
-                text={'Customer\'s Phone'}
-                styles={{ container: styles.container, text: [globalStyles.text, styles.text], input: styles.input }}
-                value={ customerPhone }
-                onChangeText={ setCustomerPhone }
-                placeholder="Enter phone number"
-                keyboard={'phone-pad'}
-            />
-            <Input 
-                text={'Number of Guests'}
-                styles={{ container: styles.container, text: [globalStyles.text, styles.text], input: styles.input }}
-                value={ numberOfGuests ? numberOfGuests.toString() : '' }
-                onChangeText={(text) => setNumberOfGuests(Number(text))}
-                placeholder="Enter number of guests"
-                keyboard={'numeric'}
-            />
-            <Input 
-                text={'Arrival Time'}
-                styles={{ container: styles.container, text: [globalStyles.text, styles.text], input: styles.input }}
-                value={ arrivalTime ? arrivalTime.toISOString().slice(0, 16).replace('T', ' ') : '' }
-                onChangeText={(text) => setArrivalTime(new Date(text))}
-                placeholder="Enter arrival time (YYYY-MM-DD HH:mm)"
-                keyboard={null}
-            />
-            <Input 
-                text={'Deposit Amount'}
-                styles={{ container: styles.container, text: [globalStyles.text, styles.text], input: styles.input }}
-                value={ deposit ? deposit.toString() : '' }
-                onChangeText={(text) => setDeposit(Number(text))}
-                placeholder="Enter deposit amount"
-                keyboard={'numeric'}
-            />
-            
+    const { data: reservationData, loading: reservationDataLoading, refetch: reservationRefetch } = useFetch('reservations')
 
+    if (!reservationData || reservationDataLoading) {
+        return <Loading/>
+    }
+
+    const today = new Date()
+    const filteredReservationList = (Object.values(reservationData) as ReservationProps[]).filter((order: ReservationProps) => {
+        const orderDate = new Date(order.bookingTime)
+        console.log('order date',orderDate)
+        return (
+            orderDate.getDate() === today.getDate() &&
+            orderDate.getMonth() === today.getMonth() &&
+            orderDate.getFullYear() === today.getFullYear()
+        )
+    })
+
+    return (
+        <View style={[styles.container, globalStyles.background]}>
+            <ReservationList 
+                data={filteredReservationList} 
+                refetch={reservationRefetch} 
+                isCashier={true} 
+                setReservationId={() => null}
+                setReservationListVisible={() => null}
+            />
         </View>
     )
 }
-

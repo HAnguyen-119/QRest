@@ -27,14 +27,16 @@ export default function MenuItemDetails({ data, id, handleBack, handleEdit, hand
         <Text style={[menuStyles.text, menuStyles.name]}>{item?.name}</Text>
       </View>
       <View style={menuStyles.detailsContainer}>
-        <Text style={[menuStyles.text, {color: COLORS.dark, fontSize: 20}]}>{item?.description}</Text>
+        <Text style={[menuStyles.text, {color: isDark ? COLORS.light : COLORS.dark, fontSize: 20}]}>{item?.description}</Text>
         <Text style={menuStyles.text}>{item?.ingredients}</Text>
-        <TouchableOpacity style={menuStyles.editButton} onPress={handleEdit}>
-          <Text style={menuStyles.text}>Edit</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={menuStyles.editButton} onPress={() => { setIsDelete(true) }}>
-          <Text style={menuStyles.text}>Delete</Text>
-        </TouchableOpacity>
+          <View style={{display: "flex", flexDirection: "row", alignItems: "center", alignSelf: "center", gap: "20", position: "absolute", bottom: 20}}>
+            <TouchableOpacity style={menuStyles.editButton} onPress={handleEdit}>
+              <Text style={menuStyles.text}>Edit</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={menuStyles.editButton} onPress={() => { setIsDelete(true) }}>
+              <Text style={menuStyles.text}>Delete</Text>
+            </TouchableOpacity>
+          </View>
       </View>
       {isDelete && (
         <DeleteConfirmView

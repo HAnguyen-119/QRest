@@ -6,26 +6,23 @@ export const createOrderListStyles = (isDark: boolean) => {
         container: {
             flex: 1,
             padding: 16,
-            backgroundColor: COLORS.background,
+            backgroundColor: isDark ? COLORS.dark : COLORS.light,
+        },
+        toolbar: {
+            width: '140%'  
         },
         title: {
             fontSize: 24,
-            fontWeight: 'bold',
             marginBottom: 16,
-            color: COLORS.text,
         },
         listContainer: {
             gap: 12,
         },
         orderItem: {
-            backgroundColor: COLORS.white,
-            padding: 16,
-            borderRadius: 8,
-            shadowColor: COLORS.black,
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.1,
-            shadowRadius: 4,
-            elevation: 3,
+            padding: 20,
+            borderRadius: 16,
+            borderWidth: 2,
+            backgroundColor: isDark ? COLORS.cardContainerDark : COLORS.cardContainerLight
         },
         orderHeader: {
             flexDirection: 'row',
@@ -33,9 +30,7 @@ export const createOrderListStyles = (isDark: boolean) => {
             marginBottom: 8,
         },
         orderId: {
-            fontSize: 18,
-            fontWeight: 'bold',
-            color: COLORS.text,
+            fontSize: 24,
         },
         orderTime: {
             color: COLORS.gray,
@@ -49,12 +44,10 @@ export const createOrderListStyles = (isDark: boolean) => {
             color: COLORS.text,
         },
         totalPrice: {
-            fontWeight: 'bold',
             color: COLORS.primary,
         },
         note: {
             color: COLORS.gray,
-            fontStyle: 'italic',
         },
         error: {
             color: COLORS.error,
