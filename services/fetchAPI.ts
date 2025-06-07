@@ -5,6 +5,7 @@ import { OrderStatus } from "@/constants/Types/order";
 import { MenuItemProps } from "@/constants/Types/menuitem";
 import axiosClient from "./axiosClient";
 import { ReservationDataPostProps, ReservationProps } from "@/constants/Types/reservation";
+import {AccountProps} from "@/constants/Types/account";
 
 export const fetchAPI = {
     getOrders: () => {
@@ -144,7 +145,23 @@ export const fetchAPI = {
 
     putReservationById: (id: number, data: ReservationProps) => {
         return axiosClient.put(`/reservations/${id}`, data)
-    }
+    },
+    getAccounts: () => {
+        return axiosClient.get('users')
+    },
 
+    createAccount: (role: any) => {
+        return axiosClient.post('auth/create-account', role)
+    },
 
+    addAccount: (data: any) => {
+        return axiosClient.post('auth/register', data);
+    },
+
+    editAccount: (accountId: number, staffId: number, data: AccountProps) => {
+        return axiosClient.put(`users/${accountId}/staff/${staffId}`, data);
+    },
+    deleteAccount: (id: number) => {
+        return axiosClient.delete(`users/${id}`);
+    },
 }

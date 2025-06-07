@@ -12,6 +12,7 @@ import { useScrollAnimated } from "@/contexts/ScrollContext";
 import { useThemeContext } from "@/contexts/ThemeContext";
 import Icon from "react-native-vector-icons/Ionicons"
 import UpdateMenuItemView from "@/components/admin/UpdateMenuItemView";
+import {useRefresh} from "@/contexts/RefreshContext";
 
 export default function Menu() {
     const [category, setCategory] = useState<string>("All")
@@ -25,7 +26,8 @@ export default function Menu() {
     const [isAdd, setIsAdding] = useState<boolean>(false)
     const [isEdit, setIsEdit] = useState<boolean>(false)
 
-    const [isRefresh, setIsRefresh] = useState<boolean>(false)
+    const {isRefresh, setIsRefresh} = useRefresh();
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -86,6 +88,7 @@ export default function Menu() {
 
     const handleDelete = async () => {
         try {
+            console.log(menuItemId)
             await fetchAPI.deleteMenuItem(menuItemId)
             setIsRefresh(!isRefresh)
             handleCancel();

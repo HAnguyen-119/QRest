@@ -35,5 +35,9 @@ export const COLORS = {
     modalFailureText: '#D94343',
     closeModalReservationButton: "#007AFF",
     priceColor: '#00af50',
-    selectedTable: '#007aff'
+    selectedTable: '#007aff',
+    admin: '#fffd70',
+    waiter: '#82c5ff',
+    cashier: '#86df56',
+    chef: '#ef7b7b',
 }

@@ -5,6 +5,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useFonts } from 'expo-font'
 import { ThemeProvider, useThemeContext } from '@/contexts/ThemeContext';
 import { useEffect, useState } from 'react';
+import {RefreshProvider} from "@/contexts/RefreshContext";
 
 export default function RootLayout() {
   const loadUser  = useAuth()
@@ -31,10 +32,12 @@ export default function RootLayout() {
   }
 
   return (
+      <RefreshProvider>
     <ThemeProvider>
         <Stack screenOptions={{ headerShown: false }} >
           <Stack.Screen name='(auth)'/>
         </Stack>
     </ThemeProvider>
+      </RefreshProvider>
   )
 }

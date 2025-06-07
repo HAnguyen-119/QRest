@@ -163,6 +163,19 @@ export const createAdminStyles = ( isDark: boolean ) => {
             justifyContent: 'center'
         },
 
+        accountUpdating: {
+            position: 'absolute',
+            width: '80%',
+            alignSelf: 'center',
+            marginTop: "40%",
+            borderRadius: 20,
+            backgroundColor: "white",
+            zIndex: 10,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center'
+        },
+
         switchMode: {
             color: isDark ? COLORS.light : COLORS.dark,
         },

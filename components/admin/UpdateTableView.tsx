@@ -60,7 +60,7 @@ export default function UpdateTableView({table, isAdding, handleCancel, capaciti
 
     return (
         <View style={adminStyles.tableUpdating}>
-            <Text style={styles.header}>{isAdding ? "ADD NEW TABLE" : "EDIT STAFF INFO"}</Text>
+            <Text style={styles.header}>{isAdding ? "ADD NEW TABLE" : "EDIT TABLE INFO"}</Text>
             <View style={styles.inputContainer}>
                 <Text style={styles.inputText}>Name </Text>
                 <TextInput
