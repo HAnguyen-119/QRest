@@ -86,6 +86,7 @@ export default function Menu() {
 
     const handleDelete = async () => {
         try {
+            console.log(menuItemId)
             await fetchAPI.deleteMenuItem(menuItemId)
             setIsRefresh(!isRefresh)
             handleCancel();

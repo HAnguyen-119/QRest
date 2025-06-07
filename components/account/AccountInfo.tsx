@@ -9,11 +9,25 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 // @ts-ignore
 export default function AccountInfo({id, username, staff, role, handleEdit, handleDelete, setCurrentAccountId}) {
     const { isDark } = useThemeContext()
+
+    const roleColor = () => {
+        switch (role) {
+            case "ADMIN":
+                return COLORS.admin
+            case "WAITER":
+                return COLORS.waiter
+            case "CHEF":
+                return COLORS.chef
+            case "CASHIER":
+                return COLORS.cashier
+        }
+    }
+
     const accountStyles = createAccountStyles(isDark)
     return (
         <View style={accountStyles.infoContainer}>
-            <View style={accountStyles.role}>
-                <Text style={accountStyles.text}>{role}</Text>
+            <View style={[accountStyles.role, {backgroundColor: roleColor()}]}>
+                <Text style={[accountStyles.text, {color: COLORS.dark}]}>{role}</Text>
             </View>
 
             <View style={[accountStyles.user, {padding: 10}]}>

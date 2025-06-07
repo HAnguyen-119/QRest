@@ -165,9 +165,8 @@ export const createAdminStyles = ( isDark: boolean ) => {
         accountUpdating: {
             position: 'absolute',
             width: '80%',
-            height: '50%',
             alignSelf: 'center',
-            marginTop: "50%",
+            marginTop: "40%",
             borderRadius: 20,
             backgroundColor: "white",
             zIndex: 10,

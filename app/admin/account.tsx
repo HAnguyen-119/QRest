@@ -82,6 +82,8 @@ export default function Account() {
 
     const handleEdit = () => {
         setIsEdit(true)
+        const account= accountData.find((account : any) => account.id === currentAccountId)
+        console.log(account)
     }
 
     const handleCancel = () => {
@@ -92,6 +94,7 @@ export default function Account() {
 
     const handleDelete = async () => {
         try {
+            console.log(currentAccountId)
             await fetchAPI.deleteAccount(currentAccountId);
             setIsRefresh(!isRefresh);
             handleCancel()
@@ -128,18 +131,19 @@ export default function Account() {
                 <View style={adminStyles.updatingContainer}>
                     <View style={adminStyles.blur}></View>
                     <UpdateAccountView
+                        accountData={accountData}
                         account={accountData.find((account : any) => account.id === currentAccountId)}
                         isAdding={isAdd}
                         handleCancel={handleCancel}
                         handleRefresh={() => {setIsRefresh(!isRefresh)}}
-                        roles={roles}
+                        roles={["CHEF", "CASHIER", "WAITER"]}
                         staffs={staffData}>
                     </UpdateAccountView>
                 </View>
             )}
             {isDelete && (
                 <DeleteConfirmView
-                    name={accountData.find((account : any) => account.id === currentAccountId).name}
+                    name={accountData.find((account : any) => account.id === currentAccountId).username}
                     content={"account"}
                     handleDelete={handleDelete}
                     handleCancel={handleCancel}

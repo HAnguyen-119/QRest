@@ -8,8 +8,8 @@ import {AccountProps} from "@/constants/Types/account";
 import {fetchAPI} from "@/services/fetchAPI";
 import {format} from "date-fns";
 
-export default function UpdateAccountView({account, isAdding, handleCancel, roles, staffs, handleRefresh}:
-                                        {account: any, isAdding: boolean, handleCancel: any, handleRefresh: any, roles: Array<string>, staffs: any}) {
+export default function UpdateAccountView({accountData, account, isAdding, handleCancel, roles, staffs, handleRefresh}:
+                                        {accountData: any, account: any, isAdding: boolean, handleCancel: any, handleRefresh: any, roles: Array<string>, staffs: any}) {
 
     const { isDark } = useThemeContext()
     const adminStyles = createAdminStyles(isDark)
@@ -18,25 +18,65 @@ export default function UpdateAccountView({account, isAdding, handleCancel, role
     const [roleValue, setRoleValue] = useState(isAdding ? null : account.role);
 
     const [openStaff, setOpenStaff] = useState(false);
-    const [staffValue, setStaffValue] = useState(isAdding ? null : account.staff);
+    const [staffValue, setStaffValue] = useState(isAdding ? null : account.staff && account.staff.fullName);
 
     const [username, setUsername] = useState(isAdding ? "" : account.username);
-    const [staff, setStaff] = useState(isAdding ? null : account.staff.fullName);
+    const [newAccUsername, setNewAccUsername] = useState("");
+    const [staff, setStaff] = useState(isAdding ? null : account.staff);
     const [role, setRole] = useState(isAdding ? null : account.role);
 
-    const isValid = username.trim().length > 0
-        && role !== null
-        && staff.trim().length > 0
+    const [password, setPassword] = useState("");
+    const [isCreated, setIsCreated] = useState(false);
+    const [newCreatedAccount, setNewCreatedAccount] = useState(0);
+
+    const idsOfStaffsHavingAccount = Object.values(accountData)
+        .map((item: any) => item.staff?.id)
+        .filter(Boolean);
+
+    const staffsWithoutAccount = Object.values(staffs)
+        .filter((item: any) =>
+            (roles.includes(item.position) && !idsOfStaffsHavingAccount.includes(item.id))
+        );
+
+
+    const isEditValid = username.trim().length > 0
+        && role
+        && staff
+
+    const isAddValid =  newAccUsername.trim().length > 0
+        && role && password.trim().length > 0 && staff
+
+    const handleCreate = async () => {
+        if (!role || role === "" || isCreated) return;
+        try {
+            const response = await fetchAPI.createAccount(role);
+            setNewAccUsername(response.username)
+            setPassword(response.password)
+            setIsCreated(true);
+            handleRefresh();
+            // @ts-ignore
+            const accounts = await fetchAPI.getAccounts();
+            const newAcc = Object.values(accounts).find(
+                (acc: any) => acc.username === response.username
+            );
+
+            setNewCreatedAccount(newAcc.id);
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     const handleAdd = async () => {
-        if (!isValid) return;
+        if (!isAddValid) return;
         const newAccount : AccountProps = {
             username: username,
             staff: staff,
             role: role
         }
+        console.log(newCreatedAccount)
+        console.log(staff)
         try {
-            await fetchAPI.addAccount(newAccount);
+            await fetchAPI.editAccount(newCreatedAccount, staff.id, newAccount);
             handleRefresh()
             handleCancel()
         } catch (error) {
@@ -45,14 +85,15 @@ export default function UpdateAccountView({account, isAdding, handleCancel, role
     }
 
     const handleEdit = async () => {
-        if (!isValid) return;
+        console.log(staffsWithoutAccount)
+        if (!isEditValid) return;
         const newAccount : AccountProps = {
             username: username,
             role : role,
             staff: staff
         }
         try {
-            await fetchAPI.editAccount(account.id, newAccount);
+            await fetchAPI.editAccount(account.id, staff.id, newAccount);
             handleRefresh()
             handleCancel()
         } catch (error) {
@@ -60,18 +101,10 @@ export default function UpdateAccountView({account, isAdding, handleCancel, role
         }
     }
 
+    // @ts-ignore
     return (
-        <View style={adminStyles.accountUpdating}>
+        <View style={[adminStyles.accountUpdating, {height: isAdding ? "60%" : "50%"}]}>
             <Text style={styles.header}>{isAdding ? "ADD NEW ACCOUNT" : "EDIT ACCOUNT"}</Text>
-            <View style={styles.inputContainer}>
-                <Text style={styles.inputText}>Username </Text>
-                <TextInput
-                    value={username}
-                    style={styles.input}
-                    placeholder="Enter username"
-                    onChangeText={(text) => setUsername(text)}
-                ></TextInput>
-            </View>
             <View style={styles.inputContainer}>
                 <Text style={styles.inputText}>Role</Text>
                 <DropDownPicker
@@ -94,12 +127,37 @@ export default function UpdateAccountView({account, isAdding, handleCancel, role
                 >
                 </DropDownPicker>
             </View>
+            {isAdding &&
+                <TouchableOpacity style={[styles.button, {alignSelf: "center", marginBottom: 10}]}
+                                    onPress={handleCreate}>
+                    <Text style={styles.buttonText}>Create</Text>
+                </TouchableOpacity>}
+            <View style={styles.inputContainer}>
+                <Text style={styles.inputText}>Username </Text>
+                {!isAdding ?
+                <TextInput
+                    value={username}
+                    style={styles.input}
+                    placeholder="Enter username"
+                    onChangeText={(text) => setUsername(text)}
+                ></TextInput> : <TextInput value={newAccUsername}
+                                           style={styles.input}
+                                           editable={false}></TextInput>
+                }
+            </View>
+            {isAdding &&
+                <View style={styles.inputContainer}>
+                    <Text style={styles.inputText}>Password </Text>
+                    <TextInput value={password}
+                           style={styles.input}
+                           editable={false}></TextInput>
+                </View>}
             <View style={styles.inputContainer}>
                 <Text style={styles.inputText}>Staff</Text>
                 <DropDownPicker
                     open={openStaff}
                     value={staffValue}
-                    items={staffs.map((staff: any) => ({
+                    items={staffsWithoutAccount.filter((staff: any) => staff.position === role).map((staff: any) => ({
                         label: staff.fullName + "\n(" + staff.position + ")",
                         value: staff.fullName
                     }))}
@@ -109,20 +167,30 @@ export default function UpdateAccountView({account, isAdding, handleCancel, role
                     style={styles.picker}
                     textStyle={styles.text}
                     dropDownContainerStyle={styles.dropdown}
-                    onSelectItem={(staff: any) => {
-                        setStaff(staff);
-                        setStaffValue(staff.value)
+                    onSelectItem={(item: any) => {
+                        setStaff(staffs.find((s : any) => s.fullName == item.value));
+                        setStaffValue(item.value)
                     }}
                 >
                 </DropDownPicker>
             </View>
 
-            {!isValid && (<Text style={styles.invalid}>You must fill all the information above !</Text>)}
+            {((isAdding && !isAddValid) || (!isAdding && !isEditValid)) && (<Text style={styles.invalid}>You must fill all the information above !</Text>)}
             <View style={styles.buttonContainer}>
                 <TouchableOpacity style={styles.button} onPress={isAdding ? handleAdd  : handleEdit}>
                     <Text style={styles.buttonText}>{isAdding ? "ADD" : "CONFIRM"}</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={handleCancel}>
+                <TouchableOpacity style={styles.button}
+                                  onPress={async () => {
+                                      handleCancel();
+
+                                      setIsCreated(false);
+                                      if (newCreatedAccount > 0) {
+                                          console.log(newCreatedAccount);
+                                          await fetchAPI.deleteAccount(newCreatedAccount)
+                                      }
+                                      handleRefresh()
+                                  }}>
                     <Text style={styles.buttonText}>CANCEL</Text>
                 </TouchableOpacity>
             </View>
@@ -178,11 +246,13 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderRadius: 15,
         fontFamily: "Josefin-Sans",
+        zIndex: 11
     },
 
     dropdown: {
         width: '70%',
         height: 120,
+        zIndex: 12
     },
 
     buttonContainer: {

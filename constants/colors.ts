@@ -29,4 +29,8 @@ export const COLORS = {
     quarterlyLine: '#ddd999',
     yearlyLine: '#aaaabe',
     orderNotTaken: '#dc3545',
+    admin: '#fffd70',
+    waiter: '#82c5ff',
+    cashier: '#86df56',
+    chef: '#ef7b7b',
 }

@@ -138,16 +138,18 @@ export const fetchAPI = {
         return axiosClient.get('users')
     },
 
-    addAccount: (data: AccountProps) => {
-        return axiosClient.post('users', data);
+    createAccount: (role: any) => {
+        return axiosClient.post('auth/create-account', role)
     },
 
-    editAccount: (id: number, data: AccountProps) => {
-        return axiosClient.put(`users/${id}`, data);
+    addAccount: (data: any) => {
+        return axiosClient.post('auth/register', data);
+    },
+
+    editAccount: (accountId: number, staffId: number, data: AccountProps) => {
+        return axiosClient.put(`users/${accountId}/staff/${staffId}`, data);
     },
     deleteAccount: (id: number) => {
         return axiosClient.delete(`users/${id}`);
     },
-
-
 }

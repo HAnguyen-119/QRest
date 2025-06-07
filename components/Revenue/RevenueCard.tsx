@@ -65,33 +65,33 @@ export default function RevenueCard({ type, date, setType, setVisible }: Revenue
                 </View>
             </View>
 
-            <LineChart
-                data={{
-                    labels: [],
-                    datasets: [{ data: displayData }],
-                }}
-                width={cardWidth}
-                height={120}
-                withDots={false}
-                withInnerLines={false}
-                withOuterLines={false}
-                withHorizontalLabels={false}
-                withVerticalLabels={false}
-                withShadow={true}
-                chartConfig={{
-                    backgroundColor: isDark ? COLORS.cardContainerDark : COLORS.cardContainerLight,
-                    backgroundGradientFrom: isDark ? COLORS.cardContainerDark : COLORS.cardContainerLight,
-                    backgroundGradientTo: isDark ? COLORS.cardContainerDark : COLORS.cardContainerLight,
-                    decimalPlaces: 0,
-                    color: () => lineColor,
-                    fillShadowGradient: lineColor,
-                    fillShadowGradientOpacity: 0.1,
-                }}
-                bezier
-                style={{
-                    marginTop: 10,
-                }}
-            />
+            {/*<LineChart*/}
+            {/*    data={{*/}
+            {/*        labels: [],*/}
+            {/*        datasets: [{ data: displayData }],*/}
+            {/*    }}*/}
+            {/*    width={cardWidth}*/}
+            {/*    height={120}*/}
+            {/*    withDots={false}*/}
+            {/*    withInnerLines={false}*/}
+            {/*    withOuterLines={false}*/}
+            {/*    withHorizontalLabels={false}*/}
+            {/*    withVerticalLabels={false}*/}
+            {/*    withShadow={true}*/}
+            {/*    chartConfig={{*/}
+            {/*        backgroundColor: isDark ? COLORS.cardContainerDark : COLORS.cardContainerLight,*/}
+            {/*        backgroundGradientFrom: isDark ? COLORS.cardContainerDark : COLORS.cardContainerLight,*/}
+            {/*        backgroundGradientTo: isDark ? COLORS.cardContainerDark : COLORS.cardContainerLight,*/}
+            {/*        decimalPlaces: 0,*/}
+            {/*        color: () => lineColor,*/}
+            {/*        fillShadowGradient: lineColor,*/}
+            {/*        fillShadowGradientOpacity: 0.1,*/}
+            {/*    }}*/}
+            {/*    bezier*/}
+            {/*    style={{*/}
+            {/*        marginTop: 10,*/}
+            {/*    }}*/}
+            {/*/>*/}
         </TouchableOpacity>
 
     )
