@@ -14,6 +14,9 @@ export const fetchAPI = {
         return axiosClient.patch(`orders/${id}/status`, status)
     },
 
+    completeFoodOrder: (id: number, status: boolean) => {
+        return axiosClient.patch(`orders/foods/${id}/status/${status}`)
+    },
     getFood: () => {
         return axiosClient.get('foods')
     },
