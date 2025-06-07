@@ -5,6 +5,7 @@ import { createOrderListStyles } from "@/assets/styles/waiter/OrderList.styles";
 import { OrderStatus } from "@/constants/Types/order";
 import { opacity } from "react-native-reanimated/lib/typescript/Colors";
 import { getTime } from "@/utils/FormatTime";
+import { MaterialIcons } from '@expo/vector-icons';
 import TableItemOrders from "../table/TableItemOrders";
 import FoodOrderItem from "./FoodOrderItem";
 export default function OrderItem({ tableOrders, orderID, foodOrders, orderNotes, comboOrders, orderTime, orderStatus, onClick }) {
@@ -17,6 +18,8 @@ export default function OrderItem({ tableOrders, orderID, foodOrders, orderNotes
   useEffect(() => {
     setTaken(orderStatus === "PROCESSING");
   }, [orderStatus]);
+
+
   const chefCompleteOrder = (orderID: number) => {
     // Logic to complete the order
     fetchAPI.editOrderStatus(orderID, "PROCESSED")
@@ -30,8 +33,8 @@ export default function OrderItem({ tableOrders, orderID, foodOrders, orderNotes
   const chefTakeOrder = (orderID: number) => {
     // Logic to take the order
     fetchAPI.editOrderStatus(orderID, "PROCESSING")
-    setTaken(taken => !taken)
     console.log(`Took ${orderID}`)
+    setTaken(true)
   }
 
   return (
@@ -40,11 +43,20 @@ export default function OrderItem({ tableOrders, orderID, foodOrders, orderNotes
             <Text style={styles.noteText}>
               {orderNotes?.length > 0 && `Notes: ${orderNotes}`}
             </Text>
-        <Text style={styles.orderHeader}>
-          Order for table {tableOrders?.map((item, index) => item.restaurantTable.name).join(", ")} {orderID}
-        </Text>
 
-        {expanded && (
+        <Text style={styles.orderHeader}>
+ Order for table {tableOrders?.map((item, index) => item.restaurantTable.name).join(", ")} {orderID} 
+        </Text>
+        {
+         <Text style={styles.orderStatus}>
+          {taken ? (
+            <Text style={{ color: COLORS.orderActive, fontWeight: 'bold' }}>Processing</Text>
+          ) : (
+            <Text style={{ color: COLORS.orderNotTaken, fontWeight: 'bold' }}>Pending</Text>
+          )}
+        </Text>
+        }
+               {expanded && (
           <View style={styles.orderDetails}>
           {foodOrders?.map((item, index) => (
             <View key={`food-${index}`} style={styles.orderItemContainer}>
@@ -57,27 +69,13 @@ export default function OrderItem({ tableOrders, orderID, foodOrders, orderNotes
               />
             </View>
           ))}
-              {comboOrders?.map((foods, index) => (
-              foods?.length > 0 && foods.map((item, findex) => (
-                <Text key={`combo-${index}-${findex}`} style={styles.orderItem}>
-                  {item.food.name} x{item.quantity}
-                </Text>
-
-              ))
-            ))}
-
           </View>
         )}
 
-
-        <Text style={[styles.orderTime, takenStyles(taken).text]}>
-          Status: {taken ? "processing" : "pending" }
-        </Text>
-        <Text style={styles.orderTime}>
-          Order Time: {getTime(orderTime)}
-        </Text>
       </View>
-
+        <Text style={styles.orderTime}>
+  Time: {`${new Date(orderTime).getHours().toString().padStart(2, '0')}:${new Date(orderTime).getMinutes().toString().padStart(2, '0')}`}H
+        </Text>
       {expanded && (
         <View style={styles.buttonContainer}>
           <TouchableOpacity
@@ -94,6 +92,7 @@ export default function OrderItem({ tableOrders, orderID, foodOrders, orderNotes
               takenStyles(taken).takeButton,
             ]}
             onPress={() => chefTakeOrder(orderID)}
+            disabled={taken}
           >
             <Text style={styles.completeButtonText}>Take Order</Text>
           </TouchableOpacity>
@@ -115,7 +114,6 @@ export default function OrderItem({ tableOrders, orderID, foodOrders, orderNotes
 
 const takenStyles = (taken: boolean) => ({
   container: {
-    // backgroundColor: taken ? COLORS.orderActive : COLORS.orderNotTaken,
     borderRadius: 12,
     margin: 8,
     padding: 17,
@@ -127,7 +125,6 @@ const takenStyles = (taken: boolean) => ({
     position: 'relative',
   },
   completeButton: {
-    // backgroundColor: taken ? COLORS.orderActive : COLORS.orderNotTaken,
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 8,
@@ -145,10 +142,10 @@ const takenStyles = (taken: boolean) => ({
   },
 
   takeButton: {
-    // backgroundColor: taken ? COLORS.orderActive : COLORS.orderNotTaken,
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 8,
+    opacity: taken ? 0.5 : 1,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
@@ -178,7 +175,9 @@ export const styles = StyleSheet.create({
   orderTime: {
     fontFamily: 'Josefin-Sans',
     fontSize: 14,
-    marginTop: 10,
+    fontWeight: "400",
+    position: "absolute",
+    bottom: 5,
   },
   toggleButton: {
     position: "absolute",
@@ -228,4 +227,17 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 14,
   },
+  orderStatus: {
+    position: "absolute",
+    right: 10,
+    top: 10,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+  },
+
+  statusIconContainer: {
+  // marginTop: 10,
+  // flexDirection: 'row',
+  // alignItems: 'center',
+},
 });

@@ -4,19 +4,21 @@ import OrderItem from "@/components/OrdersChef/OrderItem"; // if using Expo, or 
 import { useFetch } from "@/hooks/useFetch";
 import { OrderStatus } from "@/constants/orderstatus";
 import Searcher from "@/components/menu/Searcher";
-
+import Animated from 'react-native-reanimated';
+import { useScrollAnimated } from "@/contexts/ScrollContext";
 
 export default function Dashboard() {
   const [refreshing, setRefreshing] = useState(false);
     const [search, setSearch] = useState<string>("")
-  // Use the useFetch hook and destructure data, loading, error, and refetch
   const { data, loading, refetch } = useFetch("orders");
 
   // Filter pending orders
   const pendingOrders = data?.filter(
-    (order: any) => (order.orderStatus === "PENDING" || order.orderStatus === "PROCESSING") && String(order.id).includes(search)
+    (order: any) => (order.orderStatus === "PENDING" || order.orderStatus === "PROCESSING")
+     && order.tableOrders?.map((item, index) => item.restaurantTable.name.toLowerCase()).join(", ").includes(search.toLowerCase())
   );
 
+  const { scrollHandler, onClick } = useScrollAnimated();
   const handleSearch = (search: string) => {
     setSearch(search)
   };
@@ -40,10 +42,11 @@ if (pendingOrders) {
 
 
   return (
-    <ScrollView contentContainerStyle={styles.container}
+    <Animated.ScrollView contentContainerStyle={styles.container}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
+      } 
+      onScroll={scrollHandler}
     >
       <Searcher onSearch={handleSearch}/>
       {pendingOrders?.map((task, index) => 
@@ -59,18 +62,12 @@ if (pendingOrders) {
           amount={task.amount}
         />
       )}
-    </ScrollView>
+    </Animated.ScrollView>
   );
 }
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-  },
-  header: {
-    fontSize: 32,
-    fontWeight: "bold",
-    marginBottom: 20,
-    fontFamily: "cursive"
   },
   task: {
     flexDirection: "row",
