@@ -9,14 +9,14 @@ export const createReservationViewStyles = (isDark: boolean) => {
         },
         text: {
             fontSize: 16,
-            fontWeight: 'bold'
         },
         input: {
             borderWidth: 2,
             borderRadius: 16,
             paddingHorizontal: 8,
             color: isDark ? COLORS.light : COLORS.dark,
-            borderColor: isDark ? COLORS.light : COLORS.dark
+            borderColor: isDark ? COLORS.light : COLORS.dark,
+            fontFamily: 'Josefin-Sans'
         },
         modalContainer: {
             backgroundColor: isDark ? COLORS.dark : COLORS.light,
@@ -49,9 +49,9 @@ export const createReservationViewStyles = (isDark: boolean) => {
             marginBottom: 12
         },
 
-        closeButton: { 
-            color: COLORS.closeModalReservationButton, 
-        }, 
+        closeButton: {
+            color: COLORS.closeModalReservationButton,
+        },
         navigateButton: {
             alignSelf: 'flex-end',
             margin: 20,
@@ -69,6 +69,21 @@ export const createReservationViewStyles = (isDark: boolean) => {
         },
         arrivalText: {
             marginBottom: 12
+        },
+        tablesSelected: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            backgroundColor: COLORS.selectedTable,
+            borderRadius: 16,
+            paddingHorizontal: 10,
+            paddingVertical: 4,
+            marginRight: 6,
+            marginBottom: 6,
+        },
+        createButton: {
+            textAlign: 'center',
+            fontSize: 20,
+            marginBottom: 16,
         }
     })
 }

@@ -41,4 +41,5 @@ export interface ReservationListProps {
 export interface CreateReservationProps {
     containerVisible: boolean,
     setContainerVisible: (visible: boolean) => void
+    refetch: () => void
 }

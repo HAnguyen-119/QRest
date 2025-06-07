@@ -15,10 +15,14 @@ import Loading from "../Loading"
 import Icon from "../Icon/Icon"
 import Ionicons from "react-native-vector-icons/Ionicons"
 
+import RNPickerSelect from 'react-native-picker-select';
+
 import closeButton from '@/assets/images/close.png'
 import { BUTTONSIZE } from "@/constants/size"
+import { COLORS } from "@/constants/colors"
+import { GetCapacity } from "@/utils/GetCapacity"
 
-export default function CreateReservation({ containerVisible, setContainerVisible }: CreateReservationProps) {
+export default function CreateReservation({ containerVisible, setContainerVisible, refetch }: CreateReservationProps) {
     const [arrivalDate, setArrivalDate] = useState<Date>(new Date())
     const [arrivalTime, setArrivalTime] = useState<Date>(new Date())
     const [numberOfGuests, setNumberOfGuests] = useState<number>(1)
@@ -38,8 +42,6 @@ export default function CreateReservation({ containerVisible, setContainerVisibl
 
     const [showDatePicker, setShowDatePicker] = useState<boolean>(false)
     const [showTimePicker, setShowTimePicker] = useState<boolean>(false)
-
-    const [numberOfTables, setNumberOfTables] = useState<number>(1)
 
     const [modalVisible, setModalVisible] = useState(false)
     const [modalSuccess, setModalSuccess] = useState(true)
@@ -77,11 +79,9 @@ export default function CreateReservation({ containerVisible, setContainerVisibl
             "customerPhone": customerPhone,
             "restaurantTableNames": restaurantTableNames,
         }
-        console.log(data)
         setPostData(data)
 
     }, [arrivalDate, arrivalTime, numberOfGuests, customerName, customerPhone, restaurantTableNames])
-
 
     const { data: tableData, loading: tableDataLoading } = useFetch('tables')
 
@@ -89,18 +89,12 @@ export default function CreateReservation({ containerVisible, setContainerVisibl
         return <Loading />
     }
 
-    const tableNames = tableData.map((table: TableProps) => `Table: ${table.name}, Capacity: ${table.capacity}`)
-
-    const onSelectTableNames = (name: string) => {
-        setRestaurantTableNames((prev) => [...prev, name])
-    }
-
+    const tableNames = tableData.map((table: TableProps) => table.name)
 
     const createReservation = async () => {
         try {
             let response = await fetchAPI.postReservation(postData)
             if (response) {
-                console.log('post succesfully, response: ', response)
                 setModalSuccess(true)
                 setModalVisible(true)
                 setArrivalDate(new Date())
@@ -118,6 +112,14 @@ export default function CreateReservation({ containerVisible, setContainerVisibl
         }
     }
 
+    const handleClose = () => {
+        setModalVisible(false)
+        if (modalSuccess) {
+            setContainerVisible(false)
+        }
+        refetch()
+    }
+
     return (
         <Modal
             visible={containerVisible}
@@ -131,32 +133,32 @@ export default function CreateReservation({ containerVisible, setContainerVisibl
             </View>
             <ScrollView style={styles.modalContainer}>
                 <Text style={[globalStyles.textBold, styles.headerCreateForm]}>
-                    Create Reservation Request
+                    Create Reservation
                 </Text>
                 <Input
-                    text={'Customer\' Name'}
-                    styles={{ container: styles.container, text: [globalStyles.text, styles.text], input: styles.input }}
+                    text={'Customer\'s Name'}
+                    styles={{ container: styles.container, text: [globalStyles.textBold, styles.text], input: styles.input }}
                     value={customerName}
                     onChangeText={setCustomerName}
                     placeholder="Enter name" keyboard={null}
                 />
                 <Input
                     text={'Customer\'s Phone'}
-                    styles={{ container: styles.container, text: [globalStyles.text, styles.text], input: styles.input }}
+                    styles={{ container: styles.container, text: [globalStyles.textBold, styles.text], input: styles.input }}
                     value={customerPhone}
                     onChangeText={setCustomerPhone}
                     placeholder="Enter phone number"
                     keyboard={'phone-pad'}
                 />
                 <Input
-                    text={'Number of Guests'}
-                    styles={{ container: styles.container, text: [globalStyles.text, styles.text], input: styles.input }}
+                    text={'Number of Customers'}
+                    styles={{ container: styles.container, text: [globalStyles.textBold, styles.text], input: styles.input }}
                     value={numberOfGuests ? numberOfGuests.toString() : ''}
                     onChangeText={(text) => setNumberOfGuests(Number(text))}
                     placeholder="Enter number of guests"
                     keyboard={'numeric'}
                 />
-                <Text style={[globalStyles.text, styles.text, styles.arrivalText]}>Arrival time</Text>
+                <Text style={[globalStyles.textBold, styles.text, styles.arrivalText]}>Arrival time</Text>
                 <View style={[styles.calendarSection, styles.input, globalStyles.borderColor]}>
                     <Text style={[globalStyles.text]}>
                         {arrivalDate ? arrivalDate.toDateString() : ''} {arrivalTime ? arrivalTime.toLocaleTimeString() : ''}
@@ -184,29 +186,56 @@ export default function CreateReservation({ containerVisible, setContainerVisibl
                 )}
                 <Input
                     text={'Deposit Amount'}
-                    styles={{ container: styles.container, text: [globalStyles.text, styles.text], input: styles.input }}
+                    styles={{ container: styles.container, text: [globalStyles.textBold, styles.text], input: styles.input }}
                     value={deposit ? deposit.toString() : ''}
                     onChangeText={(text) => setDeposit(text)}
                     placeholder="Enter deposit amount"
                     keyboard={'numeric'}
                 />
-                {
-                    <SelectGroup options={tableNames} selectedValue={restaurantTableNames.length == 0 ? 'Select' : restaurantTableNames.toString()} onSelect={(name) => onSelectTableNames(name)} />
-                }
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
-                    <Text style={[globalStyles.text, styles.text]}>Number of Tables: </Text>
-                    <Text style={[globalStyles.text, styles.text, { marginHorizontal: 8 }]}>{numberOfTables}</Text>
-                    <TouchableOpacity onPress={() => setNumberOfTables(numberOfTables + 1)}>
-                        <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#007AFF' }}>+</Text>
-                    </TouchableOpacity>
-                    {numberOfTables > 1 && (
-                        <TouchableOpacity onPress={() => setNumberOfTables(Math.max(1, numberOfTables - 1))}>
-                            <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#007AFF', marginLeft: 8 }}>-</Text>
-                        </TouchableOpacity>
-                    )}
+                <Text style={[globalStyles.textBold, styles.text]}>Table</Text>
+                <RNPickerSelect
+                    onValueChange={(name) => {
+                        if (!name) return;
+                        if (!restaurantTableNames.includes(name)) {
+                            setRestaurantTableNames([...restaurantTableNames, name]);
+                        }
+                    }}
+                    items={tableNames.map((name: string) => ({
+                        label: `Table: ${name}, Capacity: ${GetCapacity({ tableData: tableData, tableName: name })}`,
+                        value: name,
+                        key: name,
+                        color: restaurantTableNames.includes(name) ? COLORS.selectedTable : COLORS.gray
+                    }))}
+                    placeholder={{ label: 'Select table...', value: null }}
+                    style={{
+                        inputAndroid: {
+                            fontSize: 16,
+                            paddingHorizontal: 10,
+                            paddingVertical: 8,
+                            borderWidth: 1,
+                            borderColor: isDark ? COLORS.light : COLORS.dark,
+                            borderRadius: 8,
+                            color: '#333',
+                            paddingRight: 30,
+                            marginBottom: 8,
+                        },
+                    }}
+                    value={null}
+                />
+
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginBottom: 8 }}>
+                    {restaurantTableNames.map((name) => (
+                        <View key={name} style={styles.tablesSelected}>
+                            <Text style={[globalStyles.textInverse, globalStyles.bold]}>{`Table: ${name}, Capacity: ${GetCapacity({ tableData: tableData, tableName: name })}`}</Text>
+                            <TouchableOpacity onPress={() => setRestaurantTableNames(restaurantTableNames.filter(n => n !== name))}>
+                                <Text style={[globalStyles.textBold, globalStyles.textInverse, { fontSize: 16, marginBottom: 6, marginLeft: 8}]}>×</Text>
+                            </TouchableOpacity>
+                        </View>
+                    ))}
                 </View>
+
                 <TouchableOpacity onPress={createReservation}>
-                    <Text>Create</Text>
+                    <Text style={[styles.createButton, globalStyles.textBold]}>Create</Text>
                 </TouchableOpacity>
 
                 <Modal
@@ -220,7 +249,7 @@ export default function CreateReservation({ containerVisible, setContainerVisibl
                             <Text style={[modalSuccess ? styles.popupSuccessText : styles.popupFailureText, globalStyles.bold]}>
                                 {modalSuccess ? 'Successfully create Reservation!' : 'Something gone wrong when create a Reservation, please try again!'}
                             </Text>
-                            <TouchableOpacity onPress={() => setModalVisible(false)} style={{ marginTop: 8 }}>
+                            <TouchableOpacity onPress={handleClose} style={{ marginTop: 8 }}>
                                 <Text style={[styles.closeButton, globalStyles.bold]}>Close</Text>
                             </TouchableOpacity>
                         </View>

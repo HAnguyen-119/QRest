@@ -64,6 +64,10 @@ export const ReservationList = ({ data, refetch, isCashier, setReservationId, se
         setRefreshing(false)
     }
 
+    const refresh = () => {
+        refetch()
+    }
+
     return (
         <View style={styles.listContainer}>
             <View style={adminStyles.toolBar}>
@@ -86,6 +90,7 @@ export const ReservationList = ({ data, refetch, isCashier, setReservationId, se
             <CreateReservation 
                 containerVisible={createReservationModal} 
                 setContainerVisible={setCreateReservationModal}
+                refetch={refresh}
             />
         </View>
     )
