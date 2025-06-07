@@ -25,23 +25,22 @@ export default function Table() {
 
     const { scrollHandler } = useScrollAnimated()
 
+    const fetchTables = async () => {
+        try {
+            const response = await fetchAPI.getTables(); 
+            setTableData(Object.values(response)); 
+        } catch (error) {
+            console.error("Error fetching tables:", error);
+        }
+    };
+
     useEffect(() => {
-        const fetchTables = async () => {
-            try {
-                const response = await fetchAPI.getTables(); 
-                setTableData(Object.values(response)); 
-            } catch (error) {
-                console.error("Error fetching tables:", error);
-            }
-        };
-        
         fetchTables(); 
     }, []);
 
     const changeStatus = async (id: number, status: TableStatus) => {
         try {
             const putData = await fetchAPI.putTableStatusByID(id, status)
-            console.log(putData)
 
             setTableData((prev) =>
                 prev?.map((table) =>
@@ -110,7 +109,9 @@ export default function Table() {
 
     return (
         <View style={tableStyles.container}>
-            <Searcher onSearch={handleSearch}/>
+            <View style={tableStyles.searchContainer}>
+                <Searcher onSearch={handleSearch}/>
+            </View>
             <View style={tableStyles.categories}>
                 <TableCategory category="Capacity" values={["All", "2", "4", "8"]} handlePick={handleCapacity}></TableCategory>
                 <TableCategory category="Status" values={["All", "AVAILABLE", "RESERVED", "OCCUPIED"]} handlePick={handleStatus} />

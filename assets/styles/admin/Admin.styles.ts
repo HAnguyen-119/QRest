@@ -52,10 +52,14 @@ export const createAdminStyles = ( isDark: boolean ) => {
         },
     
         searcher: {
+            flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
-            marginVertical: 10,
+            borderWidth: 2,
             width: '70%',
+            borderRadius: 24,
+            paddingLeft: 20,
+            marginVertical: 20,
         },
     
         text: {
@@ -66,12 +70,9 @@ export const createAdminStyles = ( isDark: boolean ) => {
 
         textInput: {
             fontFamily: 'Josefin-Sans',
-            borderWidth: 2,
-            width: '70%',
-            borderRadius: 20,
             paddingLeft: 12,
             height: 40,
-            color: isDark ? COLORS.dark : COLORS.light,
+            color: isDark ? COLORS.light : COLORS.dark,
             borderColor: isDark ? COLORS.light : COLORS.dark,
         },
     

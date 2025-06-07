@@ -17,6 +17,24 @@ export const createGlobalStyles = (isDark: boolean) => {
         },
         background: {
             backgroundColor: isDark ? COLORS.dark : COLORS.light
+        },
+        font: {
+            fontFamily: 'Josefin-Sans'
+        },
+        bold: {
+            fontFamily: 'Josefin-Sans-Bold'
+        },
+        italic: {
+            fontFamily: 'Josefin-Sans-Italic'
+        },
+        color: {
+            color: isDark ? COLORS.light : COLORS.dark
+        },
+        borderColor: {
+            borderColor: isDark ? COLORS.light : COLORS.dark
+        },
+        cardBackgroundColor: {
+            backgroundColor: isDark ? COLORS.cardContainerDark : COLORS.cardContainerLight
         }
     })
 }

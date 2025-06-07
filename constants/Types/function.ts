@@ -3,7 +3,7 @@ import { MenuItemIDProps } from "./menuitem"
 import { ComboItemProps } from "./order"
 import { KeyboardTypeOptions } from "react-native"
 
-export type GetData = 'orders' | 'foods' | 'categories' | 'tables' | 'combos'
+export type GetData = 'orders' | 'foods' | 'categories' | 'tables' | 'combos' | 'staff'
     | 'reservations' | 'completed_orders' | 'pending_orders' | 'payment'
 
 export interface UtilsPriceProps {
@@ -14,9 +14,9 @@ export interface UtilsPriceProps {
 
 // selectgroupoption props
 export interface SelectGroupProps {
-    options: number[],
-    selectedValue: number,
-    onSelect: (value: number) => void
+    options: string[],
+    selectedValue: string,
+    onSelect: (value: string) => void
 }
 
 export interface ToggleType {

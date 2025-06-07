@@ -4,6 +4,7 @@ import { PostOrderProps, PostPayment } from "@/constants/Types/order";
 import { OrderStatus } from "@/constants/Types/order";
 import { MenuItemProps } from "@/constants/Types/menuitem";
 import axiosClient from "./axiosClient";
+import { ReservationDataPostProps, ReservationProps } from "@/constants/Types/reservation";
 import {AccountProps} from "@/constants/Types/account";
 
 export const fetchAPI = {
@@ -15,6 +16,9 @@ export const fetchAPI = {
         return axiosClient.patch(`orders/${id}/status`, status)
     },
 
+    completeFoodOrder: (id: number, status: boolean) => {
+        return axiosClient.patch(`orders/foods/${id}/status/${status}`)
+    },
     getFood: () => {
         return axiosClient.get('foods')
     },
@@ -43,7 +47,7 @@ export const fetchAPI = {
         return axiosClient.get('categories')
     },
 
-    postOrder: (data: PostOrderProps | null) => {
+    postOrder: (data: PostOrderProps) => {
         return axiosClient.post('orders', data)
     },
 
@@ -113,10 +117,8 @@ export const fetchAPI = {
     getPendingOrders: () => {
         return axiosClient.get('orders/completed/without-payment')
     },
-    getDailyPayment: (date: Date) => {
-        return axiosClient.get('/payments/revenue/paymentList', {
-            params: { date }
-        });
+    getDailyPayment: () => {
+        return axiosClient.get('/payments/revenue/daily');
     },
     getMonthlyData: (date: Date) => {
         return axiosClient.get('/payments/revenue/monthly', {
@@ -133,7 +135,20 @@ export const fetchAPI = {
             params: { date },
         });
     },
+    getAllPayments: () => {
+        return axiosClient.get('/payments')
+    },
+    getReservationByID: (id: number) => {
+        return axiosClient.get(`/reservations/${id}`)
+    },
 
+    postReservation: (data: ReservationDataPostProps) => {
+        return axiosClient.post('/reservations', data)
+    },
+
+    putReservationById: (id: number, data: ReservationProps) => {
+        return axiosClient.put(`/reservations/${id}`, data)
+    },
     getAccounts: () => {
         return axiosClient.get('users')
     },

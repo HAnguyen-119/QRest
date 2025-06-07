@@ -14,7 +14,8 @@ export default function RootLayout() {
 
   const [loaded] = useFonts({
     'Josefin-Sans': require('../assets/fonts/Josefin_Sans/static/JosefinSans-Regular.ttf'),
-    'Josefin-Sans-Bold': require('../assets/fonts/Josefin_Sans/static/JosefinSans-Bold.ttf')
+    'Josefin-Sans-Bold': require('../assets/fonts/Josefin_Sans/static/JosefinSans-Bold.ttf'),
+    'Josefin-Sans-Italic': require('../assets/fonts/Josefin_Sans/static/JosefinSans-Italic.ttf')
   })
 
   useEffect(() => {

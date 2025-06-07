@@ -14,6 +14,12 @@ export const createAdminTableStyles = (isDark: boolean) => {
             flexDirection: "row",
             flexWrap: 'wrap',
         },
+
+        searchContainer: {
+            flexDirection: 'row',
+            justifyContent: 'center',
+            width: '100%'
+        },
     
         categories: {
             display: "flex",

@@ -21,3 +21,8 @@ export interface AdminTableProps {
     name: string,
     status: string
 }
+
+export interface GetCapacityProps {
+    tableData: TableProps[]
+    tableName: string
+}

@@ -67,12 +67,15 @@ export interface OrderDetailProps {
     visible: boolean,
     isPayment: boolean,
     setVisible: (visible: boolean) => void
+    refresh: () => void
 }
 
 export interface CashierOrderComponentProps {
     data: OrderProps[],
     setVisible: (visible: boolean) => void,
     setCurrentID: (id: number) => void
+    refreshing: boolean
+    onRefresh: () => void
 }
 
 export interface PostOrderProps {
@@ -116,4 +119,14 @@ export interface ComboViewProps {
     item: OrderItemProps,
     menuItem: ComboItemProps,
     handleChange: ((id: number, isAdd: boolean, isDelete: boolean, category: string) => void) | null 
+}
+
+export interface SearchOrderProps {
+    tables: [
+        {
+            id: number,
+            restaurantTable: RestaurantTableProps
+        }
+    ],
+    searchValue: string
 }

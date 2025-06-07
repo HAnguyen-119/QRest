@@ -14,18 +14,21 @@ export const createAdminDashboardStyles = (isDark: boolean) => {
 
         },
         welcomeText: {
-            color: COLORS.gray,
             fontSize: 12,
         },
         title: {
             fontSize: 24,
-            color: COLORS.text,
             marginBottom: 8,
         },
         dateText: {
             fontSize: 16,
             color: COLORS.gray,
             marginBottom: 24,
+        },
+        cardList: {
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between'
         },
         cardsContainer: {
             flexDirection: 'row',
@@ -62,6 +65,14 @@ export const createAdminDashboardStyles = (isDark: boolean) => {
         },
         cardContainer: {
             gap: 20,
+        },
+        expandButton: {
+            alignSelf: 'center',
+            paddingBottom: 16,
+        },
+        statisticContainer: {
+            paddingHorizontal: 16,
+            paddingVertical: 24,
         }
     });
 } 

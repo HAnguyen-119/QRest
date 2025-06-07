@@ -25,10 +25,11 @@ interface ModalTableViewProps {
     preModal: (visible: boolean) => void
     setOrderList: (list: OrderItemProps[]) => void,
     comboList: OrderItemProps[],
-    setComboList: (list: OrderItemProps[]) => void
+    setComboList: (list: OrderItemProps[]) => void,
+    reservationId: number | null
 }
 
-export default function ModalTableView({ visible, setVisible, orderList, setOrderList, comboList, setComboList, note, preModal }: ModalTableViewProps) {
+export default function ModalTableView({ visible, setVisible, orderList, setOrderList, comboList, setComboList, note, preModal, reservationId }: ModalTableViewProps) {
     const { isDark } = useThemeContext()
     const globalStyles = createGlobalStyles(isDark)
     const buttonStyles = createOrderListStyles(isDark)
@@ -53,7 +54,7 @@ export default function ModalTableView({ visible, setVisible, orderList, setOrde
         foodOrderItems: orderList,
         comboOrderItems: comboList,
         restaurantTableIds: selectedTables,
-        reservationId: null,
+        reservationId: reservationId,
     }
 
     const { loading, error, response, postData } = usePostByData('orders')

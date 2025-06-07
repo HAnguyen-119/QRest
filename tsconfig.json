@@ -17,5 +17,5 @@
     "utils/ValidateLogin.ts",
     "config/images.d.ts",
     "config/module.d.ts"
-  ]
+, "babel.config.js", "react-native.config.js", "utils/GetFooterStatistic.ts"  ]
 }
