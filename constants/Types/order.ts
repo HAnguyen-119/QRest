@@ -73,6 +73,8 @@ export interface CashierOrderComponentProps {
     data: OrderProps[],
     setVisible: (visible: boolean) => void,
     setCurrentID: (id: number) => void
+    refreshing: boolean
+    onRefresh: () => void
 }
 
 export interface PostOrderProps {

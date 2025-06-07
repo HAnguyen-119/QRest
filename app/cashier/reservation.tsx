@@ -33,7 +33,13 @@ export default function Reservation() {
 
     return (
         <View style={[styles.container, globalStyles.background]}>
-            <ReservationList data={filteredReservationList} refetch={reservationRefetch} isCashier={true} setReservationId={() => null}/>
+            <ReservationList 
+                data={filteredReservationList} 
+                refetch={reservationRefetch} 
+                isCashier={true} 
+                setReservationId={() => null}
+                setReservationListVisible={() => null}
+            />
         </View>
     )
 }
