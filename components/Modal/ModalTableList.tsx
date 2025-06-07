@@ -95,6 +95,7 @@ export default function ModalTableView({ visible, setVisible, orderList, setOrde
                 <TouchableOpacity onPress={() => setVisible(false)} style={buttonStyles.closeButton}>
                     <Icon src={closeButton} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null}/>
                 </TouchableOpacity>
+                <Text style={[globalStyles.textBold, styles.headerText]}>Table Orders</Text>
                 <ScrollView contentContainerStyle={styles.scrollViewContainer}>
                     <View style={styles.tableGrid}>
                         {availables?.map((table: TableProps) => {
@@ -112,7 +113,7 @@ export default function ModalTableView({ visible, setVisible, orderList, setOrde
                         })}
                     </View>
                 </ScrollView>
-                <TouchableOpacity onPress={handlePostOrder}>
+                <TouchableOpacity onPress={handlePostOrder} style={buttonStyles.nextButton}>
                     <Icon src={nextButton} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={0}/>
                 </TouchableOpacity>
             </View>

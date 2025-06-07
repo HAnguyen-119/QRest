@@ -15,6 +15,7 @@ export interface FoodOrder {
     quantity: number;
     price: number;
     food: MenuItemIDProps;
+    completed: boolean
 }
 
 export interface ComboFood {

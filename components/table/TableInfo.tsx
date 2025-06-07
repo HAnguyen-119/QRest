@@ -44,7 +44,7 @@ export default function TableInfo({ id, name, capacity, status, handleChangeStat
                         }]}
                         onPress={() => handleChangeStatus(id)}
                     >
-                        <Text style={tableInfoStyles.statusText}>{status}</Text>
+                        <Text style={tableInfoStyles.statusText}>{status === 'AVAILABLE' ? 'Available' : status === 'RESERVED' ? 'Reserved' : 'Occupied'}</Text>
                     </TouchableOpacity>
                 )
                 :

@@ -222,14 +222,13 @@ export default function Dashboard() {
             <a.View style={[styles.cardContainer, { height: heightValue }]}>
                 {isExpanded ? (
                     <>
-                        {/* <RevenueCard type={'daily'} date={new Date()} setType={setType} setVisible={setVisible} /> */}
+                        <RevenueCard type={'daily'} date={new Date()} setType={setType} setVisible={setVisible} />
                         <RevenueCard type={'monthly'} date={new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1)} setType={setType} setVisible={setVisible} />
                         <RevenueCard type={'quarterly'} date={new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1)} setType={setType} setVisible={setVisible} />
                         <RevenueCard type={'yearly'} date={new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1)} setType={setType} setVisible={setVisible} />
                     </>
                 ) : (
-                    <></>
-                    // <RevenueCard type={'daily'} date={new Date()} setType={setType} setVisible={setVisible} />
+                    <RevenueCard type={'daily'} date={new Date()} setType={setType} setVisible={setVisible} />
                 )}
             </a.View>
             <TouchableOpacity onPress={toggleExpand} style={styles.expandButton}>

@@ -49,11 +49,11 @@ export const createOrderListStyles = (isDark: boolean) => {
         },
         closeButton: {
             margin: 12,
+            alignSelf: 'flex-end'
         },
         nextButton: {
             alignSelf: 'flex-end',
-            justifyContent: 'center',
-            marginBottom: 12,
+            margin: 12,
         },
         summary: {
             fontSize: 24,
