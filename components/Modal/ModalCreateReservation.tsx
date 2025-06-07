@@ -20,14 +20,14 @@ export default function CreateReservation({ containerVisible, setContainerVisibl
     const [deposit, setDeposit] = useState<string>('');
     const [customerName, setCustomerName] = useState<string>("")
     const [customerPhone, setCustomerPhone] = useState<string>("")
-    const [restaurantTableIds, setRestaurantTableIds] = useState<number[]>([])
+    const [restaurantTableNames, setRestaurantTableNames] = useState<string[]>([])
     const [postData, setPostData] = useState<ReservationDataPostProps>({
         arrivalTime: CombineDateTime(arrivalDate, arrivalTime),
         numberOfGuests: numberOfGuests,
         deposit: deposit,
         customerName: customerName,
         customerPhone: customerPhone,
-        restaurantTableIds: restaurantTableIds,
+        restaurantTableNames: restaurantTableNames,
         reservationStatus: 'PENDING' as ReservationStatus
     })
 
@@ -67,12 +67,12 @@ export default function CreateReservation({ containerVisible, setContainerVisibl
             "deposit": deposit,
             "customerName": customerName,
             "customerPhone": customerPhone,
-            "restaurantTableIds": restaurantTableIds,
+            "restaurantTableNames": restaurantTableNames,
         }
         console.log(data)
         setPostData(data)
 
-    }, [arrivalDate, arrivalTime, numberOfGuests, customerName, customerPhone, restaurantTableIds])
+    }, [arrivalDate, arrivalTime, numberOfGuests, customerName, customerPhone, restaurantTableNames])
 
 
     const { data: tableData, loading: tableDataLoading } = useFetch('tables')
@@ -81,10 +81,10 @@ export default function CreateReservation({ containerVisible, setContainerVisibl
         return <Loading />
     }
 
-    const tableIds = tableData.map((table: TableProps) => table.id)
+    const tableNames = tableData.map((table: TableProps) => table.name)
 
-    const onSelectTableIds = (id: number) => {
-        setRestaurantTableIds((prev) => [...prev, id])
+    const onSelectTableNames = (name: string) => {
+        setRestaurantTableNames((prev) => [...prev, name])
     }
 
 
@@ -101,7 +101,7 @@ export default function CreateReservation({ containerVisible, setContainerVisibl
                 setCustomerPhone('')
                 setNumberOfGuests(1)
                 setDeposit('')
-                setRestaurantTableIds([])
+                setRestaurantTableNames([])
             }
         } catch (error) {
             setModalSuccess(false)
@@ -175,7 +175,7 @@ export default function CreateReservation({ containerVisible, setContainerVisibl
                     placeholder="Enter deposit amount"
                     keyboard={'numeric'}
                 />
-                <SelectGroup options={tableIds} selectedValue={restaurantTableIds.length == 0 ? 'Select' : restaurantTableIds.toString()} onSelect={(id) => onSelectTableIds(id)} />
+                <SelectGroup options={tableNames} selectedValue={restaurantTableNames.length == 0 ? 'Select' : restaurantTableNames.toString()} onSelect={(name) => onSelectTableNames(name)} />
                 <TouchableOpacity onPress={createReservation}>
                     <Text>Create Reservation</Text>
                 </TouchableOpacity>

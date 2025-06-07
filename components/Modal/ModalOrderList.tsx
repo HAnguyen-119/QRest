@@ -30,7 +30,7 @@ export default function OrderView(
     const globalStyles = createGlobalStyles(isDark)
     const [note, setNote] = useState<string | null>(null)
     
-    const [guestCount, setGuestCount] = useState<number>(1)
+    const [guestCount, setGuestCount] = useState<string>('1')
     const [tableModalVisible, setTableModalVisible] = useState<boolean>(false)
     const [reservationModalVisible, setReservationModalVisible] = useState<boolean>(false)
 
@@ -64,7 +64,7 @@ export default function OrderView(
                         />                        
                     </View>
                     <SelectGroup 
-                        options={[1, 2, 3, 4, 5, 6, 7, 8]}
+                        options={['1', '2', '3', '4', '5', '6', '7', '8']}
                         selectedValue={guestCount.toString()}
                         onSelect={setGuestCount}
                     />

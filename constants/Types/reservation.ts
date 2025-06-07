@@ -20,7 +20,7 @@ export interface ReservationDataPostProps {
     deposit: string,
     customerName: string,
     customerPhone: string,
-    restaurantTableIds: number[],
+    restaurantTableNames: string[],
     reservationStatus: ReservationStatus
 }
 

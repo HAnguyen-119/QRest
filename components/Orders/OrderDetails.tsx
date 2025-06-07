@@ -16,9 +16,10 @@ import { BUTTONSIZE } from '@/constants/size';
 import closeButton from '@/assets/images/close.png'
 
 type PaymentMethod = 'BANK_TRANSFER' | 'IN_CASH';
-export default function OrderDetailScreen({ id, data, visible, isPayment, setVisible }: OrderDetailProps) {
+export default function OrderDetailScreen({ id, data, visible, isPayment, setVisible, refresh }: OrderDetailProps) {
     const [paymentVisible, setPaymentVisible] = useState<boolean>(false)
     const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('IN_CASH');
+    const [paymentId, setPaymentId] = useState<number>(0)
 
     const { isDark } = useThemeContext()
     const styles = createOrderDetailsStyles(isDark)
@@ -43,6 +44,7 @@ export default function OrderDetailScreen({ id, data, visible, isPayment, setVis
         } catch (error) {
             console.error('Error navigating back:', error);
         }
+        refresh()
     };
 
     const handleConfirmPayment = async () => {
@@ -56,6 +58,7 @@ export default function OrderDetailScreen({ id, data, visible, isPayment, setVis
                 paymentMethod: paymentMethod
             });
             if (response) {
+                setPaymentId(Object(response).id)
                 setPaymentVisible(true)
             }
         } catch (err) {
@@ -78,25 +81,25 @@ export default function OrderDetailScreen({ id, data, visible, isPayment, setVis
                     <View style={[styles.section]}>
                         <Text style={[styles.sectionTitle, globalStyles.textBold]}>Order Information</Text>
                         <View style={[styles.infoRow]}>
-                            <Text style={[styles.label, globalStyles.font]}>Order ID:</Text>
-                            <Text style={[styles.value, globalStyles.font]}>#{selectedOrder.id}</Text>
+                            <Text style={[styles.label, globalStyles.text]}>Order ID:</Text>
+                            <Text style={[styles.value, globalStyles.text]}>#{selectedOrder.id}</Text>
                         </View>
                         <View style={styles.infoRow}>
-                            <Text style={[styles.label, globalStyles.font]}>Table:</Text>
-                            <Text style={[styles.value, globalStyles.font]}>{selectedOrder.tableOrders.map(it => it.restaurantTable.name)}</Text>
+                            <Text style={[styles.label, globalStyles.text]}>Table:</Text>
+                            <Text style={[styles.value, globalStyles.text]}>{selectedOrder.tableOrders.map(it => it.restaurantTable.name)}</Text>
                         </View>
                         <View style={styles.infoRow}>
-                            <Text style={[styles.label, globalStyles.font]}>Order Time:</Text>
-                            <Text style={[styles.value, globalStyles.font]}>{selectedOrder.orderTime.toString()}</Text>
+                            <Text style={[styles.label, globalStyles.text]}>Order Time:</Text>
+                            <Text style={[styles.value, globalStyles.text]}>{selectedOrder.orderTime.toString()}</Text>
                         </View>
                         <View style={styles.infoRow}>
-                            <Text style={[styles.label, globalStyles.font]}>Status:</Text>
-                            <Text style={[styles.value, styles.status, globalStyles.font]}>{selectedOrder.orderStatus}</Text>
+                            <Text style={[styles.label, globalStyles.text]}>Status:</Text>
+                            <Text style={[styles.value, styles.status, globalStyles.text]}>{selectedOrder.orderStatus}</Text>
                         </View>
                         {selectedOrder.note && (
                             <View style={styles.infoRow}>
-                                <Text style={[styles.label, globalStyles.font]}>Note:</Text>
-                                <Text style={[styles.value, globalStyles.font]}>{selectedOrder.note}</Text>
+                                <Text style={[styles.label, globalStyles.text]}>Note:</Text>
+                                <Text style={[styles.value, globalStyles.text]}>{selectedOrder.note}</Text>
                             </View>
                         )}
                     </View>
@@ -106,26 +109,26 @@ export default function OrderDetailScreen({ id, data, visible, isPayment, setVis
                         {selectedOrder.foodOrders.map((foodOrder, index) => (
                             <View key={index} style={styles.itemContainer}>
                                 <View style={styles.itemHeader}>
-                                    <Text style={[styles.itemName, globalStyles.font]}>{foodOrder.food.name}</Text>
-                                    <Text style={[styles.itemPrice, globalStyles.font]}>${foodOrder.price}</Text>
+                                    <Text style={[styles.itemName, globalStyles.text]}>{foodOrder.food.name}</Text>
+                                    <Text style={[styles.itemPrice, globalStyles.text]}>${foodOrder.price}</Text>
                                 </View>
-                                <Text style={[styles.itemQuantity, globalStyles.font]}>Quantity: {foodOrder.quantity}</Text>
+                                <Text style={[styles.itemQuantity, globalStyles.text]}>Quantity: {foodOrder.quantity}</Text>
                             </View>
                         ))}
                     </View>
                     {selectedOrder.comboOrders.length > 0 &&
                         <View style={styles.section}>
-                            <Text style={[styles.sectionTitle, globalStyles.font]}>Combo Items</Text>
+                            <Text style={[styles.sectionTitle, globalStyles.text]}>Combo Items</Text>
                             {selectedOrder.comboOrders.map((comboOrder, index) => (
                                 <View key={index} style={styles.itemContainer}>
                                     <View style={styles.itemHeader}>
-                                        <Text style={[styles.itemName, globalStyles.font]}>{comboOrder.combo.name}</Text>
-                                        <Text style={[styles.itemPrice, globalStyles.font]}>${comboOrder.price}</Text>
+                                        <Text style={[styles.itemName, globalStyles.text]}>{comboOrder.combo.name}</Text>
+                                        <Text style={[styles.itemPrice, globalStyles.text]}>${comboOrder.price}</Text>
                                     </View>
-                                    <Text style={[styles.itemQuantity, globalStyles.font]}>Quantity: {comboOrder.quantity}</Text>
+                                    <Text style={[styles.itemQuantity, globalStyles.text]}>Quantity: {comboOrder.quantity}</Text>
                                     <View style={styles.comboItems}>
                                         {comboOrder.combo.comboFoods.map((comboFood, foodIndex) => (
-                                            <Text key={foodIndex} style={[styles.comboFoodItem, globalStyles.font]}>
+                                            <Text key={foodIndex} style={[styles.comboFoodItem, globalStyles.text]}>
                                                 • {comboFood.food.name} (x{comboFood.quantity})
                                             </Text>
                                         ))}
@@ -138,95 +141,101 @@ export default function OrderDetailScreen({ id, data, visible, isPayment, setVis
 
                     <View style={styles.totalSection}>
                         <Text style={styles.sectionTitle}>Total Amount</Text>
-                        <Text style={[styles.totalPrice, globalStyles.font]}>${selectedOrder.totalPrice}</Text>
+                        <Text style={[styles.totalPrice, globalStyles.bold]}>${selectedOrder.totalPrice}</Text>
                     </View>
-                    {isPayment && <View style={styles.section}>
-                        <Text style={styles.sectionTitle}>Payment Method</Text>
-                        <View style={styles.paymentMethods}>
-                            <TouchableOpacity
-                                style={[
-                                    styles.paymentMethod,
-                                    paymentMethod === 'IN_CASH' && styles.selectedPayment
-                                ]}
-                                onPress={() => setPaymentMethod('IN_CASH')}
-                            >
-                                <Text style={[
-                                    styles.paymentMethodText,
-                                    paymentMethod === 'IN_CASH' && styles.selectedPaymentText
-                                , globalStyles.font]}>Cash</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={[
-                                    styles.paymentMethod,
-                                    paymentMethod === 'BANK_TRANSFER' && styles.selectedPayment
-                                ]}
-                                onPress={() => setPaymentMethod('BANK_TRANSFER')}
-                            >
-                                <Text style={[
-                                    styles.paymentMethodText,
-                                    paymentMethod === 'BANK_TRANSFER' && styles.selectedPaymentText
-                                , globalStyles.font]}>Bank Transfer</Text>
-                            </TouchableOpacity>
-                        </View>
-                        {paymentMethod === 'BANK_TRANSFER' && (
-                            <View style={styles.container}>
-                                <Image
-                                    source={{
-                                        uri: `https://img.vietqr.io/image/BIDV-4506483070-print.jpg?amount=${convertUSDtoVND(selectedOrder.totalPrice)}&addInfo=donate%20di&accountName=Do%20Dinh%20Dung%20`
-                                    }}
-                                    style={{
-                                        flex: 1,
-                                        alignSelf: 'center',
-                                        width: '80%',
-                                        height: undefined, // tránh dùng 'auto' trong React Native, height undefined sẽ tự động co theo tỉ lệ width
-                                        aspectRatio: 1,    // hoặc tùy tỉ lệ bạn muốn, ví dụ 1 cho vuông, 1.5 cho hình chữ nhật
-                                        resizeMode: 'contain'
-                                    }}
-                                />
-                            </View>
-                        )}
+                    {isPayment &&
+                        <>
+                            <View style={[styles.verticalLine, globalStyles.borderColor]}></View>
+                            <View style={styles.section}>
+                                <Text style={styles.sectionTitle}>Payment Method</Text>
+                                <View style={styles.paymentMethods}>
+                                    <TouchableOpacity
+                                        style={[
+                                            styles.paymentMethod,
+                                            paymentMethod === 'IN_CASH' && styles.selectedPayment
+                                            , globalStyles.borderColor]}
+                                        onPress={() => setPaymentMethod('IN_CASH')}
+                                    >
+                                        <Text style={[
+                                            styles.paymentMethodText,
+                                            paymentMethod === 'IN_CASH' && styles.selectedPaymentText
+                                            , globalStyles.text]}>Cash</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        style={[
+                                            styles.paymentMethod,
+                                            paymentMethod === 'BANK_TRANSFER' && styles.selectedPayment
+                                            , globalStyles.borderColor]}
+                                        onPress={() => setPaymentMethod('BANK_TRANSFER')}
+                                    >
+                                        <Text style={[
+                                            styles.paymentMethodText,
+                                            paymentMethod === 'BANK_TRANSFER' && styles.selectedPaymentText
+                                            , globalStyles.text]}>Bank Transfer</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                {paymentMethod === 'BANK_TRANSFER' && (
+                                    <View style={[styles.container, { paddingTop: 32 }]}>
+                                        <Image
+                                            source={{
+                                                uri: `https://img.vietqr.io/image/BIDV-4506483070-print.jpg?amount=${convertUSDtoVND(selectedOrder.totalPrice)}&addInfo=donate%20di&accountName=Do%20Dinh%20Dung%20`
+                                            }}
+                                            style={{
+                                                flex: 1,
+                                                alignSelf: 'center',
+                                                width: '100%',
+                                                height: undefined, // tránh dùng 'auto' trong React Native, height undefined sẽ tự động co theo tỉ lệ width
+                                                aspectRatio: 1,    // hoặc tùy tỉ lệ bạn muốn, ví dụ 1 cho vuông, 1.5 cho hình chữ nhật
+                                                resizeMode: 'contain'
+                                            }}
+                                        />
+                                    </View>
+                                )}
 
-                        <TouchableOpacity
-                            style={[styles.confirmButton]}
-                            onPress={handleConfirmPayment}
-                        >
-                            <Text style={styles.confirmButtonText}>
-                                {'Confirm Payment'}
-                            </Text>
-                        </TouchableOpacity>
-                    </View>}
+                                <TouchableOpacity
+                                    style={[styles.confirmButton]}
+                                    onPress={handleConfirmPayment}
+                                >
+                                    <Text style={[styles.confirmButtonText, globalStyles.text]}>
+                                        {'Confirm Payment'}
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                        </>
+                    }
 
                 </ScrollView>
                 <Modal
                     visible={paymentVisible}
                     transparent={true}
-                    animationType='slide'
+                    animationType='fade'
                     onRequestClose={() => setPaymentVisible(false)}
                 >
-                    <View style={styles.container}>
+                    <View style={[styles.container, globalStyles.background]}>
                         <View style={styles.card}>
-                            <Text style={styles.title}>Payment Successful!</Text>
-                            <Text style={styles.subtitle}>Order has been paid successfully</Text>
+                            <Text style={[styles.title, globalStyles.textBold]}>Payment Successful!</Text>
+                            <View style={styles.paymentContent}>
+                                <View style={styles.qrContainer}>
+                                    <Image
+                                        source={{
+                                            uri: `http://34.87.113.245:18080/api/v1/payments/${paymentId}/qrcode`
+                                        }}
+                                        style={styles.qrCode}
+                                        resizeMode="contain"
+                                    />
+                                </View>
 
-                            <View style={styles.qrContainer}>
-                                <Image
-                                    source={{
-                                        uri: `http://34.87.113.245:18080/api/v1/payments/${id}/qrcode`
-                                    }}
-                                    style={styles.qrCode}
-                                    resizeMode="contain"
-                                />
+                                <Text style={[styles.message, globalStyles.italic]}>
+                                    This QR code contains information about your payment
+                                </Text>
                             </View>
 
-                            <Text style={styles.message}>
-                                This QR code contains information about your payment
-                            </Text>
 
                             <TouchableOpacity
                                 style={styles.button}
                                 onPress={handleBackToOrders}
                             >
-                                <Text style={styles.buttonText}>
+                                <Text style={[styles.buttonText, globalStyles.bold]}>
                                     {'Back to Orders'}
                                 </Text>
                             </TouchableOpacity>

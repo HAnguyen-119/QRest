@@ -33,5 +33,6 @@ export const COLORS = {
     confirmSection: '#d3d3d3',
     modalSuccessText: '#4BB543',
     modalFailureText: '#D94343',
-    closeModalReservationButton: "#007AFF"
+    closeModalReservationButton: "#007AFF",
+    priceColor: '#00af50'
 }

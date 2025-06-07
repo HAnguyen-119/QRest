@@ -11,6 +11,7 @@ import { View, Text, TouchableOpacity, ScrollView, RefreshControl } from "react-
 import Animated from "react-native-reanimated";
 import Loading from "@/components/Loading";
 import { createGlobalStyles } from "@/assets/styles/Global.styles";
+import { SearchOrder } from "@/utils/SearchOrder";
 
 export default function Dashboard() {
     const [searchValue, setSearchValue] = useState<string>('')
@@ -33,7 +34,9 @@ export default function Dashboard() {
         const orderDate = new Date(order.orderTime)
         return (orderDate.getDay() === today.getDay() &&
             orderDate.getMonth() === today.getMonth() &&
-            orderDate.getFullYear() === today.getFullYear())
+            orderDate.getFullYear() === today.getFullYear() &&
+            SearchOrder({ tables: order.tableOrders, searchValue: searchValue })
+        )
     })
     if (!processedOrders) {
         return <Loading />
@@ -49,6 +52,10 @@ export default function Dashboard() {
         setRefreshing(false)
     }
 
+    const refresh = () => {
+        orderRefresh()
+    }
+
     return (
         <View
             style={styles.container}
@@ -61,7 +68,7 @@ export default function Dashboard() {
             </Text>
 
             {processedOrders.length == 0 && 
-                <Text style={[globalStyles.text]}>Oops, there's no orders that are pending today!</Text>
+                <Text style={[globalStyles.text]}>Oops, there's no orders that are pending now!</Text>
             }
 
             <CashierOrderList 
@@ -71,7 +78,15 @@ export default function Dashboard() {
                 refreshing={refreshing}
                 onRefresh={onRefresh}
             />
-            {currentID && <OrderDetailScreen id={currentID} data={processedOrders} visible={visible} isPayment={true} setVisible={setVisible} />}
+            {currentID && 
+            <OrderDetailScreen 
+                id={currentID} 
+                data={processedOrders} 
+                visible={visible} 
+                isPayment={true} 
+                setVisible={setVisible} 
+                refresh={refresh}
+            />}
         </View>
     )
 }

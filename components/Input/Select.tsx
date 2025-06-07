@@ -10,7 +10,7 @@ export default function SelectGroup({ options, selectedValue, onSelect }: Select
     const [isDropdownVisible, setIsDropdownVisible] = useState(false); 
     const globalStyles = createGlobalStyles(isDark)
 
-    const handleSelect = (option: number) => {
+    const handleSelect = (option: string) => {
         onSelect(option)
         setIsDropdownVisible(false)
     }

@@ -10,6 +10,7 @@ import { createAdminStyles } from "@/assets/styles/admin/Admin.styles";
 import { useState } from "react";
 import Icon from "react-native-vector-icons/Ionicons";
 import CreateReservation from "../Modal/ModalCreateReservation";
+import { SearchOrder } from "@/utils/SearchOrder";
 
 export const ReservationList = ({ data, refetch, isCashier, setReservationId, setReservationListVisible }: ReservationListProps) => {
     const [search, setSearch] = useState<string>("")
@@ -29,7 +30,12 @@ export const ReservationList = ({ data, refetch, isCashier, setReservationId, se
             )
         }
         return (
-            <ReservationItem id={reservation.id} isCashier={isCashier} setReservationId={setReservationId} setReservationListVisible={setReservationListVisible}/>
+            <ReservationItem 
+                id={reservation.id} 
+                isCashier={isCashier} 
+                setReservationId={setReservationId} 
+                setReservationListVisible={setReservationListVisible}
+            />
         )
     }
 
@@ -40,7 +46,12 @@ export const ReservationList = ({ data, refetch, isCashier, setReservationId, se
     }
 
     const searchData = data.filter((reservation) => {
-        return reservation.customerName.toLowerCase().startsWith(search.toLowerCase())
+        return (
+            reservation.customerName.toLowerCase().startsWith(search.toLowerCase()) || 
+            reservation.customerPhone.startsWith(search) || 
+            SearchOrder({ tables: reservation.tableReservations, searchValue: search })
+            
+        )
     })
 
     const handleAddReservation = () => {

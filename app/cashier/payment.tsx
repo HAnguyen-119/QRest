@@ -5,14 +5,17 @@ import OrderDetailScreen from '@/components/Orders/OrderDetails';
 import { useThemeContext } from '@/contexts/ThemeContext';
 import { createOrderListStyles } from '@/assets/styles/cashier/OrderList.styles';
 import CashierOrderList from '@/components/Cashier/CashierOrderList';
-import { useFocusEffect } from '@react-navigation/native';
 import { OrderProps } from '@/constants/Types/order';
 import { createGlobalStyles } from '@/assets/styles/Global.styles';
+import Searcher from '@/components/menu/Searcher';
+import { SearchOrder } from '@/utils/SearchOrder';
 
 export default function CashierScreen() {
     const [visible, setVisible] = useState<boolean>(false)
     const [currentID, setCurrentID] = useState<number | null>(null)
     const [refreshing, setRefreshing] = useState<boolean>(false)
+    const [searchValue, setSearchValue] = useState<string>('')
+
 
     const { isDark } = useThemeContext()
     const styles = createOrderListStyles(isDark)
@@ -28,7 +31,9 @@ export default function CashierScreen() {
         return (
             today.getDay() === orderDate.getDay() &&
             today.getMonth() === orderDate.getMonth() &&
-            today.getFullYear() === orderDate.getFullYear()
+            today.getFullYear() === orderDate.getFullYear() &&
+            SearchOrder({ tables: order.tableOrders, searchValue: searchValue })
+
         )
     })
 
@@ -38,23 +43,31 @@ export default function CashierScreen() {
         setRefreshing(false)
     }
 
+    const handleSearch = (value: string) => {
+        setSearchValue(value)
+    }
+
     return (
         <View style={styles.container}>
+            <View style={styles.toolbar}>
+                <Searcher onSearch={handleSearch} />
+            </View>
             <Text style={[styles.title, globalStyles.textBold]}>Completed Orders</Text>
-            <CashierOrderList 
-                data={filteredData} 
-                setVisible={setVisible} 
-                setCurrentID={setCurrentID} 
+            <CashierOrderList
+                data={filteredData}
+                setVisible={setVisible}
+                setCurrentID={setCurrentID}
                 refreshing={refreshing}
                 onRefresh={onRefresh}
             />
             {currentID && (
-                <OrderDetailScreen 
-                    id={currentID} 
-                    data={filteredData} 
-                    visible={visible} 
-                    isPayment={true} 
-                    setVisible={setVisible} 
+                <OrderDetailScreen
+                    id={currentID}
+                    data={filteredData}
+                    visible={visible}
+                    isPayment={false}
+                    setVisible={setVisible}
+                    refresh={() => null}
                 />
             )}
         </View>
