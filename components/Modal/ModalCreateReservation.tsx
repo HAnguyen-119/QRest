@@ -1,5 +1,5 @@
 import { useThemeContext } from "@/contexts/ThemeContext"
-import { View, Text, TextInput, TouchableOpacity, Modal } from "react-native"
+import { View, Text, TextInput, TouchableOpacity, Modal, ScrollView } from "react-native"
 import { createReservationViewStyles } from "@/assets/styles/cashier/Reservation.styles"
 import Input from "@/components/Input/Input"
 import { useEffect, useState } from "react"
@@ -12,6 +12,11 @@ import { CreateReservationProps, ReservationDataPostProps, ReservationStatus } f
 import { CombineDateTime } from "@/utils/CombineDateTime"
 import { fetchAPI } from "@/services/fetchAPI"
 import Loading from "../Loading"
+import Icon from "../Icon/Icon"
+import Ionicons from "react-native-vector-icons/Ionicons"
+
+import closeButton from '@/assets/images/close.png'
+import { BUTTONSIZE } from "@/constants/size"
 
 export default function CreateReservation({ containerVisible, setContainerVisible }: CreateReservationProps) {
     const [arrivalDate, setArrivalDate] = useState<Date>(new Date())
@@ -34,12 +39,15 @@ export default function CreateReservation({ containerVisible, setContainerVisibl
     const [showDatePicker, setShowDatePicker] = useState<boolean>(false)
     const [showTimePicker, setShowTimePicker] = useState<boolean>(false)
 
+    const [numberOfTables, setNumberOfTables] = useState<number>(1)
+
     const [modalVisible, setModalVisible] = useState(false)
     const [modalSuccess, setModalSuccess] = useState(true)
 
     const { isDark } = useThemeContext()
     const styles = createReservationViewStyles(isDark)
     const globalStyles = createGlobalStyles(isDark)
+
 
     const handleSelectedDate = (event: DateTimePickerEvent, selectedDate?: Date | undefined) => {
         if (event.type === 'set') {
@@ -81,7 +89,7 @@ export default function CreateReservation({ containerVisible, setContainerVisibl
         return <Loading />
     }
 
-    const tableNames = tableData.map((table: TableProps) => table.name)
+    const tableNames = tableData.map((table: TableProps) => `Table: ${table.name}, Capacity: ${table.capacity}`)
 
     const onSelectTableNames = (name: string) => {
         setRestaurantTableNames((prev) => [...prev, name])
@@ -116,11 +124,13 @@ export default function CreateReservation({ containerVisible, setContainerVisibl
             onRequestClose={() => setContainerVisible(false)}
             animationType="slide"
         >
-            <View style={styles.modalContainer}>
-                <TouchableOpacity onPress={() => setContainerVisible(false)}>
-                    <Text>Close</Text>
+            <View style={globalStyles.background}>
+                <TouchableOpacity onPress={() => setContainerVisible(false)} style={styles.navigateButton}>
+                    <Icon src={closeButton} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null} />
                 </TouchableOpacity>
-                <Text>
+            </View>
+            <ScrollView style={styles.modalContainer}>
+                <Text style={[globalStyles.textBold, styles.headerCreateForm]}>
                     Create Reservation Request
                 </Text>
                 <Input
@@ -146,9 +156,15 @@ export default function CreateReservation({ containerVisible, setContainerVisibl
                     placeholder="Enter number of guests"
                     keyboard={'numeric'}
                 />
-                <TouchableOpacity onPress={() => setShowDatePicker(true)}>
-                    <Text>Open Date time picker</Text>
-                </TouchableOpacity>
+                <Text style={[globalStyles.text, styles.text, styles.arrivalText]}>Arrival time</Text>
+                <View style={[styles.calendarSection, styles.input, globalStyles.borderColor]}>
+                    <Text style={[globalStyles.text]}>
+                        {arrivalDate ? arrivalDate.toDateString() : ''} {arrivalTime ? arrivalTime.toLocaleTimeString() : ''}
+                    </Text>
+                    <TouchableOpacity onPress={() => setShowDatePicker(true)}>
+                        <Ionicons name="calendar-outline" size={40} style={globalStyles.color} />
+                    </TouchableOpacity>
+                </View>
                 {showDatePicker && (
                     <DateTimePicker
                         value={arrivalDate || new Date()}
@@ -166,7 +182,6 @@ export default function CreateReservation({ containerVisible, setContainerVisibl
                         onChange={handleSelectedTime}
                     />
                 )}
-                <Text>{arrivalDate ? arrivalDate.toDateString() : ''} {arrivalTime ? arrivalTime.toLocaleTimeString() : ''}</Text>
                 <Input
                     text={'Deposit Amount'}
                     styles={{ container: styles.container, text: [globalStyles.text, styles.text], input: styles.input }}
@@ -175,9 +190,23 @@ export default function CreateReservation({ containerVisible, setContainerVisibl
                     placeholder="Enter deposit amount"
                     keyboard={'numeric'}
                 />
-                <SelectGroup options={tableNames} selectedValue={restaurantTableNames.length == 0 ? 'Select' : restaurantTableNames.toString()} onSelect={(name) => onSelectTableNames(name)} />
+                {
+                    <SelectGroup options={tableNames} selectedValue={restaurantTableNames.length == 0 ? 'Select' : restaurantTableNames.toString()} onSelect={(name) => onSelectTableNames(name)} />
+                }
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
+                    <Text style={[globalStyles.text, styles.text]}>Number of Tables: </Text>
+                    <Text style={[globalStyles.text, styles.text, { marginHorizontal: 8 }]}>{numberOfTables}</Text>
+                    <TouchableOpacity onPress={() => setNumberOfTables(numberOfTables + 1)}>
+                        <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#007AFF' }}>+</Text>
+                    </TouchableOpacity>
+                    {numberOfTables > 1 && (
+                        <TouchableOpacity onPress={() => setNumberOfTables(Math.max(1, numberOfTables - 1))}>
+                            <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#007AFF', marginLeft: 8 }}>-</Text>
+                        </TouchableOpacity>
+                    )}
+                </View>
                 <TouchableOpacity onPress={createReservation}>
-                    <Text>Create Reservation</Text>
+                    <Text>Create</Text>
                 </TouchableOpacity>
 
                 <Modal
@@ -197,7 +226,7 @@ export default function CreateReservation({ containerVisible, setContainerVisibl
                         </View>
                     </View>
                 </Modal>
-            </View>
+            </ScrollView>
         </Modal>
     )
 }
