@@ -13,6 +13,7 @@ import UpdateAccountView from "@/components/admin/UpdateAccountView";
 import AccountCategory from "@/components/account/AccountCategory";
 import AccountInfo from "@/components/account/AccountInfo";
 import {createAccountStyles} from "@/assets/styles/account/Account.styles";
+import {useRefresh} from "@/contexts/RefreshContext";
 
 export default function Account() {
     const [accountData, setAccountData] = useState<any>(null);
@@ -21,7 +22,7 @@ export default function Account() {
     const [isAdd, setIsAdd] = useState<boolean>(false)
     const [isEdit, setIsEdit] = useState<boolean>(false)
     const [isDelete, setIsDelete] = useState<boolean>(false)
-    const [isRefresh, setIsRefresh] = useState<boolean>(false)
+    const {isRefresh, setIsRefresh} = useRefresh();
 
     const [role, setRole] = useState<string>("All");
     const [search, setSearch] = useState<string>("");

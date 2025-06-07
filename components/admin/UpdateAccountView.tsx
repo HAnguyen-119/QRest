@@ -79,6 +79,7 @@ export default function UpdateAccountView({accountData, account, isAdding, handl
             await fetchAPI.editAccount(newCreatedAccount, staff.id, newAccount);
             handleRefresh()
             handleCancel()
+            setIsCreated(false);
         } catch (error) {
             console.error(error);
         }

@@ -11,6 +11,7 @@ import {fetchAPI} from "@/services/fetchAPI";
 import Icon from "react-native-vector-icons/Ionicons";
 import UpdateStaffInfoView from "@/components/admin/UpdateStaffInfoView";
 import DeleteConfirmView from "@/components/admin/DeleteConfirmView";
+import {useRefresh} from "@/contexts/RefreshContext";
 
 
 export default function Staff() {
@@ -23,7 +24,8 @@ export default function Staff() {
     const [isAdd, setIsAdd] = useState<boolean>(false)
     const [isEdit, setIsEdit] = useState<boolean>(false)
     const [isDelete, setIsDelete] = useState<boolean>(false)
-    const [isRefresh, setIsRefresh] = useState<boolean>(false)
+    const {isRefresh, setIsRefresh} = useRefresh();
+
 
     const { isDark } = useThemeContext()
     const adminStyles = createAdminStyles(isDark)

@@ -12,6 +12,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import {fetchAPI} from "@/services/fetchAPI";
 import UpdateTableView from "@/components/admin/UpdateTableView";
 import DeleteConfirmView from "@/components/admin/DeleteConfirmView";
+import {useRefresh} from "@/contexts/RefreshContext";
 
 
 export default function Table() {
@@ -20,7 +21,7 @@ export default function Table() {
     const [isAdd, setIsAdd] = useState<boolean>(false)
     const [isEdit, setIsEdit] = useState<boolean>(false)
     const [isDelete, setIsDelete] = useState<boolean>(false)
-    const [isRefresh, setIsRefresh] = useState<boolean>(false)
+    const {isRefresh, setIsRefresh} = useRefresh();
 
     const [status, setStatus] = useState<string>("All");
     const [capacity, setCapacity] = useState<string>("All");
