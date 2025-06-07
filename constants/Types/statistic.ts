@@ -5,6 +5,8 @@ export type StatisticType = 'food' | 'combo' | 'order' | 'table' | 'payment' | '
 
 export type FooterType = 'order' | 'payment'
 
+export type PeriodType = 'DAILY' | 'MONTHLY' | 'QUARTERLY' | 'YEARLY'
+
 export interface StatisticProps {
     type: StatisticType
 }
@@ -13,4 +15,11 @@ export interface FooterStatisticProps {
     type: StatisticType
     orderData: OrderProps[]
     paymentData: Payment[]
+}
+
+export interface DailyDataProps {
+    endDate: Date
+    periodType: PeriodType
+    startDate: Date
+    totalRevenue: number
 }

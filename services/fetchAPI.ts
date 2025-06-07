@@ -113,10 +113,8 @@ export const fetchAPI = {
     getPendingOrders: () => {
         return axiosClient.get('orders/completed/without-payment')
     },
-    getDailyPayment: (date: Date) => {
-        return axiosClient.get('/payments/revenue/paymentList', {
-            params: { date }
-        });
+    getDailyPayment: () => {
+        return axiosClient.get('/payments/revenue/daily');
     },
     getMonthlyData: (date: Date) => {
         return axiosClient.get('/payments/revenue/monthly', {

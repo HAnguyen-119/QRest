@@ -6,6 +6,9 @@ export const createOrderDetailsStyles = (isDark: boolean) => {
         container: {
             flex: 1,
         },
+        content: {
+            height: '110%'
+        },
         section: {
             padding: 16,
             marginBottom: 8,

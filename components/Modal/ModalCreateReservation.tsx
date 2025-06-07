@@ -5,7 +5,6 @@ import Input from "@/components/Input/Input"
 import { useEffect, useState } from "react"
 import { createGlobalStyles } from "@/assets/styles/Global.styles"
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker'
-import SelectGroup from "@/components/Input/Select"
 import { useFetch } from "@/hooks/useFetch"
 import { TableProps } from "@/constants/Types/table"
 import { CreateReservationProps, ReservationDataPostProps, ReservationStatus } from "@/constants/Types/reservation"

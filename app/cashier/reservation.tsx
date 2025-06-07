@@ -22,7 +22,7 @@ export default function Reservation() {
 
     const today = new Date()
     const filteredReservationList = (Object.values(reservationData) as ReservationProps[]).filter((order: ReservationProps) => {
-        const orderDate = new Date(order.arrivalTime)
+        const orderDate = new Date(order.bookingTime)
         console.log('order date',orderDate)
         return (
             orderDate.getDate() === today.getDate() &&

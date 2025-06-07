@@ -91,5 +91,9 @@ export const createOrderListStyles = (isDark: boolean) => {
             color: isDark ? "lightgray" : "gray",
             marginTop: 4,
         },
+        orderView: {
+            height: '80%',
+            paddingVertical: 32
+        }
     })
 }

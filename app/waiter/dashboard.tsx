@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Modal } from "react-native";
+import { View, Text, TouchableOpacity, Modal, RefreshControl } from "react-native";
 import { createAdminStyles } from "@/assets/styles/admin/Admin.styles";
 import MenuItem from "@/components/menu/MenuItem";
 import MenuCategories from "@/components/menu/MenuCategories";
@@ -25,15 +25,17 @@ export default function Menu() {
     const [orderList, setOrderList] = useState<OrderItemProps[]>([])
     const [comboList, setComboList] = useState<OrderItemProps[]>([])
 
+    const [refreshing, setRefreshing] = useState<boolean>(false)
+
     const { isDark } = useThemeContext()
     const adminStyles = createAdminStyles(isDark)
     const globalStyles = createGlobalStyles(isDark)
 
     const { scrollHandler } = useScrollAnimated()
 
-    const { data: menuData } = useFetch('foods')
-    const { data: categoryData } = useFetch('categories')
-    const { data: combosData } = useFetch('combos')
+    const { data: menuData, refetch: menuRefetch } = useFetch('foods')
+    const { data: categoryData, refetch: categoryRefetch } = useFetch('categories')
+    const { data: combosData, refetch: comboRefetch } = useFetch('combos')
 
     if (!menuData || !categoryData || !combosData || !menuData) {
         return null;
@@ -107,6 +109,14 @@ export default function Menu() {
         setSearch(search);
     };
 
+    const onRefresh = () => {
+        setRefreshing(true)
+        menuRefetch()
+        categoryRefetch()
+        comboRefetch()
+        setRefreshing(false)
+    }
+
     const renderItem = ({ item }: { item: any }) => {
         return (
             <MenuItem
@@ -150,6 +160,9 @@ export default function Menu() {
                 numColumns={2}
                 onScroll={scrollHandler} 
                 scrollEventThrottle={16} 
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
+                }
             />
         </View>
     );

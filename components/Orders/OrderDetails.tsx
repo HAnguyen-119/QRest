@@ -78,66 +78,63 @@ export default function OrderDetailScreen({ id, data, visible, isPayment, setVis
                     <Icon src={closeButton} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null} />
                 </TouchableOpacity>
                 <ScrollView>
-                    <View style={[styles.section]}>
-                        <Text style={[styles.sectionTitle, globalStyles.textBold]}>Order Information</Text>
-                        <View style={[styles.infoRow]}>
-                            <Text style={[styles.label, globalStyles.text]}>Order ID:</Text>
-                            <Text style={[styles.value, globalStyles.text]}>#{selectedOrder.id}</Text>
-                        </View>
-                        <View style={styles.infoRow}>
-                            <Text style={[styles.label, globalStyles.text]}>Table:</Text>
-                            <Text style={[styles.value, globalStyles.text]}>{selectedOrder.tableOrders.map(it => it.restaurantTable.name)}</Text>
-                        </View>
-                        <View style={styles.infoRow}>
-                            <Text style={[styles.label, globalStyles.text]}>Order Time:</Text>
-                            <Text style={[styles.value, globalStyles.text]}>{selectedOrder.orderTime.toString()}</Text>
-                        </View>
-                        <View style={styles.infoRow}>
-                            <Text style={[styles.label, globalStyles.text]}>Status:</Text>
-                            <Text style={[styles.value, styles.status, globalStyles.text]}>{selectedOrder.orderStatus}</Text>
-                        </View>
-                        {selectedOrder.note && (
+                    <View style={[!isPayment && styles.content]}>
+                        <View style={[styles.section]}>
+                            <Text style={[styles.sectionTitle, globalStyles.textBold]}>Order Information</Text>
+                            <View style={[styles.infoRow]}>
+                                <Text style={[styles.label, globalStyles.text]}>Order ID:</Text>
+                                <Text style={[styles.value, globalStyles.text]}>#{selectedOrder.id}</Text>
+                            </View>
                             <View style={styles.infoRow}>
-                                <Text style={[styles.label, globalStyles.text]}>Note:</Text>
-                                <Text style={[styles.value, globalStyles.text]}>{selectedOrder.note}</Text>
+                                <Text style={[styles.label, globalStyles.text]}>Table:</Text>
+                                <Text style={[styles.value, globalStyles.text]}>{selectedOrder.tableOrders.map(it => it.restaurantTable.name)}</Text>
                             </View>
-                        )}
-                    </View>
-
-                    <View style={styles.section}>
-                        <Text style={styles.sectionTitle}>Food Items</Text>
-                        {selectedOrder.foodOrders.map((foodOrder, index) => (
-                            <View key={index} style={styles.itemContainer}>
-                                <View style={styles.itemHeader}>
-                                    <Text style={[styles.itemName, globalStyles.text]}>{foodOrder.food.name}</Text>
-                                    <Text style={[styles.itemPrice, globalStyles.text]}>${foodOrder.price}</Text>
+                            <View style={styles.infoRow}>
+                                <Text style={[styles.label, globalStyles.text]}>Order Time:</Text>
+                                <Text style={[styles.value, globalStyles.text]}>{`${selectedOrder.orderTime.toString().split('T')[0]}, ${selectedOrder.orderTime.toString().split('T')[1]}`}</Text>
+                            </View>
+                            {selectedOrder.note && (
+                                <View style={styles.infoRow}>
+                                    <Text style={[styles.label, globalStyles.text]}>Note:</Text>
+                                    <Text style={[styles.value, globalStyles.text]}>{selectedOrder.note}</Text>
                                 </View>
-                                <Text style={[styles.itemQuantity, globalStyles.text]}>Quantity: {foodOrder.quantity}</Text>
-                            </View>
-                        ))}
-                    </View>
-                    {selectedOrder.comboOrders.length > 0 &&
+                            )}
+                        </View>
+
                         <View style={styles.section}>
-                            <Text style={[styles.sectionTitle, globalStyles.text]}>Combo Items</Text>
-                            {selectedOrder.comboOrders.map((comboOrder, index) => (
+                            <Text style={styles.sectionTitle}>Food Items</Text>
+                            {selectedOrder.foodOrders.map((foodOrder, index) => (
                                 <View key={index} style={styles.itemContainer}>
                                     <View style={styles.itemHeader}>
-                                        <Text style={[styles.itemName, globalStyles.text]}>{comboOrder.combo.name}</Text>
-                                        <Text style={[styles.itemPrice, globalStyles.text]}>${comboOrder.price}</Text>
+                                        <Text style={[styles.itemName, globalStyles.text]}>{foodOrder.food.name}</Text>
+                                        <Text style={[styles.itemPrice, globalStyles.text]}>${foodOrder.price}</Text>
                                     </View>
-                                    <Text style={[styles.itemQuantity, globalStyles.text]}>Quantity: {comboOrder.quantity}</Text>
-                                    <View style={styles.comboItems}>
-                                        {comboOrder.combo.comboFoods.map((comboFood, foodIndex) => (
-                                            <Text key={foodIndex} style={[styles.comboFoodItem, globalStyles.text]}>
-                                                • {comboFood.food.name} (x{comboFood.quantity})
-                                            </Text>
-                                        ))}
-                                    </View>
+                                    <Text style={[styles.itemQuantity, globalStyles.text]}>Quantity: {foodOrder.quantity}</Text>
                                 </View>
                             ))}
                         </View>
-                    }
-
+                        {selectedOrder.comboOrders.length > 0 &&
+                            <View style={styles.section}>
+                                <Text style={[styles.sectionTitle, globalStyles.textBold]}>Combo Items</Text>
+                                {selectedOrder.comboOrders.map((comboOrder, index) => (
+                                    <View key={index} style={styles.itemContainer}>
+                                        <View style={styles.itemHeader}>
+                                            <Text style={[styles.itemName, globalStyles.text]}>{comboOrder.combo.name}</Text>
+                                            <Text style={[styles.itemPrice, globalStyles.text]}>${comboOrder.price}</Text>
+                                        </View>
+                                        <Text style={[styles.itemQuantity, globalStyles.text]}>Quantity: {comboOrder.quantity}</Text>
+                                        <View style={styles.comboItems}>
+                                            {comboOrder.combo.comboFoods.map((comboFood, foodIndex) => (
+                                                <Text key={foodIndex} style={[styles.comboFoodItem, globalStyles.text]}>
+                                                    • {comboFood.food.name} (x{comboFood.quantity})
+                                                </Text>
+                                            ))}
+                                        </View>
+                                    </View>
+                                ))}
+                            </View>
+                        }
+                    </View>
 
                     <View style={styles.totalSection}>
                         <Text style={styles.sectionTitle}>Total Amount</Text>
