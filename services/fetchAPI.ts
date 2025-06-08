@@ -11,7 +11,9 @@ export const fetchAPI = {
     getOrders: () => {
         return axiosClient.get('orders')
     },
-
+    sendNotification: (data: string) => {
+        return axiosClient.post('email/send', data)
+    },
     editOrderStatus: (id: number, status: OrderStatus) => {
         return axiosClient.patch(`orders/${id}/status`, status)
     },
