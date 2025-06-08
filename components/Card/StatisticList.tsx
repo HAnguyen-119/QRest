@@ -18,7 +18,7 @@ export default function StatisticList() {
             
             <View style={dashboardStyles.cardList}>
                 <StatisticCard type='food'/>
-                <StatisticCard type='combo'/>
+                <StatisticCard type='user'/>
                 <StatisticCard type='order'/>
                 <StatisticCard type='payment'/>
                 <StatisticCard type='staff'/>

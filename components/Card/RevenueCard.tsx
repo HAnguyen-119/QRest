@@ -4,9 +4,11 @@ import { COLORS } from "@/constants/colors";
 import { RevenueCardProps } from "@/constants/Types/revenue";
 import { DailyDataProps } from "@/constants/Types/statistic";
 import { useThemeContext } from "@/contexts/ThemeContext";
+import { useFetch } from "@/hooks/useFetch";
 import { fetchAPI } from "@/services/fetchAPI";
 import { ChangeMoneyUnit } from "@/utils/ChangeMoneyUnit";
 import { DisplayDataChart } from "@/utils/DisplayDataChart";
+import { GetCalculateTime } from "@/utils/GetFooterStatistic";
 import { getLineColor } from "@/utils/GetLineColor";
 import { GetRevenueTitle } from "@/utils/GetRevenueTitle";
 import { useEffect, useState } from "react";
@@ -16,6 +18,7 @@ import { LineChart } from "react-native-chart-kit";
 export default function RevenueCard({ type, date, setType, setVisible }: RevenueCardProps) {
     const [data, setData] = useState<number[]>(Array(30).fill(0))
     const [dailyData, setDailyData] = useState<number>(0)
+    const [weeklyData, setWeeklyData] = useState<number[]>([])
     const { isDark } = useThemeContext()
     const styles = createRevenueCardStyles(isDark)
     const globalStyles = createGlobalStyles(isDark)
@@ -54,11 +57,66 @@ export default function RevenueCard({ type, date, setType, setVisible }: Revenue
         fetchData()
     }, [type, date])
 
+    useEffect(() => {
+        const getWeeklyIncome = async () => {
+            const { previousWeek } = GetCalculateTime()
+            setWeeklyData([])
+            for (let i = 0; i < 7; i++) {
+                try {
+                    const response: DailyDataProps = Object(await fetchAPI.getRevenueByDate(new Date(previousWeek.getTime() + i * 1000 * 3600 * 24)))
+                    console.log('date', new Date(previousWeek.getTime() + i * 1000 * 3600 * 24))
+                    setWeeklyData((prev) => {
+                        if (!prev) {
+                            return [response.totalRevenue]
+                        }
+                        return [...prev, response.totalRevenue]
+                    })
+                } catch (error) {
+                    console.error('Can\'t fetch data')
+                }
+            }
+        }
+        getWeeklyIncome()
+    }, [])
 
     return (
         <TouchableOpacity style={styles.card} onPress={() => { setType(type); setVisible(true) }}>
             {type === 'daily' ?
-                <View style={{flex: 1}}><Text>{dailyData}</Text></View>
+                <>
+                    <View style={styles.topRow}>
+                        <View>
+                            <Text style={[styles.amount, globalStyles.font]}>{`$${dailyData}`}</Text>
+                            <Text style={[styles.label, globalStyles.font]}>{GetRevenueTitle(type)}</Text>
+                        </View>
+                    </View>
+                    <LineChart
+                        data={{
+                            labels: [],
+                            datasets: [{ data: weeklyData.length == 7 ? weeklyData : Array(7).fill(0) }],
+                        }}
+                        width={cardWidth}
+                        height={120}
+                        withDots={false}
+                        withInnerLines={false}
+                        withOuterLines={false}
+                        withHorizontalLabels={false}
+                        withVerticalLabels={false}
+                        withShadow={true}
+                        chartConfig={{
+                            backgroundColor: isDark ? COLORS.cardContainerDark : COLORS.cardContainerLight,
+                            backgroundGradientFrom: isDark ? COLORS.cardContainerDark : COLORS.cardContainerLight,
+                            backgroundGradientTo: isDark ? COLORS.cardContainerDark : COLORS.cardContainerLight,
+                            decimalPlaces: 0,
+                            color: () => lineColor,
+                            fillShadowGradient: lineColor,
+                            fillShadowGradientOpacity: 0.1,
+                        }}
+                        bezier
+                        style={{
+                            marginTop: 10,
+                        }}
+                    />
+                </>
                 :
                 <>
                     <View style={styles.topRow}>

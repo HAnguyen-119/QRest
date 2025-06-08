@@ -28,7 +28,8 @@ export const createAdminDashboardStyles = (isDark: boolean) => {
         cardList: {
             flexDirection: 'row',
             flexWrap: 'wrap',
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
+            marginBottom: 16
         },
         cardsContainer: {
             flexDirection: 'row',

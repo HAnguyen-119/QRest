@@ -120,6 +120,16 @@ export const fetchAPI = {
     getDailyPayment: () => {
         return axiosClient.get('/payments/revenue/daily');
     },
+    getDailyPaymentByDate: (date: Date) => {
+        return axiosClient.get('/payments/revenue/paymentList', {
+            params: { date }
+        })
+    },
+    getRevenueByDate: (date: Date) => {
+        return axiosClient.get('/payments/revenue/daily', {
+            params: { date }
+        })
+    },
     getMonthlyData: (date: Date) => {
         return axiosClient.get('/payments/revenue/monthly', {
             params: { date },

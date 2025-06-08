@@ -43,6 +43,9 @@ export const useFetch = (type: GetData) => {
                 case 'payment':
                     response = await fetchAPI.getAllPayments()
                     break
+                case 'users':
+                    response = await fetchAPI.getAccounts()
+                    break
                 default:
                     console.error(`Error: Type '${type}' not found.`);
                     return;

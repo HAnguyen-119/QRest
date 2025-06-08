@@ -4,7 +4,7 @@ export const GetRevenueTitle = (type: RevenueType) => {
     let lineText = ''
     switch (type) {
         case 'daily':
-            lineText = 'Daily Income'
+            lineText = 'Daily Income & Weekly statistic'
             break
         case 'monthly':
             lineText = 'Monthly Income'

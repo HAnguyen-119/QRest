@@ -4,7 +4,7 @@ import { ComboItemProps } from "./order"
 import { KeyboardTypeOptions } from "react-native"
 
 export type GetData = 'orders' | 'foods' | 'categories' | 'tables' | 'combos' | 'staff'
-    | 'reservations' | 'completed_orders' | 'pending_orders' | 'payment'
+    | 'reservations' | 'completed_orders' | 'pending_orders' | 'payment' | 'users'
 
 export interface UtilsPriceProps {
     data: MenuItemIDProps[] | ComboItemProps[],

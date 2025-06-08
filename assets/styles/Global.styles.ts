@@ -35,6 +35,12 @@ export const createGlobalStyles = (isDark: boolean) => {
         },
         cardBackgroundColor: {
             backgroundColor: isDark ? COLORS.cardContainerDark : COLORS.cardContainerLight
+        },
+        cardBackgroundColorReverse: {
+            backgroundColor: !isDark ? COLORS.cardContainerDark : COLORS.cardContainerLight
+        },
+        borderColorReverse: {
+            borderColor: !isDark ? COLORS.light : COLORS.dark
         }
     })
 }
