@@ -17,11 +17,11 @@ export const validateLogin = async ( username : any, password :any ) => {
             console.log("JWT Token:", token);
             return token;
         } else {
-            console.error("Login successful but no token returned.");
+            console.log("Login successful but no token returned.");
         }
 
     } catch (error) {
-        console.error("Error during login:", error);
+        console.log(error);
     }
 
     return null;
