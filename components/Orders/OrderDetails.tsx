@@ -80,7 +80,7 @@ export default function OrderDetailScreen({ id, data, visible, isPayment, setVis
                     <Icon src={closeButton} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null} />
                 </TouchableOpacity>
                 <ScrollView>
-                    <View style={[!isPayment && styles.content]}>
+                    <View style={[]}>
                         <View style={[styles.section]}>
                             <Text style={[styles.sectionTitle, globalStyles.textBold]}>Order Information</Text>
                             <View style={[styles.infoRow]}>

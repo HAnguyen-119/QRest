@@ -10,8 +10,13 @@ export interface ReservationProps {
     deposit: number,
     customerName: string,
     customerPhone: string,
-    tableReservations: [{ id: number, restaurantTable: RestaurantTableProps }],
+    tableReservations: TableReservations[],
     reservationStatus: ReservationStatus
+}
+
+export interface TableReservations {
+    id: number,
+    restaurantTable: RestaurantTableProps
 }
 
 export interface ReservationDataPostProps {
@@ -26,7 +31,7 @@ export interface ReservationDataPostProps {
 
 export interface ReservationFormProps {
     visible: boolean,
-    setVisible: (visible: boolean) => void 
+    setVisible: (visible: boolean) => void
     setReservationId: (id: number | null) => void
 }
 

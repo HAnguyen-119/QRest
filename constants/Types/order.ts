@@ -1,5 +1,6 @@
 import { CategoryProps } from "./category";
 import { MenuItemIDProps } from "./menuitem";
+import { TableReservations } from "./reservation";
 import { RestaurantTableProps } from "./table";
 
 export type OrderStatus = 'PENDING' | 'PROCESSING' | 'PROCESSED' | 'COMPLETED' | 'CANCELED'
@@ -123,11 +124,6 @@ export interface ComboViewProps {
 }
 
 export interface SearchOrderProps {
-    tables: [
-        {
-            id: number,
-            restaurantTable: RestaurantTableProps
-        }
-    ],
+    tables: TableReservations[],
     searchValue: string
 }
