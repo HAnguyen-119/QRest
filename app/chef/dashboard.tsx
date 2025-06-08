@@ -2,15 +2,19 @@ import React, { useState } from "react";
 import { Text, ScrollView, StyleSheet, RefreshControl, View } from "react-native";
 import OrderItem from "@/components/OrdersChef/OrderItem"; // if using Expo, or use any custom checkbox
 import { useFetch } from "@/hooks/useFetch";
-import { OrderStatus } from "@/constants/orderstatus";
 import Searcher from "@/components/menu/Searcher";
 import Animated from 'react-native-reanimated';
 import { useScrollAnimated } from "@/contexts/ScrollContext";
+import { useThemeContext } from "@/contexts/ThemeContext";
+import { createGlobalStyles } from "@/assets/styles/Global.styles";
 
 export default function Dashboard() {
   const [refreshing, setRefreshing] = useState(false);
   const [search, setSearch] = useState<string>("")
   const { data, loading, refetch } = useFetch("orders");
+
+  const { isDark } = useThemeContext()
+  const globalStyles = createGlobalStyles(isDark)
 
   // Filter pending orders
   const pendingOrders = data?.filter(
@@ -42,7 +46,7 @@ if (pendingOrders) {
 
 
   return (
-    <Animated.ScrollView contentContainerStyle={styles.container}
+    <Animated.ScrollView contentContainerStyle={[styles.container, globalStyles.background]}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       } 
@@ -76,7 +80,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 10,
     marginTop: 10,
-    width: '100%',
+    width: '130%',
   },
   container: {
     padding: 20,

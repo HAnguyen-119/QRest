@@ -9,6 +9,8 @@ import { getTime } from "@/utils/FormatTime";
 import { MaterialIcons } from "@expo/vector-icons";
 import TableItemOrders from "../table/TableItemOrders";
 import FoodOrderItem from "./FoodOrderItem";
+import { useThemeContext } from "@/contexts/ThemeContext";
+import { createGlobalStyles } from "@/assets/styles/Global.styles";
 export default function OrderItem({
   tableOrders,
   orderID,
@@ -24,6 +26,8 @@ export default function OrderItem({
   const [expanded, setExpanded] = useState(false);
   const [taken, setTaken] = useState(false);
   const [completed, setCompleted] = useState(false);
+  const { isDark } = useThemeContext()
+  const globalStyles = createGlobalStyles(isDark)
 
   useEffect(() => {
     setTaken(orderStatus === "PROCESSING");
@@ -48,13 +52,13 @@ export default function OrderItem({
   if (completed) return null;
 
   return (
-    <View style={takenStyles(taken).container}>
+    <View style={[takenStyles(taken).container, globalStyles.cardBackgroundColor]}>
       <View style={styles.content}>
         <Text style={styles.noteText}>
           {orderNotes?.length > 0 && `Notes: ${orderNotes}`}
         </Text>
 
-        <Text style={styles.orderHeader}>
+        <Text style={[styles.orderHeader, globalStyles.text]}>
           Order for table{" "}
           {tableOrders
             ?.map((item, index) => item.restaurantTable.name)
@@ -89,7 +93,7 @@ export default function OrderItem({
           </View>
         )}
       </View>
-      <Text style={styles.orderTime}>
+      <Text style={[styles.orderTime, globalStyles.text]}>
         Time:{" "}
         {`${new Date(orderTime)
           .getHours()
@@ -125,7 +129,7 @@ export default function OrderItem({
           }
             disabled={!taken}
           >
-            <Text style={styles.completeButtonText}>Complete Order</Text>
+            <Text style={[styles.completeButtonText, globalStyles.text]}>Complete Order</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[takenStyles(taken).takeButton]}
@@ -150,7 +154,7 @@ export default function OrderItem({
             }}
             disabled={taken}
           >
-            <Text style={styles.completeButtonText}>Take Order</Text>
+            <Text style={[styles.completeButtonText, globalStyles.text]}>Take Order</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -159,7 +163,7 @@ export default function OrderItem({
         style={styles.toggleButton}
         onPress={() => setExpanded((expanded) => !expanded)}
       >
-        <Text style={styles.toggleText}>
+        <Text style={[styles.toggleText, globalStyles.text]}>
           {expanded ? "Hide Orders ▲" : "Show Orders ▼"}
         </Text>
       </TouchableOpacity>
