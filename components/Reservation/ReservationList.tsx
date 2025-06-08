@@ -70,7 +70,7 @@ export const ReservationList = ({ data, refetch, isCashier, setReservationId, se
 
     return (
         <View style={styles.listContainer}>
-            <View style={[adminStyles.toolBar, {width: '130%'}]}>
+            <View style={[adminStyles.toolBar, !isCashier && {width: '130%'}]}>
                 <Searcher onSearch={handleSearch} />
                 {isCashier && 
                     <TouchableOpacity onPress={handleAddReservation}>

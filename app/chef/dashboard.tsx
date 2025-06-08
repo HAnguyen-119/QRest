@@ -1,10 +1,15 @@
 import React, { useState } from "react";
-import { Text, ScrollView, StyleSheet, RefreshControl, View } from "react-native";
+import { Text, ScrollView, StyleSheet, RefreshControl, View, TouchableOpacity } from "react-native";
 import OrderItem from "@/components/OrdersChef/OrderItem"; // if using Expo, or use any custom checkbox
 import { useFetch } from "@/hooks/useFetch";
 import Searcher from "@/components/menu/Searcher";
 import Animated from 'react-native-reanimated';
+import Icon from "@/components/Icon/Icon";
 import { useScrollAnimated } from "@/contexts/ScrollContext";
+import { BUTTONSIZE } from "@/constants/size";
+import Alert from '@/assets/images/alert.png'
+import ModalCreateNotification from "@/components/Modal/ModalCreateNotification";
+import { COLORS } from "@/constants/colors";
 import { useThemeContext } from "@/contexts/ThemeContext";
 import { createGlobalStyles } from "@/assets/styles/Global.styles";
 
@@ -12,6 +17,8 @@ export default function Dashboard() {
   const [refreshing, setRefreshing] = useState(false);
   const [search, setSearch] = useState<string>("")
   const { data, loading, refetch } = useFetch("orders");
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
+  const [modalValue, setModalValue] = useState("");
 
   const { isDark } = useThemeContext()
   const globalStyles = createGlobalStyles(isDark)
@@ -54,7 +61,18 @@ if (pendingOrders) {
     >
       <View style={styles.chefToolBar}>
         <Searcher onSearch={handleSearch}/>
+        <TouchableOpacity onPress={() => setIsModalVisible(true)}>
+          <Icon src={Alert} width={BUTTONSIZE.width} height={BUTTONSIZE.height}/>
+        </TouchableOpacity>
       </View>
+      <ModalCreateNotification
+        visible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
+        onSubmit={modalValue => {
+          setModalValue(modalValue);
+          setIsModalVisible(false);
+        }}
+      />
       {pendingOrders?.map((task, index) => 
         <OrderItem
           key={index}
@@ -80,11 +98,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 10,
     marginTop: 10,
-    width: '130%',
+    width: '120%',
   },
   container: {
     padding: 20,
-  },
+    flex: 1
+   },
   task: {
     flexDirection: "row",
     alignItems: "flex-start",

@@ -33,7 +33,7 @@ export const createOrderListStyles = (isDark: boolean) => {
         noteContainer: {
             flexDirection: 'row',
             alignItems: 'center',
-            borderWidth: 1,
+            borderWidth: 2,
             borderRadius: 20,
             paddingLeft: 12,
             gap: 8,
@@ -61,8 +61,7 @@ export const createOrderListStyles = (isDark: boolean) => {
         },
         total: {
             textAlign: 'center',
-            fontSize: 20,
-            fontWeight: 'bold',
+            fontSize: 24,
         },
         details: {
             flexDirection: 'row',

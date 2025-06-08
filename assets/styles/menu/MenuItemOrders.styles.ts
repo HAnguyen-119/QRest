@@ -5,7 +5,6 @@ export const createMenuItemStyles = (isDark: boolean) => {
     return StyleSheet.create({
         container: {
             flex: 1,
-            backgroundColor: 'white',
             borderRadius: 8,
             // shadowColor: COLORS.shadow,
             // shadowOffset: {
@@ -48,21 +47,15 @@ export const createMenuItemStyles = (isDark: boolean) => {
         },
         
         quantityText: {
-            fontFamily: 'Josefin-Sans',
-            fontSize: 16,
-            fontWeight: 'bold'
+            fontSize: 20,
         },
         
         nameText: {
-            fontFamily: 'Josefin-Sans',
-            fontSize: 22,
-            fontWeight: 'bold'
+            fontSize: 28,
         },
 
         priceText: {
-            fontFamily: 'Josefin-Sans',
-            fontSize: 16,
-            fontWeight: 'bold',
+            fontSize: 22,
         },
 
         deleteContainer: {
