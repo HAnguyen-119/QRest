@@ -1,20 +1,16 @@
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native'
 import {COLORS} from "@/constants/colors";
 
-export default function DeleteConfirmView({content, name, handleDelete, handleCancel} :
-                                          {content: string, name: string, handleDelete:()=>void, handleCancel:()=>void}) {
+export default function UnmodifiableView({content, handleBack} :
+                                          {content: string, handleBack:()=>void}) {
     return (
         <View style={styles.container}>
             <View style={styles.blur}></View>
-            <View style={styles.deleteConfirm}>
-                <Text style={styles.text}>{"Delete this " + content}</Text>
-                <Text style={styles.text}>{"\"" + name + "\" ?"}</Text>
+            <View style={styles.alert}>
+                <Text style={styles.text}>{content}</Text>
                 <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.button} onPress={handleDelete}>
-                        <Text style={styles.buttonText}>DELETE</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={handleCancel}>
-                        <Text style={styles.buttonText}>CANCEL</Text>
+                    <TouchableOpacity style={styles.button} onPress={handleBack}>
+                        <Text style={styles.buttonText}>BACK</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -36,6 +32,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontFamily: 'Josefin-Sans',
         alignSelf: 'center',
+        textAlign: 'center',
     },
 
     container: {
@@ -48,7 +45,7 @@ const styles = StyleSheet.create({
         zIndex: 10
     },
 
-    deleteConfirm: {
+    alert: {
         width: '80%',
         height: 150,
         backgroundColor: "white",
