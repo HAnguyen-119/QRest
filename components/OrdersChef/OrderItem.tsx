@@ -40,7 +40,7 @@ export default function OrderItem({
   const chefCompleteOrder = (orderID: number) => {
     // Logic to complete the order
     setCompleted(true);
-    fetchAPI.editOrderStatus(orderID, "PROCESSED");
+    fetchAPI.editOrderStatus(orderID, "COMPLETED");
   };
 
   const completeFoodOrder = (foodID: number) => {
