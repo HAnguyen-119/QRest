@@ -25,7 +25,11 @@ export default function UpdateMenuItemView({item, isAdding, handleCancel, handle
     const [image, setImage] = useState<string>(isAdding ? "" : item.imageUrl);
     const [category, setCategory] = useState<any>(isAdding ? null : item.category);
 
-    const [imageFile, setImageFile] = useState<any>(null);
+    const [imageFile, setImageFile] = useState<any>(isAdding ? null : {
+        uri: item.imageUrl,
+        name: "image.jpg",
+        type: 'image/jpeg',
+    });
 
     const pickImageAsync = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -79,6 +83,7 @@ export default function UpdateMenuItemView({item, isAdding, handleCancel, handle
     };
 
     const handleEdit = async () => {
+        console.log(isValid)
         if (!isValid) return;
         const newItem: MenuItemProps = {
             name, description, price: parseFloat(price), imageUrl: image, quantity: 0, category
@@ -87,6 +92,9 @@ export default function UpdateMenuItemView({item, isAdding, handleCancel, handle
         const formData = new FormData();
         formData.append("food", JSON.stringify(newItem));
         formData.append("imageFile", imageFile);
+
+        console.log(JSON.stringify(newItem));
+        console.log(imageFile)
 
         try {
             await fetchAPI.editMenuItem(item.id, formData);

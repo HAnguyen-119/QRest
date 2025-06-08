@@ -32,9 +32,13 @@ export default function UpdateStaffInfoView({staff, isAdding, handleCancel, posi
     const [address, setAddress] = useState(isAdding ? "" : staff.address);
     const [phone, setPhone] = useState(isAdding ? "" : staff.phoneNumber);
     const [salary, setSalary] = useState(isAdding ? "0" : staff.salary.toString());
-    const [image, setImage] = useState<string>(isAdding ? "" : staff.imageUrl);
+    const [image, setImage] = useState<string>(isAdding ? "" : staff.imageUrl ? staff.imageUrl : "");
 
-    const [imageFile, setImageFile] = useState<any>(null);
+    const [imageFile, setImageFile] = useState<any>(isAdding ? null : {
+        uri: staff.imageUrl,
+        name: "image.jpg",
+        type: 'image/jpeg',
+    });
 
     const pickImageAsync = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -110,6 +114,8 @@ export default function UpdateStaffInfoView({staff, isAdding, handleCancel, posi
         const formData = new FormData();
         formData.append("staff", JSON.stringify(newStaff));
         formData.append("imageFile", imageFile);
+
+        console.log(imageFile)
 
         try {
             await fetchAPI.editStaff(staff.id, formData);
