@@ -1,6 +1,7 @@
 import { COLORS } from '@/constants/colors';
 import React, {useState, useEffect} from 'react';
 import { Text, TouchableOpacity, View, StyleSheet, Alert } from 'react-native';
+import ModalConfirm from '../Modal/ModalConfirmation';
 
 export default function FoodOrderItem({
   id,
@@ -10,38 +11,35 @@ export default function FoodOrderItem({
   onComplete,
 }) {
   const [isCompleted, setIsCompleted] = useState(completed);
-
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   useEffect(() => {
     setIsCompleted(completed);
   }, [completed]); 
 
-  const handlePress = async () => {
-    onComplete(id);           
-    Alert.alert(
-    "Confirm",
-    "Are you sure you want to complete this food order?",
-    [
-      {
-        text: "Cancel",
-        style: "cancel",
-      },
-      {
-        text: "Yes",
-        onPress: () => {
-          setIsCompleted(true);
-        },
-      },
-    ],
-    { cancelable: true }
-    );
-  }
-    return (
+  const handlePress = () => {
+    setShowConfirmModal(true);
+  };
+
+  const handleConfirm = () => {
+    onComplete(id);
+    setIsCompleted(true);
+    setShowConfirmModal(false);
+  };
+
+  return (
     <View style={styles.container}>
       <TouchableOpacity onPress={handlePress} disabled={isCompleted}>
         <Text style={isCompleted ? styles.strikeThrough : styles.orderItem}>
           {name} x{quantity}
         </Text>
       </TouchableOpacity>
+      <ModalConfirm
+        visible={showConfirmModal}
+        onClose={() => setShowConfirmModal(false)}
+        onConfirm={handleConfirm}
+        title="Confirm"
+        message="Are you sure you want to complete this food order?"
+      />
     </View>
   );
 };

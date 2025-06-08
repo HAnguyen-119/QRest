@@ -9,6 +9,7 @@ import { getTime } from "@/utils/FormatTime";
 import { MaterialIcons } from "@expo/vector-icons";
 import TableItemOrders from "../table/TableItemOrders";
 import FoodOrderItem from "./FoodOrderItem";
+import ModalConfirm from "../Modal/ModalConfirmation";
 export default function OrderItem({
   tableOrders,
   orderID,
@@ -24,6 +25,9 @@ export default function OrderItem({
   const [expanded, setExpanded] = useState(false);
   const [taken, setTaken] = useState(false);
   const [completed, setCompleted] = useState(false);
+  const [showCompleteModal, setShowCompleteModal] = useState(false)
+  const [showTakeModal, setShowTakeModal] = useState(false);
+
 
   useEffect(() => {
     setTaken(orderStatus === "PROCESSING");
@@ -101,57 +105,40 @@ export default function OrderItem({
       </Text>
       {expanded && (
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={[takenStyles(taken).completeButton]}
-            onPress={() => {
-              Alert.alert(
-                "Confirm",
-                "Are you sure you want to complete this order?",
-                [
-                  {
-                    text: "Cancel",
-                    style: "cancel",
-                  },
-                  {
-                    text: "Yes",
-                    onPress: () => {
-                      chefCompleteOrder(orderID);
-                    },
-                  },
-                ],
-                { cancelable: true }
-              );
-            }
-          }
-            disabled={!taken}
-          >
-            <Text style={styles.completeButtonText}>Complete Order</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[takenStyles(taken).takeButton]}
-            onPress={() => {
-              Alert.alert(
-                "Confirm",
-                "Are you sure you want to take this order?",
-                [
-                  {
-                    text: "Cancel",
-                    style: "cancel",
-                  },
-                  {
-                    text: "Yes",
-                    onPress: () => {
-                      chefTakeOrder(orderID);
-                    },
-                  },
-                ],
-                { cancelable: true }
-              );
-            }}
-            disabled={taken}
-          >
-            <Text style={styles.completeButtonText}>Take Order</Text>
-          </TouchableOpacity>
+      <TouchableOpacity
+        style={[takenStyles(taken).completeButton]}
+        onPress={() => setShowCompleteModal(true)}
+        disabled={!taken}
+      >
+        <Text style={styles.completeButtonText}>Complete Order</Text>
+      </TouchableOpacity>
+      <ModalConfirm
+        visible={showCompleteModal}
+        onClose={() => setShowCompleteModal(false)}
+        onConfirm={() => {
+          chefCompleteOrder(orderID);
+          setShowCompleteModal(false);
+        }}
+        title="Confirm"
+        message="Are you sure you want to complete this order?"
+      />
+    <TouchableOpacity
+      style={[takenStyles(taken).takeButton]}
+      onPress={() => setShowTakeModal(true)}
+      disabled={taken}
+    >
+      <Text style={styles.completeButtonText}>Take Order</Text>
+    </TouchableOpacity>
+    <ModalConfirm
+      visible={showTakeModal}
+      onClose={() => setShowTakeModal(false)}
+      onConfirm={() => {
+        chefTakeOrder(orderID);
+        setShowTakeModal(false);
+      }}
+      title="Confirm"
+      message="Are you sure you want to take this order?"
+    />
         </View>
       )}
 
