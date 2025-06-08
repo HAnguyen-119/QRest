@@ -68,6 +68,8 @@ export default function OrderDetailScreen({ id, data, visible, isPayment, setVis
         }
     };
 
+    console.log(convertUSDtoVND(selectedOrder.totalPrice))
+
     return (
         <Modal
             visible={visible}
