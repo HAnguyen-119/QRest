@@ -35,7 +35,7 @@ export default function Account() {
 
     const { scrollHandler } = useScrollAnimated()
 
-    const roles = ["All", "Admin", "Waiter", "Cashier", "Chef"];
+    const roles = ["All", "Waiter", "Cashier", "Chef"];
 
     useEffect(() => {
         const fetchData = async () => {
@@ -53,7 +53,7 @@ export default function Account() {
 
     if (!accountData) return null;
 
-    const items = Object.values(accountData).filter((item : any) =>
+    const items = Object.values(accountData).filter((item : any) => (item.role !== "ADMIN") &&
         (role === 'All' || item.role === role.toUpperCase())
         && item.username.toLowerCase().includes(search.toLowerCase()));
 

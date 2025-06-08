@@ -167,7 +167,7 @@ export const createAdminStyles = ( isDark: boolean ) => {
             position: 'absolute',
             width: '80%',
             alignSelf: 'center',
-            marginTop: "40%",
+            marginTop: "30%",
             borderRadius: 20,
             backgroundColor: "white",
             zIndex: 10,

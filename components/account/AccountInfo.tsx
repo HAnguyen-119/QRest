@@ -12,8 +12,6 @@ export default function AccountInfo({id, username, staff, role, handleEdit, hand
 
     const roleColor = () => {
         switch (role) {
-            case "ADMIN":
-                return COLORS.admin
             case "WAITER":
                 return COLORS.waiter
             case "CHEF":
@@ -32,7 +30,8 @@ export default function AccountInfo({id, username, staff, role, handleEdit, hand
 
             <View style={[accountStyles.user, {padding: 10}]}>
                 <Text style={accountStyles.text}>Username: {username}</Text>
-                <Text style={accountStyles.text}>Staff: {staff && staff.fullName}</Text>
+                {role !== "ADMIN" &&
+                <Text style={accountStyles.text}>Staff: {staff && staff.fullName}</Text>}
             </View>
 
             <View style={accountStyles.button}>
