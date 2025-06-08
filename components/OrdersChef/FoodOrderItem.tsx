@@ -28,7 +28,7 @@ export default function FoodOrderItem({
       {
         text: "Yes",
         onPress: () => {
-          setIsCompleted(id);
+          setIsCompleted(true);
         },
       },
     ],
