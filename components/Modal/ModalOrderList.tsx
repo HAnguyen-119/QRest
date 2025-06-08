@@ -69,12 +69,23 @@ export default function OrderView(
         restaurantTableIds: currentReservation ? GetTablesOrdered(currentReservation.tableReservations) : [],
         reservationId: reservationId,
     }
+        
 
     const { loading, error, response, postData } = usePostByData('orders')
+    console.log('order', data)
+    console.log('reservation', currentReservation)
 
     const handlePostOrder = async () => {
         try {
             await postData(data);
+            if (currentReservation) {
+                await fetchAPI.putReservationById(currentReservation.id, {
+                    ...currentReservation,
+                    reservationStatus: 'COMPLETED'
+                })
+            }
+            console.log('order', data)
+            console.log('reservation', currentReservation)
             if (!error) {
                 Alert.alert("Success", "Order has been created successfully!")
                 setIsModalVisible(false)
