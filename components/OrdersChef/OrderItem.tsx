@@ -1,114 +1,169 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native"; import { COLORS } from "@/constants/colors";
+import { StyleSheet, Text, TouchableOpacity, View, Alert } from "react-native";
+import { COLORS } from "@/constants/colors";
 import { useEffect, useState } from "react";
 import { fetchAPI } from "@/services/fetchAPI";
 import { createOrderListStyles } from "@/assets/styles/waiter/OrderList.styles";
 import { OrderStatus } from "@/constants/Types/order";
 import { opacity } from "react-native-reanimated/lib/typescript/Colors";
 import { getTime } from "@/utils/FormatTime";
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from "@expo/vector-icons";
 import TableItemOrders from "../table/TableItemOrders";
 import FoodOrderItem from "./FoodOrderItem";
-export default function OrderItem({ tableOrders, orderID, foodOrders, orderNotes, comboOrders, orderTime, orderStatus, onClick }) {
-
+export default function OrderItem({
+  tableOrders,
+  orderID,
+  foodOrders,
+  orderNotes,
+  comboOrders,
+  orderTime,
+  orderStatus,
+  onClick,
+}) {
   //const { isDark } = useThemeContext()
   //const OrderItemStyles = createOrderListStyles(isDark)
   const [expanded, setExpanded] = useState(false);
   const [taken, setTaken] = useState(false);
+  const [completed, setCompleted] = useState(false);
 
   useEffect(() => {
     setTaken(orderStatus === "PROCESSING");
   }, [orderStatus]);
 
-
   const chefCompleteOrder = (orderID: number) => {
     // Logic to complete the order
-    fetchAPI.editOrderStatus(orderID, "PROCESSED")
-    console.log(`Took ${orderID}`)
+    setCompleted(true);
+    fetchAPI.editOrderStatus(orderID, "PROCESSED");
   };
 
   const completeFoodOrder = (foodID: number) => {
-    console.log(foodID)
     fetchAPI.completeFoodOrder(foodID, true);
-  }
+  };
   const chefTakeOrder = (orderID: number) => {
     // Logic to take the order
-    fetchAPI.editOrderStatus(orderID, "PROCESSING")
-    console.log(`Took ${orderID}`)
-    setTaken(true)
-  }
+    fetchAPI.editOrderStatus(orderID, "PROCESSING");
+    console.log(`Took ${orderID}`);
+    setTaken(true);
+  };
+
+  if (completed) return null;
 
   return (
     <View style={takenStyles(taken).container}>
       <View style={styles.content}>
-            <Text style={styles.noteText}>
-              {orderNotes?.length > 0 && `Notes: ${orderNotes}`}
-            </Text>
+        <Text style={styles.noteText}>
+          {orderNotes?.length > 0 && `Notes: ${orderNotes}`}
+        </Text>
 
         <Text style={styles.orderHeader}>
- Order for table {tableOrders?.map((item, index) => item.restaurantTable.name).join(", ")} {orderID} 
+          Order for table{" "}
+          {tableOrders
+            ?.map((item, index) => item.restaurantTable.name)
+            .join(", ")}
         </Text>
         {
-         <Text style={styles.orderStatus}>
-          {taken ? (
-            <Text style={{ color: COLORS.orderActive, fontWeight: 'bold' }}>Processing</Text>
-          ) : (
-            <Text style={{ color: COLORS.orderNotTaken, fontWeight: 'bold' }}>Pending</Text>
-          )}
-        </Text>
+          <Text style={styles.orderStatus}>
+            {taken ? (
+              <Text style={{ color: COLORS.orderActive, fontWeight: "bold" }}>
+                Processing
+              </Text>
+            ) : (
+              <Text style={{ color: COLORS.orderNotTaken, fontWeight: "bold" }}>
+                Pending
+              </Text>
+            )}
+          </Text>
         }
-               {expanded && (
+        {expanded && (
           <View style={styles.orderDetails}>
-          {foodOrders?.map((item, index) => (
-            <View key={`food-${index}`} style={styles.orderItemContainer}>
-              <FoodOrderItem
-                id={item.id}
-                name={item.food?.name}
-                quantity={item.quantity}
-                completed={item.completed}
-                onComplete={() => completeFoodOrder(item.id)}
-              />
-            </View>
-          ))}
+            {foodOrders?.map((item, index) => (
+              <View key={`food-${index}`} style={styles.orderItemContainer}>
+                <FoodOrderItem
+                  id={item.id}
+                  name={item.food?.name}
+                  quantity={item.quantity}
+                  completed={item.completed}
+                  onComplete={() => completeFoodOrder(item.id)}
+                />
+              </View>
+            ))}
           </View>
         )}
-
       </View>
-        <Text style={styles.orderTime}>
-  Time: {`${new Date(orderTime).getHours().toString().padStart(2, '0')}:${new Date(orderTime).getMinutes().toString().padStart(2, '0')}`}H
-        </Text>
+      <Text style={styles.orderTime}>
+        Time:{" "}
+        {`${new Date(orderTime)
+          .getHours()
+          .toString()
+          .padStart(2, "0")}:${new Date(orderTime)
+          .getMinutes()
+          .toString()
+          .padStart(2, "0")}`}
+      </Text>
       {expanded && (
         <View style={styles.buttonContainer}>
           <TouchableOpacity
-            style={[
-              takenStyles(taken).completeButton,
-            ]}
-            onPress={() => chefCompleteOrder(orderID)}
+            style={[takenStyles(taken).completeButton]}
+            onPress={() => {
+              Alert.alert(
+                "Confirm",
+                "Are you sure you want to complete this order?",
+                [
+                  {
+                    text: "Cancel",
+                    style: "cancel",
+                  },
+                  {
+                    text: "Yes",
+                    onPress: () => {
+                      chefCompleteOrder(orderID);
+                    },
+                  },
+                ],
+                { cancelable: true }
+              );
+            }
+          }
             disabled={!taken}
           >
             <Text style={styles.completeButtonText}>Complete Order</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[
-              takenStyles(taken).takeButton,
-            ]}
-            onPress={() => chefTakeOrder(orderID)}
+            style={[takenStyles(taken).takeButton]}
+            onPress={() => {
+              Alert.alert(
+                "Confirm",
+                "Are you sure you want to take this order?",
+                [
+                  {
+                    text: "Cancel",
+                    style: "cancel",
+                  },
+                  {
+                    text: "Yes",
+                    onPress: () => {
+                      chefTakeOrder(orderID);
+                    },
+                  },
+                ],
+                { cancelable: true }
+              );
+            }}
             disabled={taken}
           >
             <Text style={styles.completeButtonText}>Take Order</Text>
           </TouchableOpacity>
         </View>
-      )
-      }
+      )}
 
       <TouchableOpacity
         style={styles.toggleButton}
-        onPress={() => setExpanded(expanded => !expanded)}
+        onPress={() => setExpanded((expanded) => !expanded)}
       >
         <Text style={styles.toggleText}>
-          {expanded ? 'Hide Orders ▲' : 'Show Orders ▼'}
+          {expanded ? "Hide Orders ▲" : "Show Orders ▼"}
         </Text>
       </TouchableOpacity>
-    </View >
+    </View>
   );
 }
 
@@ -117,12 +172,12 @@ const takenStyles = (taken: boolean) => ({
     borderRadius: 12,
     margin: 8,
     padding: 17,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 4.65,
     elevation: 8,
-    position: 'relative',
+    position: "relative",
   },
   completeButton: {
     paddingVertical: 8,
@@ -152,8 +207,7 @@ const takenStyles = (taken: boolean) => ({
     shadowRadius: 3,
     elevation: 5,
     margin: 5,
-  }
-
+  },
 });
 export const styles = StyleSheet.create({
   content: {
@@ -162,7 +216,7 @@ export const styles = StyleSheet.create({
   orderHeader: {
     fontFamily: "Josefin-Sans",
     fontSize: 22,
-    fontWeight: '600',
+    fontWeight: "600",
     marginBottom: 10,
   },
   orderDetails: {
@@ -173,11 +227,9 @@ export const styles = StyleSheet.create({
   },
 
   orderTime: {
-    fontFamily: 'Josefin-Sans',
+    fontFamily: "Josefin-Sans",
     fontSize: 14,
     fontWeight: "400",
-    position: "absolute",
-    bottom: 5,
   },
   toggleButton: {
     position: "absolute",
@@ -187,10 +239,10 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   toggleText: {
-    fontFamily: 'Josefin-Sans',
+    fontFamily: "Josefin-Sans",
     fontSize: 13,
     color: COLORS.dark,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   buttonContainer: {
     flexDirection: "row",
@@ -199,32 +251,32 @@ export const styles = StyleSheet.create({
   completeButtonText: {
     color: COLORS.dark,
     fontSize: 12,
-    fontWeight: '600',
-    textAlign: 'center',
+    fontWeight: "600",
+    textAlign: "center",
   },
   noteText: {
-    fontFamily: 'Josefin-Sans',
+    fontFamily: "Josefin-Sans",
     fontSize: 13,
-    color: '#999', 
+    color: "#999",
     fontStyle: "italic",
     marginBottom: 5,
   },
   rowBetween: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   button: {
     marginTop: 10,
-    backgroundColor: '#007bff',
+    backgroundColor: "#007bff",
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderRadius: 8,
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
   },
   buttonText: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: "#fff",
+    fontWeight: "bold",
     fontSize: 14,
   },
   orderStatus: {
@@ -236,8 +288,8 @@ export const styles = StyleSheet.create({
   },
 
   statusIconContainer: {
-  // marginTop: 10,
-  // flexDirection: 'row',
-  // alignItems: 'center',
-},
+    // marginTop: 10,
+    // flexDirection: 'row',
+    // alignItems: 'center',
+  },
 });
