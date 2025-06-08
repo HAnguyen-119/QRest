@@ -1,7 +1,7 @@
 import { OrderProps } from "./order"
 import { Payment } from "./payment"
 
-export type StatisticType = 'food' | 'combo' | 'order' | 'table' | 'payment' | 'staff'
+export type StatisticType = 'food' | 'user' | 'order' | 'table' | 'payment' | 'staff'
 
 export type FooterType = 'order' | 'payment'
 

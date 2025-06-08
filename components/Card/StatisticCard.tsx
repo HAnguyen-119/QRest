@@ -8,7 +8,7 @@ import { createGlobalStyles } from "@/assets/styles/Global.styles";
 import { GetFooterStatistic } from "@/utils/GetFooterStatistic";
 
 import foodIcon from '@/assets/images/foods.png'
-import comboIcon from '@/assets/images/combo.png'
+import accountIcon from '@/assets/images/account.png'
 import orderIcon from '@/assets/images/orders.png'
 import tableIcon from '@/assets/images/tables.png'
 import paymentIcon from '@/assets/images/payments.png'
@@ -26,7 +26,7 @@ export default function StatisticCard({ type }: StatisticProps) {
 
     let value = { val: 0, loading: true }
     const { data: foodData, loading: foodLoading } = useFetch('foods')
-    const { data: comboData, loading: comboLoading } = useFetch('combos')
+    const { data: userData, loading: userLoading } = useFetch('users')
     const { data: orderData, loading: orderLoading } = useFetch('orders')
     const { data: tableData, loading: tableLoading } = useFetch('tables')
     const { data: paymentData, loading: paymentLoading } = useFetch('payment')
@@ -34,7 +34,7 @@ export default function StatisticCard({ type }: StatisticProps) {
 
     if (foodLoading || !foodData) {
         return <Loading/>
-    } else if (comboLoading || !comboData) {
+    } else if (userLoading || !userData) {
         return <Loading/>
     } else if (orderLoading || !orderData) {
         return <Loading/>
@@ -54,10 +54,10 @@ export default function StatisticCard({ type }: StatisticProps) {
             imageIcon = foodIcon
             value = { val: Array.isArray(foodData) ? Object.values(foodData).length : 0, loading: foodLoading }
             break
-        case 'combo':
-            title = 'Combos'
-            imageIcon = comboIcon
-            value = { val: Array.isArray(comboData) ? comboData.length : 0, loading: comboLoading }
+        case 'user':
+            title = 'Accounts'
+            imageIcon = accountIcon
+            value = { val: Array.isArray(userData) ? userData.length : 0, loading: userLoading }
             break
         case 'order':
             title = 'Orders'

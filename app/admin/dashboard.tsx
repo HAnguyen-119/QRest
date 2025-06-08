@@ -17,6 +17,7 @@ import minimizeButton from '@/assets/images/minimize.png'
 import Icon from '@/components/Icon/Icon';
 import { BUTTONSIZE } from '@/constants/size';
 import StatisticList from '@/components/Card/StatisticList';
+import { GetCalculateTime } from '@/utils/GetFooterStatistic';
 
 export default function Dashboard() {
     const [currentDateRevenue, setCurrentDateRevenue] = useState<RevenueData | null>(null);
@@ -200,17 +201,35 @@ export default function Dashboard() {
 
 
     return (
-        <Animated.ScrollView
-            style={styles.container}
-            refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
-            onScroll={scrollHandler}
-        >
-            <View style={styles.welcomeSection}>
-                <Text style={[styles.welcomeText, globalStyles.text]}>WELCOME BACK</Text>
-                <Text style={[styles.title, globalStyles.textBold]}>Nguyen Van Muoi</Text>
-            </View>
+        <>
+            <Animated.ScrollView
+                style={styles.container}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
+                onScroll={scrollHandler}
+            >
+                <View style={styles.welcomeSection}>
+                    <Text style={[styles.welcomeText, globalStyles.text]}>WELCOME BACK</Text>
+                    <Text style={[styles.title, globalStyles.textBold]}>Nguyen Van Muoi</Text>
+                </View>
+                <a.View style={[styles.cardContainer, { height: heightValue }]}>
+                    {isExpanded ? (
+                        <>
+                            <RevenueCard type={'daily'} date={new Date()} setType={setType} setVisible={setVisible} />
+                            <RevenueCard type={'monthly'} date={new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1)} setType={setType} setVisible={setVisible} />
+                            <RevenueCard type={'quarterly'} date={new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1)} setType={setType} setVisible={setVisible} />
+                            <RevenueCard type={'yearly'} date={new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1)} setType={setType} setVisible={setVisible} />
+                        </>
+                    ) : (
+                        <RevenueCard type={'daily'} date={new Date()} setType={setType} setVisible={setVisible} />
+                    )}
+                </a.View>
+                <TouchableOpacity onPress={toggleExpand} style={styles.expandButton}>
+                    <Icon src={isExpanded ? minimizeButton : dropdownButton} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null} />
+                </TouchableOpacity>
+                <StatisticList />
+            </Animated.ScrollView>
             {visible && type && (
                 <RevenueDetails
                     type={type}
@@ -219,23 +238,6 @@ export default function Dashboard() {
                     setVisible={setVisible}
                 />
             )}
-            <a.View style={[styles.cardContainer, { height: heightValue }]}>
-                {isExpanded ? (
-                    <>
-                        {/* <RevenueCard type={'daily'} date={new Date()} setType={setType} setVisible={setVisible} /> */}
-                        <RevenueCard type={'monthly'} date={new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1)} setType={setType} setVisible={setVisible} />
-                        <RevenueCard type={'quarterly'} date={new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1)} setType={setType} setVisible={setVisible} />
-                        <RevenueCard type={'yearly'} date={new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1)} setType={setType} setVisible={setVisible} />
-                    </>
-                ) : (
-                    <></>
-                    // <RevenueCard type={'daily'} date={new Date()} setType={setType} setVisible={setVisible} />
-                )}
-            </a.View>
-            <TouchableOpacity onPress={toggleExpand} style={styles.expandButton}>
-                <Icon src={isExpanded ? minimizeButton : dropdownButton} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null} />
-            </TouchableOpacity>
-            <StatisticList/>
-        </Animated.ScrollView>
+        </>
     );
 }

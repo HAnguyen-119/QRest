@@ -70,11 +70,13 @@ export const ReservationList = ({ data, refetch, isCashier, setReservationId, se
 
     return (
         <View style={styles.listContainer}>
-            <View style={adminStyles.toolBar}>
+            <View style={[adminStyles.toolBar, !isCashier && {width: '130%'}]}>
                 <Searcher onSearch={handleSearch} />
-                <TouchableOpacity onPress={handleAddReservation}>
-                    <Icon style={adminStyles.switchMode} name={"add-circle-outline"} size={40}/>
-                </TouchableOpacity>
+                {isCashier && 
+                    <TouchableOpacity onPress={handleAddReservation}>
+                        <Icon style={adminStyles.switchMode} name={"add-circle-outline"} size={40}/>
+                    </TouchableOpacity>
+                }
             </View>
             <Animated.FlatList
                 data={searchData}
@@ -87,11 +89,13 @@ export const ReservationList = ({ data, refetch, isCashier, setReservationId, se
                     <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
                 }
             />
-            <CreateReservation 
-                containerVisible={createReservationModal} 
-                setContainerVisible={setCreateReservationModal}
-                refetch={refresh}
-            />
+            {isCashier && 
+                <CreateReservation 
+                    containerVisible={createReservationModal} 
+                    setContainerVisible={setCreateReservationModal}
+                    refetch={refresh}
+                />
+            }
         </View>
     )
 }

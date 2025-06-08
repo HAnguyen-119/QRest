@@ -12,8 +12,10 @@ import { createGlobalStyles } from '@/assets/styles/Global.styles';
 import { createOrderDetailsStyles } from '@/assets/styles/cashier/OrderDetails.styles';
 
 import Icon from '../Icon/Icon';
-import { BUTTONSIZE } from '@/constants/size';
+import { BUTTONSIZE, CATEICON } from '@/constants/size';
 import closeButton from '@/assets/images/close.png'
+import pendingStatus from '@/assets/images/pending.png'
+import completedStatus from '@/assets/images/completed.png'
 
 type PaymentMethod = 'BANK_TRANSFER' | 'IN_CASH';
 export default function OrderDetailScreen({ id, data, visible, isPayment, setVisible, refresh }: OrderDetailProps) {
@@ -78,7 +80,7 @@ export default function OrderDetailScreen({ id, data, visible, isPayment, setVis
                     <Icon src={closeButton} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null} />
                 </TouchableOpacity>
                 <ScrollView>
-                    <View style={[!isPayment && styles.content]}>
+                    <View style={[]}>
                         <View style={[styles.section]}>
                             <Text style={[styles.sectionTitle, globalStyles.textBold]}>Order Information</Text>
                             <View style={[styles.infoRow]}>
@@ -109,7 +111,10 @@ export default function OrderDetailScreen({ id, data, visible, isPayment, setVis
                                         <Text style={[styles.itemName, globalStyles.text]}>{foodOrder.food.name}</Text>
                                         <Text style={[styles.itemPrice, globalStyles.text]}>${foodOrder.price}</Text>
                                     </View>
-                                    <Text style={[styles.itemQuantity, globalStyles.text]}>Quantity: {foodOrder.quantity}</Text>
+                                    <View style={styles.itemHeader}>
+                                        <Text style={[styles.itemQuantity, globalStyles.text]}>Quantity: {foodOrder.quantity}</Text>
+                                        <Icon src={foodOrder.completed ? completedStatus : pendingStatus} width={CATEICON.width} height={CATEICON.height} count={null}/>
+                                    </View>
                                 </View>
                             ))}
                         </View>

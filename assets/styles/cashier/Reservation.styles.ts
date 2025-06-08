@@ -5,7 +5,7 @@ export const createReservationViewStyles = (isDark: boolean) => {
     return StyleSheet.create({
         container: {
             gap: 12,
-            marginBottom: 12,
+            flex: 1
         },
         text: {
             fontSize: 16,

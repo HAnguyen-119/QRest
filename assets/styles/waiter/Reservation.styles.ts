@@ -7,5 +7,14 @@ export const createReservationFormStyles = (isDark : boolean) => {
             flex: 1,
             backgroundColor: isDark ? COLORS.dark : COLORS.light
         },
+        notificationText: {
+            textAlign: 'center',
+            marginTop: 200,
+            fontSize: 20
+        },
+        closeButton: {
+            alignSelf: 'flex-end',
+            margin: 16
+        }
     })
 }

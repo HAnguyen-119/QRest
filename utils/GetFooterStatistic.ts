@@ -1,7 +1,6 @@
 import { OrderProps } from "@/constants/Types/order";
 import { Payment } from "@/constants/Types/payment";
-import { FooterStatisticProps, FooterType, StatisticType } from "@/constants/Types/statistic";
-import { useFetch } from "@/hooks/useFetch";
+import { FooterStatisticProps } from "@/constants/Types/statistic";
 
 export const GetFooterStatistic = ({ type, orderData, paymentData }: FooterStatisticProps) => {
     let footer = ''
@@ -9,8 +8,8 @@ export const GetFooterStatistic = ({ type, orderData, paymentData }: FooterStati
         case 'food':
             footer = 'Keep your menu fresh and exciting!'
             break
-        case 'combo':
-            footer = 'Create attractive combos to boost sales!'
+        case 'user':
+            footer = 'Manage your staff\'s accounts efficiently!'
             break
         case 'order':
             {
@@ -86,7 +85,7 @@ const GetGrowthPercent = (currentWeek: number, lastWeek: number) => {
     return `${percent.toFixed(2)}%`;
 }
 
-const GetCalculateTime = () => {
+export const GetCalculateTime = () => {
     return { 
         today: new Date(), 
         previousWeek: new Date(new Date().getTime() - 7 * 24 * 3600 * 1000), 

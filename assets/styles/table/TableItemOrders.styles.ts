@@ -6,6 +6,7 @@ export const createTableItemStyles = (isDark: boolean) => {
             flex: 1,
             borderWidth: 1,
             borderRadius: 8,
+            flexDirection: 'row',
         },
         imageContainer: {
             width: 88,
@@ -32,5 +33,14 @@ export const createTableItemStyles = (isDark: boolean) => {
             fontSize: 14,
             fontWeight: "bold",
         },
+        tableInfo: {
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '70%'
+        },
+        tableName: {
+            fontSize: 24
+        }
     })
 }

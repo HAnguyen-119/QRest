@@ -13,5 +13,8 @@ export const createModalTableViewStyles = (isDark: boolean) => {
         tableGrid: {
             gap: 10, 
         },
+        headerText: {
+            fontSize: 32,
+        }
     })
 }

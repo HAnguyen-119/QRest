@@ -10,6 +10,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import TableItemOrders from "../table/TableItemOrders";
 import FoodOrderItem from "./FoodOrderItem";
 import ModalConfirm from "../Modal/ModalConfirmation";
+import { useThemeContext } from "@/contexts/ThemeContext";
+import { createGlobalStyles } from "@/assets/styles/Global.styles";
 export default function OrderItem({
   tableOrders,
   orderID,
@@ -28,6 +30,8 @@ export default function OrderItem({
   const [showCompleteModal, setShowCompleteModal] = useState(false)
   const [showTakeModal, setShowTakeModal] = useState(false);
 
+  const { isDark } = useThemeContext()
+  const globalStyles = createGlobalStyles(isDark)
 
   useEffect(() => {
     setTaken(orderStatus === "PROCESSING");
@@ -52,13 +56,13 @@ export default function OrderItem({
   if (completed) return null;
 
   return (
-    <View style={takenStyles(taken).container}>
+    <View style={[takenStyles(taken).container, globalStyles.cardBackgroundColor]}>
       <View style={styles.content}>
         <Text style={styles.noteText}>
           {orderNotes?.length > 0 && `Notes: ${orderNotes}`}
         </Text>
 
-        <Text style={styles.orderHeader}>
+        <Text style={[styles.orderHeader, globalStyles.text]}>
           Order for table{" "}
           {tableOrders
             ?.map((item, index) => item.restaurantTable.name)
@@ -93,7 +97,7 @@ export default function OrderItem({
           </View>
         )}
       </View>
-      <Text style={styles.orderTime}>
+      <Text style={[styles.orderTime, globalStyles.text]}>
         Time:{" "}
         {`${new Date(orderTime)
           .getHours()
@@ -146,7 +150,7 @@ export default function OrderItem({
         style={styles.toggleButton}
         onPress={() => setExpanded((expanded) => !expanded)}
       >
-        <Text style={styles.toggleText}>
+        <Text style={[styles.toggleText, globalStyles.text]}>
           {expanded ? "Hide Orders ▲" : "Show Orders ▼"}
         </Text>
       </TouchableOpacity>
