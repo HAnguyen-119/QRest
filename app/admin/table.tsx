@@ -13,6 +13,7 @@ import {fetchAPI} from "@/services/fetchAPI";
 import UpdateTableView from "@/components/admin/UpdateTableView";
 import DeleteConfirmView from "@/components/admin/DeleteConfirmView";
 import {useRefresh} from "@/contexts/RefreshContext";
+import UnmodifiableView from "@/components/admin/UnmodifiableView";
 
 
 export default function Table() {
@@ -132,7 +133,7 @@ export default function Table() {
                     scrollEventThrottle={16}
                 />
             </View>
-            {(isAdd || isEdit) && (
+            {(isAdd) && (
                 <View style={adminStyles.updatingContainer}>
                     <View style={adminStyles.blur}></View>
                     <UpdateTableView
@@ -144,13 +145,30 @@ export default function Table() {
                     </UpdateTableView>
                 </View>
             )}
-            {isDelete && (
+            {(isEdit) && (tableData.find((table : any) => table.id === currentTableId).status === "AVAILABLE" ?
+                <View style={adminStyles.updatingContainer}>
+                    <View style={adminStyles.blur}></View>
+                    <UpdateTableView
+                        table={tableData.find((table : any) => table.id === currentTableId)}
+                        isAdding={isAdd}
+                        handleCancel={handleCancel}
+                        handleRefresh={() => {setIsRefresh(!isRefresh)}}
+                        capacities={capacities}>
+                    </UpdateTableView>
+                </View> :
+                    <UnmodifiableView
+                        content={"Can't edit a \nreserved/occupied table"}
+                        handleBack={handleCancel}></UnmodifiableView>
+            )}
+            {isDelete && (tableData.find((table : any) => table.id === currentTableId).status === "AVAILABLE" ?
                 <DeleteConfirmView
                     name={tableData.find((table : any) => table.id === currentTableId).name}
                     content={"table"}
                     handleDelete={handleDelete}
                     handleCancel={handleCancel}
-                ></DeleteConfirmView>
+                ></DeleteConfirmView> : <UnmodifiableView
+                        content={"Can't delete a \nreserved/occupied table"}
+                        handleBack={handleCancel}></UnmodifiableView>
             )}
         </View>
     )
