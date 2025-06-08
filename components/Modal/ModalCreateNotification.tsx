@@ -5,8 +5,9 @@ import { fetchAPI } from "@/services/fetchAPI";
 import React, { useState } from "react";
 import { Modal, View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import NotificationModal from "./NotificationModal";
+import { ModalReportProps } from "@/constants/Types/modal";
 
-export default function ModalCreateNotification({ visible, onClose, onSubmit, placeholder = "Enter text..." }) {
+export default function ModalCreateNotification({ visible, onClose, onSubmit }: ModalReportProps) {
     const [input, setInput] = useState("");
     const [notificationModalVisible, setNotificationModalVisible] = useState<boolean>(false)
     const [success, setSuccess] = useState<boolean>(false)
@@ -18,6 +19,7 @@ export default function ModalCreateNotification({ visible, onClose, onSubmit, pl
     const globalStyles = createGlobalStyles(isDark)
 
     const handleSubmit = async () => {
+        onClose();
         try {
             const response = await fetchAPI.sendNotification(input); // Add this line
             console.log(response)
@@ -27,9 +29,8 @@ export default function ModalCreateNotification({ visible, onClose, onSubmit, pl
             setSuccess(false)
         } 
         setNotificationModalVisible(true)
-        onSubmit(input);
+        onSubmit();
         setInput("");
-        onClose();
     };
 
     return (
@@ -47,8 +48,8 @@ export default function ModalCreateNotification({ visible, onClose, onSubmit, pl
                             style={[styles.input, globalStyles.borderColor, globalStyles.text]}
                             value={input}
                             onChangeText={setInput}
-                            placeholder={placeholder}
-                            placeholderTextColor={isDark ? COLORS.light : COLORS.dark}
+                            placeholder={'Enter report message...'}
+                            placeholderTextColor={COLORS.gray}
                         />
                         <View style={styles.buttonRow}>
                             <TouchableOpacity onPress={onClose} style={styles.button}>

@@ -12,12 +12,17 @@ import Animated from "react-native-reanimated";
 import Loading from "@/components/Loading";
 import { createGlobalStyles } from "@/assets/styles/Global.styles";
 import { SearchOrder } from "@/utils/SearchOrder";
+import Alert from '@/assets/images/alert.png'
+import Icon from "@/components/Icon/Icon";
+import { BUTTONSIZE } from "@/constants/size";
+import ModalCreateNotification from "@/components/Modal/ModalCreateNotification";
 
 export default function Dashboard() {
     const [searchValue, setSearchValue] = useState<string>('')
     const [visible, setVisible] = useState<boolean>(false)
     const [currentID, setCurrentID] = useState<number | null>(null)
     const [refreshing, setRefreshing] = useState<boolean>(false)
+    const [reportModalVisible, setReportModalVisible] = useState<boolean>(false)
 
     const { isDark } = useThemeContext()
     const styles = createOrderListStyles(isDark)
@@ -57,36 +62,48 @@ export default function Dashboard() {
     }
 
     return (
-        <View
-            style={styles.container}
-        >
-            <View style={styles.toolbar}>
-                <Searcher onSearch={handleSearch} />
+        <>
+            <View
+                style={styles.container}
+            >
+                <View style={styles.toolbar}>
+                    <Searcher onSearch={handleSearch} />
+                    <TouchableOpacity onPress={() => setReportModalVisible(true)}>
+                        <Icon src={Alert} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null} />
+                    </TouchableOpacity>
+                </View>
+                <Text style={[{ fontSize: 24, marginBottom: 24 }, globalStyles.textBold]}>
+                    Have a good day, cashier!
+                </Text>
+
+                {processedOrders.length == 0 &&
+                    <Text style={[globalStyles.text]}>Oops, there's no orders that are pending now!</Text>
+                }
+
+                <CashierOrderList
+                    data={processedOrders}
+                    setVisible={setVisible}
+                    setCurrentID={setCurrentID}
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                />
+                {currentID &&
+                    <OrderDetailScreen
+                        id={currentID}
+                        data={processedOrders}
+                        visible={visible}
+                        isPayment={true}
+                        setVisible={setVisible}
+                        refresh={refresh}
+                    />}
             </View>
-            <Text style={[{ fontSize: 24, marginBottom: 24 }, globalStyles.textBold]}>
-                Have a good day, cashier!
-            </Text>
-
-            {processedOrders.length == 0 && 
-                <Text style={[globalStyles.text]}>Oops, there's no orders that are pending now!</Text>
-            }
-
-            <CashierOrderList 
-                data={processedOrders} 
-                setVisible={setVisible} 
-                setCurrentID={setCurrentID} 
-                refreshing={refreshing}
-                onRefresh={onRefresh}
+            <ModalCreateNotification
+                visible={reportModalVisible}
+                onClose={() => setReportModalVisible(false)}
+                onSubmit={() =>
+                    setReportModalVisible(false)
+                }
             />
-            {currentID && 
-            <OrderDetailScreen 
-                id={currentID} 
-                data={processedOrders} 
-                visible={visible} 
-                isPayment={true} 
-                setVisible={setVisible} 
-                refresh={refresh}
-            />}
-        </View>
+        </>
     )
 }

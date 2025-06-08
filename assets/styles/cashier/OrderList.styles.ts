@@ -9,7 +9,11 @@ export const createOrderListStyles = (isDark: boolean) => {
             backgroundColor: isDark ? COLORS.dark : COLORS.light,
         },
         toolbar: {
-            width: '140%'  
+            width: '100%',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 20
         },
         title: {
             fontSize: 24,
