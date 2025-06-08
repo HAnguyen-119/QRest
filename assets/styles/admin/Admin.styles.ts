@@ -124,9 +124,9 @@ export const createAdminStyles = ( isDark: boolean ) => {
         menuUpdating: {
             position: 'absolute',
             width: '80%',
-            height: '85%',
+            height: '90%',
             alignSelf: 'center',
-            top: "7%",
+            top: "5%",
             borderRadius: 20,
             backgroundColor: "white",
             zIndex: 8,

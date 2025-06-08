@@ -26,6 +26,7 @@ export default function UpdateAccountView({accountData, account, isAdding, handl
     const [role, setRole] = useState(isAdding ? null : account.role);
 
     const [password, setPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
     const [isCreated, setIsCreated] = useState(false);
     const [newCreatedAccount, setNewCreatedAccount] = useState(0);
 
@@ -44,6 +45,7 @@ export default function UpdateAccountView({accountData, account, isAdding, handl
     const isEditValid = username.trim().length > 0
         && role
         && staff
+
 
     const isAddValid =  newAccUsername.trim().length > 0
         && role && password.trim().length > 0 && staff
@@ -82,6 +84,7 @@ export default function UpdateAccountView({accountData, account, isAdding, handl
             handleRefresh()
             handleCancel()
             setIsCreated(false);
+            setIsValidPassword(false)
         } catch (error) {
             console.error(error);
         }
@@ -89,7 +92,7 @@ export default function UpdateAccountView({accountData, account, isAdding, handl
 
     const handleEdit = async () => {
         console.log(staffsWithoutAccount)
-        if (!isEditValid) return;
+        if (!isEditValid || !(newPassword.length === 0 || (newPassword.length > 0 && isValidPassword))) return;
         const newAccount : AccountProps = {
             username: username,
             role : role,
@@ -97,8 +100,18 @@ export default function UpdateAccountView({accountData, account, isAdding, handl
         }
         try {
             await fetchAPI.editAccount(account.id, staff.id, newAccount);
+            if (newPassword.length > 0 && isValidPassword) {
+                const data = {"username": username, "newPassword": newPassword};
+                try {
+                    const res = await fetchAPI.changePassword(data)
+                    console.log(res)
+                } catch (error) {
+                    console.log(error);
+                }
+            }
             handleRefresh()
             handleCancel()
+            setIsValidPassword(false)
         } catch (error) {
             console.log(error);
         }
@@ -106,7 +119,7 @@ export default function UpdateAccountView({accountData, account, isAdding, handl
 
     // @ts-ignore
     return (
-        <View style={[adminStyles.accountUpdating, {height: isAdding ? "70%" : "45%"}]}>
+        <View style={[adminStyles.accountUpdating, {height: isAdding ? "70%" : "60%"}]}>
             <Text style={styles.header}>{isAdding ? "ADD NEW ACCOUNT" : "EDIT ACCOUNT"}</Text>
             <View style={styles.inputContainer}>
                 <Text style={styles.inputText}>Role</Text>
@@ -200,6 +213,29 @@ export default function UpdateAccountView({accountData, account, isAdding, handl
 
             {((isAdding && !isAddValid) || (!isAdding && !isEditValid)) && (
                 <Text style={styles.invalid}>You must fill all the information above !</Text>)}
+            {!isAdding &&
+                <View style={styles.inputContainer}>
+                    <Text style={styles.inputText}>New Password </Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="New password (Optional)"
+                        onChangeText={(text: string) => setNewPassword(text)}
+                        secureTextEntry={true}
+                    ></TextInput>
+                </View>}
+            {!isAdding &&
+                <View style={styles.inputContainer}>
+                    <Text style={styles.inputText}>Confirm </Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Confirm password"
+                        secureTextEntry={true}
+                        onChangeText={(text: string) => setIsValidPassword(text.length > 0 && text === newPassword)}
+                    ></TextInput>
+                </View>}
+            {!isAdding && !isValidPassword && newPassword.length > 0 &&
+                <Text style={[styles.text, {color: "red", alignSelf: "center", marginBottom: 5}]}>Password doesn't match !</Text>
+            }
             <View style={styles.buttonContainer}>
                 <TouchableOpacity style={styles.button} onPress={isAdding ? handleAdd  : handleEdit}>
                     <Text style={styles.buttonText}>{isAdding ? "ADD" : "CONFIRM"}</Text>
@@ -214,6 +250,7 @@ export default function UpdateAccountView({accountData, account, isAdding, handl
                                           await fetchAPI.deleteAccount(newCreatedAccount)
                                       }
                                       handleRefresh()
+                                      setIsValidPassword(false);
                                   }}>
                     <Text style={styles.buttonText}>CANCEL</Text>
                 </TouchableOpacity>

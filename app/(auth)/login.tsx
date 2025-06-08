@@ -6,6 +6,7 @@ import {View, Text, TextInput, StyleSheet, Alert, TouchableOpacity, Image} from 
 
 import { role } from "@/constants/Types/authentication";
 import {COLORS} from "@/constants/colors";
+import {jwtDecode} from "jwt-decode";
 
 export default function Login() {
     const [username, setUsername] = useState<string>("")
@@ -13,15 +14,21 @@ export default function Login() {
 
     const router = useRouter()
     const handleLogin = async () => {
-        const user = validateLogin({username, password})
-        if (user) {
-            const role = user.role as role
-            await AsyncStorage.setItem('user', JSON.stringify(user))
-            router.push(`/${role}/dashboard`)
+        const token = await validateLogin(username, password);
+        if (token) {
+            const user = jwtDecode(token);
+            const role = user.role.toString().toLowerCase() as role;
+
+            console.log(role);
+
+            await AsyncStorage.setItem('user', JSON.stringify(user));
+            await AsyncStorage.setItem('token', token);
+
+            router.push(`/${role}/dashboard`);
         } else {
-            Alert.alert('Login Failed', 'Invalid username or password')
+            Alert.alert('Login Failed', 'Invalid username or password');
         }
-    }
+    };
 
     return (
         <View style={styles.container}>

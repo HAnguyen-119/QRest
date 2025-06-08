@@ -179,4 +179,12 @@ export const fetchAPI = {
     deleteAccount: (id: number) => {
         return axiosClient.delete(`users/${id}`);
     },
+
+    changePassword: (data: any) => {
+        return axiosClient.put('users/change-password-account', data);
+    },
+
+    login: (data: any) => {
+        return axiosClient.post('auth/login', data);
+    }
 }
