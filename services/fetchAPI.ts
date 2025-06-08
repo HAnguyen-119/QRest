@@ -163,8 +163,8 @@ export const fetchAPI = {
         return axiosClient.get('users')
     },
 
-    createAccount: (role: any) => {
-        return axiosClient.post('auth/create-account', role)
+    createAccount: (data: any) => {
+        return axiosClient.post('auth/create-account', data)
     },
 
     addAccount: (data: any) => {

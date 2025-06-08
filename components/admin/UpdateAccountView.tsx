@@ -29,6 +29,8 @@ export default function UpdateAccountView({accountData, account, isAdding, handl
     const [isCreated, setIsCreated] = useState(false);
     const [newCreatedAccount, setNewCreatedAccount] = useState(0);
 
+    const [isValidPassword, setIsValidPassword] = useState(false);
+
     const idsOfStaffsHavingAccount = Object.values(accountData)
         .map((item: any) => item.staff?.id)
         .filter(Boolean);
@@ -47,11 +49,11 @@ export default function UpdateAccountView({accountData, account, isAdding, handl
         && role && password.trim().length > 0 && staff
 
     const handleCreate = async () => {
-        if (!role || role === "" || isCreated) return;
+        if (!role || role === "" || isCreated || !isValidPassword) return;
         try {
-            const response = await fetchAPI.createAccount(role);
+            const data = {"password": password, "role": role};
+            const response = await fetchAPI.createAccount(data);
             setNewAccUsername(response.username)
-            setPassword(response.password)
             setIsCreated(true);
             handleRefresh();
             // @ts-ignore
@@ -67,7 +69,7 @@ export default function UpdateAccountView({accountData, account, isAdding, handl
     }
 
     const handleAdd = async () => {
-        if (!isAddValid) return;
+        if (!isAddValid || !isValidPassword) return;
         const newAccount : AccountProps = {
             username: username,
             staff: staff,
@@ -104,7 +106,7 @@ export default function UpdateAccountView({accountData, account, isAdding, handl
 
     // @ts-ignore
     return (
-        <View style={[adminStyles.accountUpdating, {height: isAdding ? "60%" : "50%"}]}>
+        <View style={[adminStyles.accountUpdating, {height: isAdding ? "70%" : "45%"}]}>
             <Text style={styles.header}>{isAdding ? "ADD NEW ACCOUNT" : "EDIT ACCOUNT"}</Text>
             <View style={styles.inputContainer}>
                 <Text style={styles.inputText}>Role</Text>
@@ -129,30 +131,50 @@ export default function UpdateAccountView({accountData, account, isAdding, handl
                 </DropDownPicker>
             </View>
             {isAdding &&
-                <TouchableOpacity style={[styles.button, {alignSelf: "center", marginBottom: 10}]}
-                                    onPress={handleCreate}>
-                    <Text style={styles.buttonText}>Create</Text>
-                </TouchableOpacity>}
-            <View style={styles.inputContainer}>
-                <Text style={styles.inputText}>Username </Text>
-                {!isAdding ?
-                <TextInput
-                    value={username}
-                    style={styles.input}
-                    placeholder="Enter username"
-                    onChangeText={(text) => setUsername(text)}
-                ></TextInput> : <TextInput value={newAccUsername}
-                                           style={styles.input}
-                                           editable={false}></TextInput>
-                }
-            </View>
-            {isAdding &&
                 <View style={styles.inputContainer}>
                     <Text style={styles.inputText}>Password </Text>
-                    <TextInput value={password}
+                    <TextInput
                            style={styles.input}
-                           editable={false}></TextInput>
+                           placeholder="Enter password"
+                               onChangeText={(text: string) => setPassword(text)}
+                               secureTextEntry={true}
+                    ></TextInput>
                 </View>}
+            {isAdding &&
+                <View style={styles.inputContainer}>
+                    <Text style={styles.inputText}>Confirm </Text>
+                    <TextInput
+                               style={styles.input}
+                               placeholder="Confirm password"
+                               secureTextEntry={true}
+                               onChangeText={(text: string) => setIsValidPassword(text.length > 0 && text === password)}
+                    ></TextInput>
+                </View>}
+            {isAdding && !isValidPassword &&
+                <Text style={[styles.text, {color: "red", alignSelf: "center", marginBottom: 5}]}>Password doesn't match !</Text>
+            }
+            {isAdding &&
+                <TouchableOpacity style={[styles.button, {alignSelf: "center", marginBottom: 10}]}
+                                  onPress={handleCreate}>
+                    <Text style={styles.buttonText}>CREATE</Text>
+                </TouchableOpacity>}
+            {isAdding ?
+                <View style={styles.inputContainer}>
+                    <Text style={styles.inputText}>Username </Text>
+                    <TextInput value={newAccUsername}
+                               style={styles.input}
+                               editable={false}
+                               placeholder="(Press CREATE to generate)"
+                    ></TextInput>
+                </View> :
+                <View style={styles.inputContainer}>
+                    <Text style={styles.inputText}>Username </Text>
+                    <TextInput value={username}
+                               style={styles.input}
+                               editable={false}
+                    ></TextInput>
+                </View>
+            }
             <View style={styles.inputContainer}>
                 <Text style={styles.inputText}>Staff</Text>
                 <DropDownPicker
@@ -176,7 +198,8 @@ export default function UpdateAccountView({accountData, account, isAdding, handl
                 </DropDownPicker>
             </View>
 
-            {((isAdding && !isAddValid) || (!isAdding && !isEditValid)) && (<Text style={styles.invalid}>You must fill all the information above !</Text>)}
+            {((isAdding && !isAddValid) || (!isAdding && !isEditValid)) && (
+                <Text style={styles.invalid}>You must fill all the information above !</Text>)}
             <View style={styles.buttonContainer}>
                 <TouchableOpacity style={styles.button} onPress={isAdding ? handleAdd  : handleEdit}>
                     <Text style={styles.buttonText}>{isAdding ? "ADD" : "CONFIRM"}</Text>
