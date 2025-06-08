@@ -91,6 +91,11 @@ export default function OrderView(
                 setIsModalVisible(false)
                 setOrderList([])
                 setComboList([])
+                setHasTablesReserved(false)
+                setReservationId(null)
+                setCurrentReservation(null)
+                setTableModalVisible(false)
+                setNote('')
             } else {
                 Alert.alert("Error", "Failed to create order. Please try again.")
             }
@@ -127,7 +132,7 @@ export default function OrderView(
                         </TouchableOpacity>
                     </View>
                     <View style={OrderListStyles.orderView}>
-                        <View style={OrderListStyles.noteContainer}>
+                        <View style={[OrderListStyles.noteContainer, globalStyles.borderColor]}>
                             <Icon src={Note} width={MINIBUTTON.width} height={MINIBUTTON.height} count={0} />
                             <TextInput
                                 style={[OrderListStyles.textInput, globalStyles.text]}
@@ -142,7 +147,7 @@ export default function OrderView(
 
                     {(orderList.length > 0 || comboList.length > 0) &&
                         <View style={OrderListStyles.details}>
-                            <Text style={[globalStyles.text, OrderListStyles.total]}>
+                            <Text style={[globalStyles.textBold, OrderListStyles.total]}>
                                 Total: ${getOrderPrice(orderList, comboList, menuData, combosData).toFixed(2)}
                             </Text>
                             <TouchableOpacity style={OrderListStyles.nextButton} onPress={handleNext}>
@@ -150,7 +155,7 @@ export default function OrderView(
                             </TouchableOpacity>
                         </View>
                     }
-                    {hasTablesReserved &&
+                    {!hasTablesReserved &&
                         <ModalTableView
                             visible={tableModalVisible}
                             setVisible={setTableModalVisible}
