@@ -29,6 +29,7 @@ export const COLORS = {
     quarterlyLine: '#ddd999',
     yearlyLine: '#aaaabe',
     orderNotTaken: '#dc3545',
+    completeFoodOrder: '#dc3545',
     reserveButton: '#14ff33',
     confirmSection: '#d3d3d3',
     modalSuccessText: '#4BB543',

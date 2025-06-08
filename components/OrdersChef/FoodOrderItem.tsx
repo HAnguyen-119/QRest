@@ -1,5 +1,6 @@
+import { COLORS } from '@/constants/colors';
 import React, {useState, useEffect} from 'react';
-import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
+import { Text, TouchableOpacity, View, StyleSheet, Alert } from 'react-native';
 
 export default function FoodOrderItem({
   id,
@@ -16,11 +17,27 @@ export default function FoodOrderItem({
 
   const handlePress = async () => {
     onComplete(id);           
-    setIsCompleted(true);          
-  };
+    Alert.alert(
+    "Confirm",
+    "Are you sure you want to complete this food order?",
+    [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "Yes",
+        onPress: () => {
+          setIsCompleted(true);
+        },
+      },
+    ],
+    { cancelable: true }
+    );
+  }
     return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={handlePress}>
+      <TouchableOpacity onPress={handlePress} disabled={isCompleted}>
         <Text style={isCompleted ? styles.strikeThrough : styles.orderItem}>
           {name} x{quantity}
         </Text>
@@ -41,9 +58,10 @@ const styles = StyleSheet.create({
   },
   strikeThrough: {
     textDecorationLine: 'line-through',
-    color: '#999',
+    color: COLORS.completeFoodOrder,
     fontFamily: 'Josefin-Sans',
     fontSize: 16,
     marginBottom: 5,
+    opacity: 0.8,
   },
 });

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, ScrollView, StyleSheet, RefreshControl } from "react-native";
+import { Text, ScrollView, StyleSheet, RefreshControl, View } from "react-native";
 import OrderItem from "@/components/OrdersChef/OrderItem"; // if using Expo, or use any custom checkbox
 import { useFetch } from "@/hooks/useFetch";
 import { OrderStatus } from "@/constants/orderstatus";
@@ -9,7 +9,7 @@ import { useScrollAnimated } from "@/contexts/ScrollContext";
 
 export default function Dashboard() {
   const [refreshing, setRefreshing] = useState(false);
-    const [search, setSearch] = useState<string>("")
+  const [search, setSearch] = useState<string>("")
   const { data, loading, refetch } = useFetch("orders");
 
   // Filter pending orders
@@ -27,7 +27,7 @@ export default function Dashboard() {
   const onRefresh = async () => {
     setRefreshing(true);
     try {
-      await refetch();  // Call refetch to trigger a re-fetch of data
+      await refetch();
     } catch (error) {
       console.error("❌ Failed to refresh orders:", error);
     }
@@ -48,7 +48,9 @@ if (pendingOrders) {
       } 
       onScroll={scrollHandler}
     >
-      <Searcher onSearch={handleSearch}/>
+      <View style={styles.chefToolBar}>
+        <Searcher onSearch={handleSearch}/>
+      </View>
       {pendingOrders?.map((task, index) => 
         <OrderItem
           key={index}
@@ -66,6 +68,16 @@ if (pendingOrders) {
   );
 }
 const styles = StyleSheet.create({
+  chefToolBar: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
+    marginTop: 10,
+    width: '100%',
+  },
   container: {
     padding: 20,
   },
