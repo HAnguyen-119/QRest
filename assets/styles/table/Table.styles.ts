@@ -18,7 +18,9 @@ export const createAdminTableStyles = (isDark: boolean) => {
         searchContainer: {
             flexDirection: 'row',
             justifyContent: 'center',
-            width: '100%'
+            alignItems: 'center',
+            width: '100%',
+            gap: 12
         },
     
         categories: {
@@ -36,7 +38,9 @@ export const createAdminTableStyles = (isDark: boolean) => {
             zIndex: 2,
             backgroundColor: isDark ? COLORS.light : COLORS.dark,
             opacity: 0.5
-        }
+        },
+
+
     })
         
 }

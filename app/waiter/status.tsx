@@ -18,7 +18,7 @@ export default function Status() {
     const styles = createStatusPageStyles(isDark)
     const globalStyles = createGlobalStyles(isDark)
 
-    const { data: OrderData, refetch: orderRefetch } = useFetch('orders')
+    const { data: OrderData, refetch: orderRefetch } = useFetch('pending_orders')
 
     useEffect(() => {
         const interval = setInterval(() => {

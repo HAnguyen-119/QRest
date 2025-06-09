@@ -62,16 +62,15 @@ if (pendingOrders) {
       <View style={styles.chefToolBar}>
         <Searcher onSearch={handleSearch}/>
         <TouchableOpacity onPress={() => setIsModalVisible(true)}>
-          <Icon src={Alert} width={BUTTONSIZE.width} height={BUTTONSIZE.height}/>
+          <Icon src={Alert} width={BUTTONSIZE.width} height={BUTTONSIZE.height} count={null}/>
         </TouchableOpacity>
       </View>
       <ModalCreateNotification
         visible={isModalVisible}
         onClose={() => setIsModalVisible(false)}
-        onSubmit={modalValue => {
-          setModalValue(modalValue);
-          setIsModalVisible(false);
-        }}
+        onSubmit={() =>
+          setIsModalVisible(false)
+        }
       />
       {pendingOrders?.map((task, index) => 
         <OrderItem
